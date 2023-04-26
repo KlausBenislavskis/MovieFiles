@@ -37,16 +37,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Cookie.SameSite = SameSiteMode.None;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-});
-builder.Services.Configure<CookieAuthenticationOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
-{
-    options.Cookie.SameSite = SameSiteMode.None;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-});
 
 var app = builder.Build();
 
