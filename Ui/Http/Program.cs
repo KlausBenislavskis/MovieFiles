@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MovieFiles.Ui.Http.Data;
@@ -28,11 +29,19 @@ builder.Services.AddServerSideBlazor()
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
-    options.MinimumSameSitePolicy = SameSiteMode.None; // Keep this line
-    options.Secure = CookieSecurePolicy.Always;
+    options.HttpOnly = HttpOnlyPolicy.None;
+    options.Secure = CookieSecurePolicy.Always; // Add this line
 });
 var app = builder.Build();
+app.Use((context, next) =>
 
+{
+
+    context.Request.Scheme = "https";
+
+    return next();
+
+});
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
