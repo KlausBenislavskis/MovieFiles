@@ -28,6 +28,7 @@ builder.Services.AddServerSideBlazor()
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
+    options.MinimumSameSitePolicy = SameSiteMode.None; // Keep this line
     options.Secure = CookieSecurePolicy.Always;
 });
 var app = builder.Build();
