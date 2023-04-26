@@ -7,7 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+    .AddMicrosoftIdentityWebApp(options =>
+    {
+        builder.Configuration.Bind("AzureAd", options);
+        options.Events ??= new OpenIdConnectEvents();
+        options.Events.OnRedirectToIdentityProvider = async context =>
+        {
+            context.ProtocolMessage.RedirectUri = $"{context.Request.Scheme}://{context.Request.Host}/signin-oidc";
+            await Task.FromResult(0);
+        };
+    });
 builder.Services.AddControllersWithViews()
     .AddMicrosoftIdentityUI();
 
@@ -23,9 +32,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+app.UseExceptionHandler("/Error");
 
 app.UseHttpsRedirection();
 
