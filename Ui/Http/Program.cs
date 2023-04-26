@@ -27,21 +27,13 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.Configure<CookiePolicyOptions>(options =>
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.HttpOnly = HttpOnlyPolicy.None;
-    options.Secure = CookieSecurePolicy.Always; // Add this line
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 var app = builder.Build();
-app.Use((context, next) =>
 
-{
-
-    context.Request.Scheme = "https";
-
-    return next();
-
-});
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
