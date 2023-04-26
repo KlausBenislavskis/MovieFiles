@@ -1,0 +1,31 @@
+name: Deploy Azure Functions
+
+on:
+  push:
+    paths:
+      - 'Api/Functions/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Build and publish Azure Functions app
+      run: |
+        cd Api/Functions
+        dotnet publish --configuration Release --output ./publish
+
+    - name: Deploy to Azure Functions
+      uses: Azure/functions-action@v1
+      with:
+        app-name: YourAzureFunctionsAppName
+        package: Api/Functions/publish
+        publish-profile: ${{ secrets.AZURE_FUNCTIONS_PUBLISH_PROFILE }}
