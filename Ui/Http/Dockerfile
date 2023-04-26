@@ -1,4 +1,4 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Ui/MovieFiles.Ui.Http/MovieFiles.Ui.Http.csproj", "Ui/MovieFiles.Ui.Http/"]
-RUN dotnet restore "Ui/MovieFiles.Ui.Http/MovieFiles.Ui.Http.csproj"
+COPY ["Ui/Http/MovieFiles.Ui.Http.csproj", "Ui/Http/"]
+RUN dotnet restore "Ui/Http/MovieFiles.Ui.Http.csproj"
 COPY . .
-WORKDIR "/src/Ui/MovieFiles.Ui.Http"
+WORKDIR "/src/Ui/Http"
 RUN dotnet build "MovieFiles.Ui.Http.csproj" -c Release -o /app/build
 
 FROM build AS publish
