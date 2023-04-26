@@ -12,19 +12,19 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
         builder.Configuration.Bind("AzureAd", options);
-        //options.Events ??= new OpenIdConnectEvents();
-        //options.Events.OnRedirectToIdentityProvider = async context =>
-        //{
-        //    context.ProtocolMessage.RedirectUri = $"{context.Request.Scheme}://{context.Request.Host}/signin-oidc";
-        //    await Task.FromResult(0);
+        options.Events ??= new OpenIdConnectEvents();
+        options.Events.OnRedirectToIdentityProvider = async context =>
+        {
+            context.ProtocolMessage.RedirectUri = $"https://{context.Request.Host}/signin-oidc";
+            await Task.FromResult(0);
 
-        //};
-        //// Add these lines to set SameSite and Secure properties for OpenID Connect cookies
-        //options.NonceCookie.SameSite = SameSiteMode.None;
-        //options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
+        };
+        // Add these lines to set SameSite and Secure properties for OpenID Connect cookies
+        options.NonceCookie.SameSite = SameSiteMode.None;
+        options.NonceCookie.SecurePolicy = CookieSecurePolicy.Always;
 
-        //options.CorrelationCookie.SameSite = SameSiteMode.None;
-        //options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.CorrelationCookie.SameSite = SameSiteMode.None;
+        options.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
 
     });
 builder.Services.AddControllersWithViews()
