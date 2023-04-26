@@ -25,11 +25,11 @@ jobs:
         context: .
         file: ./Ui/Http/Dockerfile
         push: true
-        tags: your_docker_hub_username/your_image_name:latest
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/moviefiles:latest
 
     - name: Deploy to Azure App Service
       uses: azure/webapps-deploy@v2
       with:
         app-name: YourAzureAppServiceName
         publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE }}
-        images: your_docker_hub_username/your_image_name:latest
+        images: ${{ secrets.DOCKER_HUB_USERNAME }}/moviefiles:latest
