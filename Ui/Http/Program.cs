@@ -26,7 +26,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddSingleton<WeatherForecastService>();
-
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.Secure = CookieSecurePolicy.Always;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,7 +42,7 @@ app.UseExceptionHandler("/Error");
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-
+app.UseCookiePolicy();
 app.UseRouting();
 
 app.UseAuthentication();
