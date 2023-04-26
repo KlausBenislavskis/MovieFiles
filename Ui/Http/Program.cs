@@ -15,7 +15,7 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         options.Events ??= new OpenIdConnectEvents();
         options.Events.OnRedirectToIdentityProvider = async context =>
         {
-            context.ProtocolMessage.RedirectUri = $"{context.Request.Scheme}://{context.Request.Host}/signin-oidc";
+            context.ProtocolMessage.RedirectUri = $"{context.Request.Scheme}://{context.Request.Host}/custom-signin-oidc";
             await Task.FromResult(0);
         };
     });
