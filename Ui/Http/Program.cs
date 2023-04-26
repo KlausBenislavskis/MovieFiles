@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.Identity.Web;
@@ -32,6 +33,12 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SameSite = SameSiteMode.None;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
+builder.Services.Configure<CookieAuthenticationOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
+{
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,7 +51,6 @@ app.UseExceptionHandler("/Error");
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-app.UseCookiePolicy();
 app.UseRouting();
 
 app.UseAuthentication();
