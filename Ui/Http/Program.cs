@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MovieFiles.Ui.Http.Data;

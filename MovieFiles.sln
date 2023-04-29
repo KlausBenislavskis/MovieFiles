@@ -5,13 +5,13 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Ui.Http", "Ui\Http\MovieFiles.Ui.Http.csproj", "{AE8BA02B-A60D-4A3A-9DDE-1BEDE4E84807}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Api.Functions", "Api\Functions\MovieFiles.Api.Functions.csproj", "{7A766622-AE29-4406-A85D-2E72B76269C2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{DC1B3B85-8C57-49E6-A6F7-1CB61E08A8DD}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\azure-blazor-deploy.yml = .github\workflows\azure-blazor-deploy.yml
 		.github\workflows\azure-functions-deploy.yml = .github\workflows\azure-functions-deploy.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieFiles.Api.Functions", "Api\Function\MovieFiles.Api.Functions.csproj", "{056B4A77-5726-4412-86AB-B925A22C90B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{AE8BA02B-A60D-4A3A-9DDE-1BEDE4E84807}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE8BA02B-A60D-4A3A-9DDE-1BEDE4E84807}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE8BA02B-A60D-4A3A-9DDE-1BEDE4E84807}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A766622-AE29-4406-A85D-2E72B76269C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A766622-AE29-4406-A85D-2E72B76269C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A766622-AE29-4406-A85D-2E72B76269C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A766622-AE29-4406-A85D-2E72B76269C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{056B4A77-5726-4412-86AB-B925A22C90B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{056B4A77-5726-4412-86AB-B925A22C90B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{056B4A77-5726-4412-86AB-B925A22C90B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{056B4A77-5726-4412-86AB-B925A22C90B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
