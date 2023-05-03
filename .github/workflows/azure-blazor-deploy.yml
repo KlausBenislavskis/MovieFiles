@@ -2,6 +2,8 @@ name: Deploy Blazor App to Azure App Service
 
 on:
   push:
+    branches:
+      - master  
     paths:
       - 'Ui/Http/**'
 
