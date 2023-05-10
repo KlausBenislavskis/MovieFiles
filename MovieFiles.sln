@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Api.Functions", "Api\Functions\MovieFiles.Api.Functions.csproj", "{13C460B2-6486-4C7C-A453-E7ED5F5C02A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieFiles.Core", "Core\MovieFiles.Core.csproj", "{0CB5C9F4-3564-45AC-B344-BF9FDD23368E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Core", "Core\MovieFiles.Core.csproj", "{0CB5C9F4-3564-45AC-B344-BF9FDD23368E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieFiles.Adapters", "Adapters\MovieFiles.Adapters.csproj", "{8683ABAD-48A6-4E34-9962-77867F16CC4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Adapters", "Adapters\MovieFiles.Adapters.csproj", "{8683ABAD-48A6-4E34-9962-77867F16CC4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieFiles.Infrastructure", "Infrastructure\MovieFiles.Infrastructure.csproj", "{DF543D8E-D83A-42A1-881E-12D4A3FEDB88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Infrastructure", "Infrastructure\MovieFiles.Infrastructure.csproj", "{DF543D8E-D83A-42A1-881E-12D4A3FEDB88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
