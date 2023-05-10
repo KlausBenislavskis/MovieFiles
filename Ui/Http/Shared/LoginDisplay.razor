@@ -1,9 +1,21 @@
-﻿<AuthorizeView>
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+<AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity?.Name!
+        Hello, @context.User.Identity?.Name
         <a href="MicrosoftIdentity/Account/SignOut">Log out</a>
     </Authorized>
     <NotAuthorized>
         <a href="MicrosoftIdentity/Account/SignIn">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
+@code{
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userId = user.FindFirst(c => c.Type == "sub")?.Value;
+    }
+
+
+}

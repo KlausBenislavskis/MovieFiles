@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 
-namespace Function
+namespace MovieFiles.Api.Functions
 {
     public class Function1
     {
