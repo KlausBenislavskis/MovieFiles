@@ -37,8 +37,7 @@ builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddSingleton<WeatherForecastService>();
 
-
-builder.Services.AddMovieFilesClient(builder.Configuration["MovieFilesAPI"],"testkeybla");
+builder.Services.AddMovieFilesClient(builder.Configuration["MovieFilesAPI"], Environment.GetEnvironmentVariable("MOVIE_FUNCTION_KEY"));
 
 var app = builder.Build();
 
