@@ -1,0 +1,30 @@
+﻿@using MovieFiles.Api.Client.Services;
+@inject IRatingService RatingService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@if (IsLoading)
+{
+}
+else if (AverageRating.HasValue)
+{
+        <div>
+        <span class="starAverage">&#9733;</span> <h2>@AverageRating.Value.ToString("0.0")</h2>
+        </div>
+}
+else
+{
+        <p>No ratings available.</p>
+}
+
+@code {
+    [Parameter]
+    public Guid MovieId { get; set; }
+    public double? AverageRating { get; set; }
+    public bool IsLoading { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AverageRating = await RatingService.GetAverageRating(MovieId);
+        IsLoading = false;
+    }
+}
