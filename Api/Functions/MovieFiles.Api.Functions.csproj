@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MovieFiles.Core.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MovieFiles.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Adapters\MovieFiles.Adapters.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
