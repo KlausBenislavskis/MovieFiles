@@ -16,7 +16,7 @@ namespace MovieFiles.Api.Functions
             string dbUser = Environment.GetEnvironmentVariable("MOVIE_DB_USER");
             string dbPass = Environment.GetEnvironmentVariable("MOVIE_DB_PASS");
 
-            builder.Services.AddInfrastructure(dbServer,dbName,dbUser,dbPass);
+            builder.Services.AddInfrastructure(dbServer,dbName,dbUser,dbPass); 
         }
     }
 }
