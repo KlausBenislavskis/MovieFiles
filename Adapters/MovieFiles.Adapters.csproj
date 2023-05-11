@@ -4,6 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+    <EnableHotReload>true</EnableHotReload>
   </PropertyGroup>
 
+<ItemGroup>
+  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+</ItemGroup>
 </Project>
