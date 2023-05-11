@@ -105,13 +105,15 @@ namespace YourNamespace.Controllers
             }
         }
         [HttpGet("upcoming")]
-        public async Task<IActionResult> GetUpcomingMovies(String apiKey)
+        public async Task<IActionResult> GetUpcomingMovies()
         {
         
             // Set the endpoint URL
-            string url = $"https://api.themoviedb.org/3/movie/upcoming?api_key={apiKey}&language=en-US&page=1";
+            string url = $"https://api.themoviedb.org/3/movie/top_rated?api_key={apiKey}&language=en-US&page=1";
+
 
             HttpClient client = _httpClientFactory.CreateClient();
+        
             try
             {
                 HttpResponseMessage response = await client.GetAsync(url);
