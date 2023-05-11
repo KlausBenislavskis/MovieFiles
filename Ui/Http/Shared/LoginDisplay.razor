@@ -1,5 +1,5 @@
-﻿@inject AuthenticationStateProvider AuthenticationStateProvider
-
+@using MovieFiles.Ui.Http.Helpers;
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <style>
             :root{
                 --gradiant: linear-gradient(45deg, #631abc,#631abc, #8534e7, #8534e7,#8534e7,#631abc,  #631abc);
@@ -21,7 +21,6 @@
             }
 </style>
 
-
 <AuthorizeView>
     <Authorized>
         Hello, @context.User.Identity?.Name
@@ -31,14 +30,3 @@
         <a class="login-button" href="MicrosoftIdentity/Account/SignIn">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
-@code{
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var userId = user.FindFirst(c => c.Type == "sub")?.Value;
-    }
-
-
-}

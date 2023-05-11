@@ -1,1 +1,25 @@
-﻿
+@page "/movie/{MovieIdString}"
+
+@if(MovieId == null)
+{
+    <h1>Could not find requested movie</h1>
+}
+else
+{
+    <RatingComponent MovieId="(Guid)MovieId"></RatingComponent>
+}
+@code {
+    [Parameter]
+    public string MovieIdString { get; set; }
+
+    public Guid? MovieId
+    {
+        get
+        {
+            Guid.TryParse(MovieIdString, out var guid);
+            return guid == Guid.Empty ? (Guid?)null : guid;
+        }
+    }
+
+}
+

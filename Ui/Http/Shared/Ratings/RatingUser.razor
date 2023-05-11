@@ -1,0 +1,51 @@
+﻿@using MovieFiles.Api.Client.Models;
+@using MovieFiles.Api.Client.Services;
+@inject IRatingService RatingService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@if (!IsLoading)
+{
+    <div class="rating">
+        @for (int i = 1; i <= 5; i++)
+        {
+            var starIndex = i; // Copy variable to avoid modified closure
+                <span class="star @(Rating >= starIndex ? "selected" : "")"
+          @onclick="(() => SetRating(starIndex))">
+                    &#9733;
+                </span>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid MovieId { get; set; }
+
+    private int Rating { get; set; }
+
+    private bool IsLoading { get; set; } = true;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var rating = await RatingService.GetRatingAsync(await AuthenticationStateProvider.GetUserId(), MovieId);
+        Rating = rating?.RatingValue ?? 0;
+        IsLoading = false;
+    }
+
+    private async Task SetRating(int rating)
+    {
+        Rating = rating;
+        await RatingService.SetRatingAsync(await MapRating(rating));
+    }
+
+    private async Task<Rating> MapRating(int rating)
+    {
+        var userId = await AuthenticationStateProvider.GetUserId();
+        return new Rating
+            {
+                MovieId = MovieId,
+                UserId = userId,
+                RatingValue = rating
+            };
+    }
+}
