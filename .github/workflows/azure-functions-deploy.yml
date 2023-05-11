@@ -31,10 +31,3 @@ jobs:
         app-name: YourAzureFunctionsAppName
         package: Api/Functions/publish
         publish-profile: ${{ secrets.AZURE_FUNCTIONS_PUBLISH_PROFILE }}
-
-    - name: Set function app settings
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
-          az functionapp config appsettings set --name YourAzureFunctionsAppName --resource-group YourResourceGroupName --settings "MOVIE_DB_SERVER=${{ secrets.MOVIE_DB_SERVER }}" "MOVIE_DB_NAME=${{ secrets.MOVIE_DB_NAME }}" "MOVIE_DB_USER=${{ secrets.MOVIE_DB_USER }}" "MOVIE_DB_PASS=${{ secrets.MOVIE_DB_PASS }}"
