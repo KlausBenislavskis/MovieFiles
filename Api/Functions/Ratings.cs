@@ -31,6 +31,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiOperation(operationId: "GetRatingsByUser", tags: new[] { "Ratings" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(IEnumerable<Core.Models.Rating>))]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
         public async Task<IActionResult> GetRatingsByUser(
     [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ratings/user/{userId}")] HttpRequest req,
@@ -58,6 +59,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiOperation(operationId: "GetRatingsForMovie", tags: new[] { "Ratings" })]
         [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(IEnumerable<Core.Models.Rating>))]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
         public async Task<IActionResult> GetRatingsForMovie(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ratings/movie/{movieId}")] HttpRequest req,
@@ -85,6 +87,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Core.Models.Rating))]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
         public async Task<IActionResult> GetRating(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "rating/{userId}/{movieId}")] HttpRequest req,
@@ -114,6 +117,8 @@ namespace MovieFiles.Api.Functions
         [OpenApiOperation(operationId: "AddRating", tags: new[] { "Ratings" })]
         [OpenApiRequestBody("application/json", typeof(Core.Models.Rating))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Core.Models.Rating))]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
+
         public async Task<IActionResult> AddRating(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "ratings")] HttpRequest req)
         {
@@ -131,6 +136,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiOperation(operationId: "UpdateRating", tags: new[] { "Ratings" })]
         [OpenApiRequestBody("application/json", typeof(Core.Models.Rating))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.NoContent, contentType: "application/json", bodyType: typeof(Core.Models.Rating))]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
         public async Task<IActionResult> UpdateRating(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = "ratings")] HttpRequest req)
@@ -149,6 +155,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
         [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
         public async Task<IActionResult> DeleteRating(
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "rating/{userId}/{movieId}")] HttpRequest req,
