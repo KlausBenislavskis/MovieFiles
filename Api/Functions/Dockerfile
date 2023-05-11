@@ -6,14 +6,14 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Api/Function/Function.csproj", "Api/Function/"]
-RUN dotnet restore "Api/Function/Function.csproj"
+COPY ["Api/Functions/MovieFiles.Api.Functions.csproj", "Api/Functions/"]
+RUN dotnet restore "Api/Functions/MovieFiles.Api.Functions.csproj"
 COPY . .
-WORKDIR "/src/Api/Function"
-RUN dotnet build "Function.csproj" -c Release -o /app/build
+WORKDIR "/src/Api/Functions"
+RUN dotnet build "MovieFiles.Api.Functions.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Function.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "MovieFiles.Api.Functions.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /home/site/wwwroot
