@@ -16,7 +16,7 @@ namespace YourNamespace.Controllers
         }
 
         [HttpGet("latest")]
-        public async Task<IActionResult> GetLatestMovies(String apiKey)
+        public async Task<IActionResult> GetLatestMoviesAsync(String apiKey)
         {
         
             // Set the endpoint URL
@@ -38,7 +38,7 @@ namespace YourNamespace.Controllers
         }
 
          [HttpGet("now_playing")]
-        public async Task<IActionResult> GetNowPlayingMovies(String apiKey)
+        public async Task<IActionResult> GetNowPlayingMoviesAsync(String apiKey)
         {
         
             // Set the endpoint URL
@@ -60,7 +60,7 @@ namespace YourNamespace.Controllers
         }
 
         [HttpGet("popular")]
-        public async Task<IActionResult> GetPopularMovies(String apiKey)
+        public async Task<IActionResult> GetPopularMoviesAsync(String apiKey)
         {
         
             // Set the endpoint URL
@@ -84,9 +84,9 @@ namespace YourNamespace.Controllers
         }
 
         [HttpGet("top_rated")]
-        public async Task<IActionResult> GetTopRatedMovies(String apiKey)
+        public async Task<IActionResult> GetTopRatedMoviesAsync(String apiKey)
         {
-        
+    
             // Set the endpoint URL
             string url = $"https://api.themoviedb.org/3/movie/top_rated?api_key={apiKey}&language=en-US&page=1";
 
@@ -105,13 +105,11 @@ namespace YourNamespace.Controllers
             }
         }
         [HttpGet("upcoming")]
-        public async Task<IActionResult> GetUpcomingMovies()
+        public async Task<IActionResult> GetUpcomingMoviesAsync(String apiKey)
         {
-        
+            string url = $"https://api.themoviedb.org/3/movie/upcoming?api_key={apiKey}&language=en-US&page=1";
+
             // Set the endpoint URL
-            string url = $"https://api.themoviedb.org/3/movie/top_rated?api_key={apiKey}&language=en-US&page=1";
-
-
             HttpClient client = _httpClientFactory.CreateClient();
         
             try

@@ -3,10 +3,11 @@ namespace MovieFiles.Core.Interfaces
 {
     public interface IMovieRepository
     {
-        Task<IActionResult> GetTopRatedMoviesAsync();
         Task<IActionResult> GetLatestMoviesAsync();
-        Task<IActionResult> GetUpcomingMoviesAsync();
+        Task<IActionResult> GetNowPlayingMoviesAsync();
         Task<IActionResult> GetPopularMoviesAsync();
+        Task<IActionResult> GetTopRatedMoviesAsync();
+        Task<IActionResult> GetUpcomingMoviesAsync();
     }
 
 }
