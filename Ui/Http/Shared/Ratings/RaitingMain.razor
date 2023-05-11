@@ -1,0 +1,11 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <RatingUser MovieId="@MovieId"></RatingUser>
+    </Authorized>
+</AuthorizeView>
+<RatingAverage MovieId="@MovieId"></RatingAverage>
+
+@code{   
+    [Parameter]
+    public Guid MovieId { get; set; }
+}
