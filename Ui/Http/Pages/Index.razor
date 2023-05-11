@@ -1,9 +1,66 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<style>
+    .body {
+    /*    rest of screen height*/
+        height: calc(100vh - 64px);
+        color: white;
+        padding-inline: 20%;
+        padding-top: 30px;
+        overflow: hidden;
+    }
+   
+    h1{
+        font-weight: bold;
+    }
+    .movies-container {
+        max-width: 968px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    .box .box-img {
+        width: 100%;
+        height: 270px;
+    }
+    .box .box-img img{
+        width: 100%;
+        height: 100%;
+      
+    }
+</style>
 
-<h1>Hello, world!</h1>
+<PageTitle>Movies</PageTitle>
 
-Welcome to your new app.
+<div class="body">
+    <h1>Movies</h1>
+    <div class="movies-container">
+        <div class="box">
+            <div class="box-img">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2F83%2F84%2F96%2F838496bfe159d838e7bd39f844742380.jpg&f=1&nofb=1&ipt=e6e8250618f241cefa3857742f4858903cc6d2eba81e83d7916f924f6791bb11&ipo=images" alt="Example Image">
+            </div>
+            <h3>John Wick</h3>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fb3%2F87%2F9a%2Fb3879a322f8317b4a48d90ebc5e8988a.jpg&f=1&nofb=1&ipt=9a27048791da30187d667949892124fcb491dffc8d695979fb11bf70e35c11f5&ipo=images" alt="Example Image">
+            </div>
+            <h3>Pulp Fiction</h3>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpicfiles.alphacoders.com%2F168%2Fthumb-1920-168042.jpg&f=1&nofb=1&ipt=b1097abafed28406b90a6c32d45a520269016c6d6a1f1aefda3ec8882b8c4c51&ipo=images" alt="Example Image">
+            </div>
+            <h3>Back to the Future</h3>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.redd.it%2Ft21pil9q1k661.jpg&f=1&nofb=1&ipt=1d8cd38d3cbefc5f7936ef6e7d49978d462e187ac3fd043cc73f8d5f6f84e003&ipo=images" alt="Example Image">
+            </div>
+            <h3>Coming to America 2</h3>
+        </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+    </div>
+</div>
