@@ -28,15 +28,15 @@ namespace MovieFiles.Api.Functions
         [FunctionName("GetPopularMovies")]
         [OpenApiOperation(operationId: "GetPopularMovies", tags: new[] { "Movies" })]
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(MovieList), Description = "The OK response")]
         public async Task<IActionResult> GetPopularMovies(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movies/popular")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            string apiKey = System.Environment.GetEnvironmentVariable("MOVIE_API_KEY");
             using HttpClient client = new HttpClient(); 
-            using HttpResponseMessage response = await client.GetAsync($"https://api.themoviedb.org/3/movie/popular?api_key={apiKey}");
+            using HttpResponseMessage response = await client.GetAsync($"https://api.themoviedb.org/3/movie/popular?api_key={_apiKey}");
             response.EnsureSuccessStatusCode();
             
             string responseMessage = await response.Content.ReadAsStringAsync();
