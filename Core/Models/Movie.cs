@@ -4,12 +4,12 @@ public class Movie
 {
     
 
-    public string Id
+    public int Id
     {
         get => Id;
         set => Id = value;
     }
-    public string ImdbId
+    public int ImdbId
     {
         get => ImdbId;
         set => ImdbId = value ;
