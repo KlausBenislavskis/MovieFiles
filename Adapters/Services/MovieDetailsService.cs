@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace YourNamespace.Controllers
+namespace MovieFiles.Adapters.Controllers
 {
-    [ApiController]
-    [Route("api/movie")]
     public class MovieDetailsService : ControllerBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -14,8 +10,7 @@ namespace YourNamespace.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
-
-        [HttpGet("details")]
+        
         public async Task<IActionResult> GetMovieDetails(String apiKey, String movieId)
         {
         
