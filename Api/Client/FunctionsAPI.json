@@ -274,6 +274,47 @@
           }
         }
       }
+    },
+    "/users/resolve/{userId}/{username}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "ResolveUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Void",
+            "schema": {
+              "$ref": "#/definitions/void"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

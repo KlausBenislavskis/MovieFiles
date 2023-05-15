@@ -19,11 +19,9 @@ namespace MovieFiles.Infrastructure.Repositories
 
         public async Task SetRatingAsync(Core.Models.Rating rating)
         {
-            using (var db = GetQuantityDbUserConnection())
-            {
-                var dbRating = DomToDb.Map(rating);
-                await db.InsertOrReplaceAsync(dbRating);
-            }
+            using var db = GetQuantityDbUserConnection();
+            var dbRating = DomToDb.Map(rating);
+            await db.InsertOrReplaceAsync(dbRating);
         }
 
         public async Task<IEnumerable<Core.Models.Rating>> GetRatingsByUserAsync(Guid userId)
