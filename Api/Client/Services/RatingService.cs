@@ -15,7 +15,7 @@ namespace MovieFiles.Api.Client.Services
         }
 
 
-        public async Task<Models.Rating?> GetRatingAsync(Guid userId, Guid movieId)
+        public async Task<Models.Rating?> GetRatingAsync(Guid userId, int movieId)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace MovieFiles.Api.Client.Services
                 return null;
             }
         }
-        public async Task<double?> GetAverageRating(Guid movieId)
+        public async Task<double?> GetAverageRating(int movieId)
         {
             return await _client.GetAverageRatingAsync(movieId, _functionAppKey);
         }
@@ -37,7 +37,7 @@ namespace MovieFiles.Api.Client.Services
             return (await _client.GetRatingsByUserAsync(userId, _functionAppKey))?.Select(ClientToUi.Map) ?? new List<Models.Rating>();
         }
 
-        public async Task<IEnumerable<Models.Rating>> GetRatingsForMovieAsync(Guid movieId)
+        public async Task<IEnumerable<Models.Rating>> GetRatingsForMovieAsync(int movieId)
         {
             return (await _client.GetRatingsForMovieAsync(movieId, _functionAppKey))?.Select(ClientToUi.Map) ?? new List<Models.Rating>();
         }

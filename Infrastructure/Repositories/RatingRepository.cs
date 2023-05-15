@@ -10,7 +10,7 @@ namespace MovieFiles.Infrastructure.Repositories
         {
         }
 
-        public async Task<Core.Models.Rating> GetRatingAsync(Guid userId, Guid movieId)
+        public async Task<Core.Models.Rating> GetRatingAsync(Guid userId, int movieId)
         {
             using var db = GetQuantityDbUserConnection();
             var dbRating = await db.Ratings.FirstOrDefaultAsync(r => r.UserId == userId && r.MovieId == movieId);
@@ -33,13 +33,13 @@ namespace MovieFiles.Infrastructure.Repositories
             return dbRatings.Select(DbToDom.Map);
         }
 
-        public async Task<IEnumerable<Core.Models.Rating>> GetRatingsForMovieAsync(Guid movieId)
+        public async Task<IEnumerable<Core.Models.Rating>> GetRatingsForMovieAsync(int movieId)
         {
             using var db = GetQuantityDbUserConnection();
             var dbRatings = await db.Ratings.Where(r => r.MovieId == movieId).ToListAsync();
             return dbRatings.Select(DbToDom.Map);
         }
-        public async Task<double?> GetAverageRatingForMovieAsync(Guid movieId)
+        public async Task<double?> GetAverageRatingForMovieAsync(int movieId)
         {
             using var db = GetQuantityDbUserConnection();
             var averageRating = await db.Ratings

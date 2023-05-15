@@ -57,7 +57,7 @@ namespace MovieFiles.Api.Functions
 
         [FunctionName("GetRatingsForMovie")]
         [OpenApiOperation(operationId: "GetRatingsForMovie", tags: new[] { "Ratings" })]
-        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
+        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(int))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(IEnumerable<Core.Models.Rating>))]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
@@ -68,7 +68,7 @@ namespace MovieFiles.Api.Functions
             _logger.LogInformation($"GetRatingsForMovie function processed a request for movie {movieId}.");
 
             // Convert string parameter to Guid
-            if (!Guid.TryParse(movieId, out var movieIdGuid))
+            if (!int.TryParse(movieId, out var movieIdGuid))
             {
                 return new BadRequestObjectResult("Invalid movie ID.");
             }
@@ -85,7 +85,7 @@ namespace MovieFiles.Api.Functions
         [FunctionName("GetRating")]
         [OpenApiOperation(operationId: "GetRating", tags: new[] { "Ratings" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
-        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
+        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(int))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Core.Models.Rating))]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
@@ -97,7 +97,7 @@ namespace MovieFiles.Api.Functions
             _logger.LogInformation($"GetRating function processed a request for user {userId} and movie {movieId}.");
 
             // Convert string parameters to Guid
-            if (!Guid.TryParse(userId, out var userIdGuid) || !Guid.TryParse(movieId, out var movieIdGuid))
+            if (!Guid.TryParse(userId, out var userIdGuid) || !int.TryParse(movieId, out var movieIdGuid))
             {
                 return new BadRequestObjectResult("Invalid user ID or movie ID.");
             }
@@ -133,7 +133,7 @@ namespace MovieFiles.Api.Functions
         }
         [FunctionName("GetAverageRating")]
         [OpenApiOperation(operationId: "GetAverageRating", tags: new[] { "Ratings" })]
-        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
+        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(int))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(double))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json", bodyType: typeof(void))]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
@@ -145,7 +145,7 @@ namespace MovieFiles.Api.Functions
             _logger.LogInformation($"GetAverageRating function processed a request for movie {movieId}.");
 
             // Convert string parameters to Guid
-            if (!Guid.TryParse(movieId, out var movieIdGuid))
+            if (!int.TryParse(movieId, out var movieIdGuid))
             {
                 return new BadRequestObjectResult("Invalid movie ID.");
             }

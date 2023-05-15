@@ -77,12 +77,12 @@ namespace MovieFiles.Infrastructure.Scaffold
 			return table.FirstOrDefaultAsync(e => e.ListId == listId, cancellationToken);
 		}
 
-		public static Rating? Find(this ITable<Rating> table, Guid userId, Guid movieId)
+		public static Rating? Find(this ITable<Rating> table, Guid userId, int movieId)
 		{
 			return table.FirstOrDefault(e => e.UserId == userId && e.MovieId == movieId);
 		}
 
-		public static Task<Rating?> FindAsync(this ITable<Rating> table, Guid userId, Guid movieId, CancellationToken cancellationToken = default)
+		public static Task<Rating?> FindAsync(this ITable<Rating> table, Guid userId, int movieId, CancellationToken cancellationToken = default)
 		{
 			return table.FirstOrDefaultAsync(e => e.UserId == userId && e.MovieId == movieId, cancellationToken);
 		}

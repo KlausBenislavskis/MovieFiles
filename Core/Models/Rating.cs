@@ -3,7 +3,7 @@
     public class Rating
     {
         public Guid UserId { get; set; }
-        public Guid MovieId { get; set; }
+        public int MovieId { get; set; }
         public int RatingValue { get; set; }
     }
 }
