@@ -8,13 +8,15 @@ namespace MovieFiles.Core.Models
 {
     public class MovieList
     {
+        // TODO (lukas 15.05.): remove jsonproperties if oneone uses them, as serialisation from 3rd party
+        // api no longer depends on it 
         [JsonPropertyName("page")]
-        public int page {get;set;}
+        public int Page {get;set;}
         [JsonPropertyName("results")]
         public Movie[] Results {get;set;}
         [JsonPropertyName("total_results")]
-        public int total_results {get;set;}
+        public int TotalResults {get;set;}
         [JsonPropertyName("total_pages")]
-        public int totalPages {get;set;}
+        public int TotalPages {get;set;}
     }
 }
