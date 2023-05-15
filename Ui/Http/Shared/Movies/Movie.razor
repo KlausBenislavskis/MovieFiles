@@ -1,0 +1,25 @@
+﻿@using MovieFiles.Ui.Http.Shared.Ratings;
+
+<div class="box">
+    <div class="box-img">
+        <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="Example Image">
+    </div>
+    <div class="rating-box">
+        @* <img class="star" src="svgs/star.svg"> *@
+        @* <div>@movie.VoteAverage</div> *@
+        @try{
+            <RatingAverage MovieId="@movie.Id"></RatingAverage>
+        }
+        catch(Exception ex)
+        {
+            <h1>none</h1>
+        }
+    </div>
+    <h5>@movie.Title</h5>
+</div>
+
+@code
+{
+    [Parameter]
+    public Api.Client.Models.Movie movie { get; set; }
+}
