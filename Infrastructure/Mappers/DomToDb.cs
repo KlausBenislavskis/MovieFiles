@@ -13,5 +13,15 @@ namespace MovieFiles.Infrastructure.Mappers
                 Rating1 = rating.RatingValue
             };
         }
+
+        internal static Scaffold.MovieList Map(WatchLaterMovie movie){
+            return new()
+            {
+                UserId = movie.UserId,
+                MovieId = movie.MovieId,
+                ListName = movie.ListName,
+                ListId = movie.ListId
+            };
+        }
     }
 }
