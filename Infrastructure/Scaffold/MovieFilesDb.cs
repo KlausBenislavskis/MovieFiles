@@ -42,6 +42,7 @@ namespace MovieFiles.Infrastructure.Scaffold
 		public ITable<Follower>  Followers  => this.GetTable<Follower>();
 		public ITable<MovieList> MovieLists => this.GetTable<MovieList>();
 		public ITable<Rating>    Ratings    => this.GetTable<Rating>();
+		public ITable<User>      Users      => this.GetTable<User>();
 	}
 
 	public static partial class ExtensionMethods
@@ -85,6 +86,16 @@ namespace MovieFiles.Infrastructure.Scaffold
 		public static Task<Rating?> FindAsync(this ITable<Rating> table, Guid userId, int movieId, CancellationToken cancellationToken = default)
 		{
 			return table.FirstOrDefaultAsync(e => e.UserId == userId && e.MovieId == movieId, cancellationToken);
+		}
+
+		public static User? Find(this ITable<User> table, Guid userId)
+		{
+			return table.FirstOrDefault(e => e.UserId == userId);
+		}
+
+		public static Task<User?> FindAsync(this ITable<User> table, Guid userId, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.UserId == userId, cancellationToken);
 		}
 		#endregion
 	}

@@ -3,6 +3,7 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MovieFiles.Infrastructure;
 using MovieFiles.Ui.Http.Data;
+using MovieFiles.Ui.Http.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<IUserResolver, UserResolver>();
 
 builder.Services.AddMovieFilesClient(builder.Configuration["MovieFilesAPI"], Environment.GetEnvironmentVariable("MOVIE_FUNCTION_KEY"));
 
