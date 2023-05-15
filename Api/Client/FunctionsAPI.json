@@ -1,0 +1,386 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "title": "OpenAPI Document on Azure Functions",
+    "version": "1.0.0"
+  },
+  "host": "moviefilesfunctions.azurewebsites.net",
+  "basePath": "/api",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/Function1": {
+      "get": {
+        "tags": [
+          "name"
+        ],
+        "operationId": "Run",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "description": "The **Name** parameter",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "security": [
+          {
+            "function_key": []
+          }
+        ]
+      }
+    },
+    "/movies/popular": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "GetPopularMovies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/movieList"
+            }
+          }
+        }
+      }
+    },
+    "/ratings/user/{userId}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "operationId": "GetRatingsByUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of Rating",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/rating"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/movie/{movieId}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "operationId": "GetRatingsForMovie",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "movieId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of Rating",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/rating"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rating/{userId}/{movieId}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "operationId": "GetRating",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "movieId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Rating",
+            "schema": {
+              "$ref": "#/definitions/rating"
+            }
+          }
+        }
+      }
+    },
+    "/ratings": {
+      "post": {
+        "tags": [
+          "Ratings"
+        ],
+        "operationId": "AddRating",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/rating"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Payload of Rating",
+            "schema": {
+              "$ref": "#/definitions/rating"
+            }
+          }
+        }
+      }
+    },
+    "/rating/average/{movieId}": {
+      "get": {
+        "tags": [
+          "Ratings"
+        ],
+        "operationId": "GetAverageRating",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "movieId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Double",
+            "schema": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "404": {
+            "description": "Payload of Void",
+            "schema": {
+              "$ref": "#/definitions/void"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "movie": {
+      "type": "object",
+      "properties": {
+        "posterPath": {
+          "type": "string"
+        },
+        "adult": {
+          "type": "boolean"
+        },
+        "overview": {
+          "type": "string"
+        },
+        "releaseDate": {
+          "type": "string"
+        },
+        "genreIds": {
+          "type": "array",
+          "items": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "originalTitle": {
+          "type": "string"
+        },
+        "originalLanguage": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "backdropPath": {
+          "type": "string"
+        },
+        "popularity": {
+          "format": "float",
+          "type": "number"
+        },
+        "voteCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "video": {
+          "type": "boolean"
+        },
+        "voteAverage": {
+          "format": "float",
+          "type": "number"
+        }
+      }
+    },
+    "movieList": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/movie"
+          }
+        },
+        "total_results": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "totalPages": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "rating": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "movieId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "ratingValue": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "void": {
+      "type": "object"
+    }
+  },
+  "securityDefinitions": {
+    "function_key": {
+      "type": "apiKey",
+      "name": "code",
+      "in": "query"
+    }
+  }
+}

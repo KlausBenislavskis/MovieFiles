@@ -19,6 +19,6 @@ namespace MovieFiles.Infrastructure.Scaffold
 		[Column("user_id"                                                                                     )] public Guid   UserId   { get; set; } // uuid
 		[Column("list_id"  , IsPrimaryKey = true , IsIdentity = true, SkipOnInsert = true, SkipOnUpdate = true)] public int    ListId   { get; set; } // integer
 		[Column("list_name", CanBeNull    = false                                                             )] public string ListName { get; set; } = null!; // character varying(255)
-		[Column("movie_id"                                                                                    )] public Guid   MovieId  { get; set; } // uuid
+		[Column("movie_id"                                                                                    )] public int    MovieId  { get; set; } // integer
 	}
 }

@@ -1,0 +1,17 @@
+@page "/movie/{MovieId:int}"
+@using MovieFiles.Ui.Http.Shared.Ratings;
+
+@if(MovieId == null)
+{
+    <h1>Could not find requested movie</h1>
+}
+else
+{
+    <RaitingMain MovieId="MovieId"></RaitingMain>
+}
+@code {
+    [Parameter]
+    public int MovieId { get; set; }
+
+}
+

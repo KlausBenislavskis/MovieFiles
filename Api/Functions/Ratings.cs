@@ -34,8 +34,8 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
         public async Task<IActionResult> GetRatingsByUser(
-    [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ratings/user/{userId}")] HttpRequest req,
-    string userId)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ratings/user/{userId}")] HttpRequest req,
+            string userId)
         {
             _logger.LogInformation($"GetRatingsByUser function processed a request for user {userId}.");
 
@@ -57,7 +57,7 @@ namespace MovieFiles.Api.Functions
 
         [FunctionName("GetRatingsForMovie")]
         [OpenApiOperation(operationId: "GetRatingsForMovie", tags: new[] { "Ratings" })]
-        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
+        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(int))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(IEnumerable<Core.Models.Rating>))]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
@@ -68,7 +68,7 @@ namespace MovieFiles.Api.Functions
             _logger.LogInformation($"GetRatingsForMovie function processed a request for movie {movieId}.");
 
             // Convert string parameter to Guid
-            if (!Guid.TryParse(movieId, out var movieIdGuid))
+            if (!int.TryParse(movieId, out var movieIdGuid))
             {
                 return new BadRequestObjectResult("Invalid movie ID.");
             }
@@ -85,7 +85,7 @@ namespace MovieFiles.Api.Functions
         [FunctionName("GetRating")]
         [OpenApiOperation(operationId: "GetRating", tags: new[] { "Ratings" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
-        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
+        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(int))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Core.Models.Rating))]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
@@ -97,7 +97,7 @@ namespace MovieFiles.Api.Functions
             _logger.LogInformation($"GetRating function processed a request for user {userId} and movie {movieId}.");
 
             // Convert string parameters to Guid
-            if (!Guid.TryParse(userId, out var userIdGuid) || !Guid.TryParse(movieId, out var movieIdGuid))
+            if (!Guid.TryParse(userId, out var userIdGuid) || !int.TryParse(movieId, out var movieIdGuid))
             {
                 return new BadRequestObjectResult("Invalid user ID or movie ID.");
             }
@@ -113,7 +113,7 @@ namespace MovieFiles.Api.Functions
         }
 
 
-        [FunctionName("AddRating")]
+        [FunctionName("SetRating")]
         [OpenApiOperation(operationId: "AddRating", tags: new[] { "Ratings" })]
         [OpenApiRequestBody("application/json", typeof(Core.Models.Rating))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Core.Models.Rating))]
@@ -127,54 +127,38 @@ namespace MovieFiles.Api.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var rating = JsonConvert.DeserializeObject<Core.Models.Rating>(requestBody);
 
-            await _ratingRepository.AddRatingAsync(rating);
+            await _ratingRepository.SetRatingAsync(rating);
 
             return new CreatedResult($"ratings/{rating.UserId}/{rating.MovieId}", rating);
         }
-
-        [FunctionName("UpdateRating")]
-        [OpenApiOperation(operationId: "UpdateRating", tags: new[] { "Ratings" })]
-        [OpenApiRequestBody("application/json", typeof(Core.Models.Rating))]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.NoContent, contentType: "application/json", bodyType: typeof(Core.Models.Rating))]
+        [FunctionName("GetAverageRating")]
+        [OpenApiOperation(operationId: "GetAverageRating", tags: new[] { "Ratings" })]
+        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(int))]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(double))]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json", bodyType: typeof(void))]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
-        public async Task<IActionResult> UpdateRating(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "ratings")] HttpRequest req)
-        {
-            _logger.LogInformation($"UpdateRating function processed a request.");
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var rating = JsonConvert.DeserializeObject<Core.Models.Rating>(requestBody);
-
-            await _ratingRepository.UpdateRatingAsync(rating);
-
-            return new NoContentResult();
-        }
-        [FunctionName("DeleteRating")]
-        [OpenApiOperation(operationId: "DeleteRating", tags: new[] { "Ratings" })]
-        [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
-        [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
-        [OpenApiResponseWithoutBody(statusCode: HttpStatusCode.NoContent)]
-        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
-
-        public async Task<IActionResult> DeleteRating(
-            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "rating/{userId}/{movieId}")] HttpRequest req,
-            string userId,
+        public async Task<IActionResult> GetAverageRating(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "rating/average/{movieId}")] HttpRequest req,
             string movieId)
         {
-            _logger.LogInformation($"DeleteRating function processed a request for user {userId} and movie {movieId}.");
+            _logger.LogInformation($"GetAverageRating function processed a request for movie {movieId}.");
 
             // Convert string parameters to Guid
-            if (!Guid.TryParse(userId, out var userIdGuid) || !Guid.TryParse(movieId, out var movieIdGuid))
+            if (!int.TryParse(movieId, out var movieIdGuid))
             {
-                return new BadRequestObjectResult("Invalid user ID or movie ID.");
+                return new BadRequestObjectResult("Invalid movie ID.");
             }
 
-            await _ratingRepository.DeleteRatingAsync(userIdGuid, movieIdGuid);
+            var averageRating = await _ratingRepository.GetAverageRatingForMovieAsync(movieIdGuid);
 
-            return new NoContentResult();
+            if (averageRating == null)
+            {
+                return new NotFoundResult();
+            }
+
+            return new OkObjectResult(averageRating.Value);
         }
-
 
     }
 }

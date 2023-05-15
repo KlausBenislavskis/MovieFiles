@@ -10,31 +10,19 @@ namespace MovieFiles.Infrastructure.Repositories
         {
         }
 
-        public async Task<Core.Models.Rating> GetRatingAsync(Guid userId, Guid movieId)
+        public async Task<Core.Models.Rating> GetRatingAsync(Guid userId, int movieId)
         {
             using var db = GetQuantityDbUserConnection();
             var dbRating = await db.Ratings.FirstOrDefaultAsync(r => r.UserId == userId && r.MovieId == movieId);
             return dbRating != null ? DbToDom.Map(dbRating) : null;
         }
 
-        public async Task UpdateRatingAsync(Core.Models.Rating rating)
-        {
-            using var db = GetQuantityDbUserConnection();
-            await db.Ratings.Where(r => r.UserId == rating.UserId && r.MovieId == rating.MovieId).Set(r => r.Rating1, rating.RatingValue).UpdateAsync();
-        }
-
-        public async Task DeleteRatingAsync(Guid userId, Guid movieId)
-        {
-            using var db = GetQuantityDbUserConnection();
-            await db.Ratings.Where(r => r.UserId == userId && r.MovieId == movieId)?.DeleteAsync();
-        }
-
-        public async Task AddRatingAsync(Core.Models.Rating rating)
+        public async Task SetRatingAsync(Core.Models.Rating rating)
         {
             using (var db = GetQuantityDbUserConnection())
             {
                 var dbRating = DomToDb.Map(rating);
-                await db.InsertAsync(dbRating);
+                await db.InsertOrReplaceAsync(dbRating);
             }
         }
 
@@ -45,11 +33,21 @@ namespace MovieFiles.Infrastructure.Repositories
             return dbRatings.Select(DbToDom.Map);
         }
 
-        public async Task<IEnumerable<Core.Models.Rating>> GetRatingsForMovieAsync(Guid movieId)
+        public async Task<IEnumerable<Core.Models.Rating>> GetRatingsForMovieAsync(int movieId)
         {
             using var db = GetQuantityDbUserConnection();
             var dbRatings = await db.Ratings.Where(r => r.MovieId == movieId).ToListAsync();
             return dbRatings.Select(DbToDom.Map);
         }
+        public async Task<double?> GetAverageRatingForMovieAsync(int movieId)
+        {
+            using var db = GetQuantityDbUserConnection();
+            var averageRating = await db.Ratings
+                .Where(r => r.MovieId == movieId)
+                .AverageAsync(r => (double?)r.Rating1);
+
+            return averageRating;
+        }
+
     }
 }

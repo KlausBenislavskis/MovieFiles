@@ -1,21 +1,32 @@
-﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@using MovieFiles.Ui.Http.Helpers;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+<style>
+            :root{
+                --gradiant: linear-gradient(45deg, #631abc,#631abc, #8534e7, #8534e7,#8534e7,#631abc,  #631abc);
+            }
+            .login-button{
+                background-image: var(--gradiant);
+                color: white;
+                border-radius: 5px;
+                padding: 10px;
+                text-decoration: none;
+                font-weight: bold;
+                background-size: 300%;
+                background-position: left;
+                transition: background-position 0.5s;
+            }
+            .login-button:hover{
+                background-position: right;
+                color: white;
+            }
+</style>
+
 <AuthorizeView>
     <Authorized>
         Hello, @context.User.Identity?.Name
         <a href="MicrosoftIdentity/Account/SignOut">Log out</a>
     </Authorized>
     <NotAuthorized>
-        <a href="MicrosoftIdentity/Account/SignIn">Log in</a>
+        <a class="login-button" href="MicrosoftIdentity/Account/SignIn">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
-@code{
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        var userId = user.FindFirst(c => c.Type == "sub")?.Value;
-    }
-
-
-}

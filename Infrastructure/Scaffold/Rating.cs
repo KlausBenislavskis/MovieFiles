@@ -17,7 +17,7 @@ namespace MovieFiles.Infrastructure.Scaffold
 	public class Rating
 	{
 		[Column("user_id" , IsPrimaryKey = true, PrimaryKeyOrder = 0)] public Guid UserId  { get; set; } // uuid
-		[Column("movie_id", IsPrimaryKey = true, PrimaryKeyOrder = 1)] public Guid MovieId { get; set; } // uuid
+		[Column("movie_id", IsPrimaryKey = true, PrimaryKeyOrder = 1)] public int  MovieId { get; set; } // integer
 		[Column("rating"                                            )] public int  Rating1 { get; set; } // integer
 	}
 }
