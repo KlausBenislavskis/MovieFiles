@@ -1,4 +1,4 @@
-@page "/movie/{MovieIdString}"
+@page "/movie/{MovieId:int}"
 @using MovieFiles.Ui.Http.Shared.Ratings;
 
 @if(MovieId == null)
@@ -7,20 +7,11 @@
 }
 else
 {
-    <RaitingMain MovieId="(Guid)MovieId"></RaitingMain>
+    <RaitingMain MovieId="MovieId"></RaitingMain>
 }
 @code {
     [Parameter]
-    public string MovieIdString { get; set; }
-
-    public int? MovieId
-    {
-        get
-        {
-            Guid.TryParse(MovieIdString, out var guid);
-            return guid == Guid.Empty ? (Guid?)null : guid;
-        }
-    }
+    public int MovieId { get; set; }
 
 }
 
