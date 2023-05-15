@@ -23,7 +23,15 @@ namespace MovieFiles.Api.Client.Services
         }
         public async Task<double?> GetAverageRating(int movieId)
         {
-            return await _client.GetAverageRatingAsync(movieId, _functionAppKey);
+            try
+            {
+                return await _client.GetAverageRatingAsync(movieId, _functionAppKey);
+            }
+            //Found no rating 
+            catch (ApiException e)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<Models.Rating>> GetRatingsByUserAsync(Guid userId)

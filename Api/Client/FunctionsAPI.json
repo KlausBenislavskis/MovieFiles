@@ -43,7 +43,7 @@
         ]
       }
     },
-    "/movies/popular": {
+    "/movie/popular": {
       "get": {
         "tags": [
           "Movies"
@@ -56,6 +56,49 @@
           {
             "in": "path",
             "name": "page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/movieList"
+            }
+          }
+        }
+      }
+    },
+    "/movie/name": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "MovieFilter",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "description": "Name that you want to search for",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number that you want to see",
+            "required": true,
             "type": "integer",
             "format": "int32"
           },
@@ -386,7 +429,7 @@
             "$ref": "#/definitions/movie"
           }
         },
-        "total_results": {
+        "totalResults": {
           "format": "int32",
           "type": "integer"
         },
