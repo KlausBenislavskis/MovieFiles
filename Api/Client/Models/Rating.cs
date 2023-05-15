@@ -1,4 +1,4 @@
-﻿namespace MovieFiles.Core.Models
+﻿namespace MovieFiles.Api.Client.Models
 {
     public class Rating
     {

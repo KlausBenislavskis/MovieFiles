@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-
+using MovieFiles.Infrastructure;
 using MovieFiles.Ui.Http.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +39,7 @@ builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddSingleton<WeatherForecastService>();
 
+builder.Services.AddMovieFilesClient(builder.Configuration["MovieFilesAPI"], Environment.GetEnvironmentVariable("MOVIE_FUNCTION_KEY"));
 
 var app = builder.Build();
 
@@ -47,7 +48,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
-app.UseExceptionHandler("/Error");
+//app.UseExceptionHandler("/Error");
+app.UseDeveloperExceptionPage();
 
 app.UseHttpsRedirection();
 
