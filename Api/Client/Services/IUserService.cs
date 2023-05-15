@@ -2,5 +2,6 @@
 {
     public interface IUserService
     {
+        Task ResolveUser(Guid userId, string username);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Identity.Web;
 using MovieFiles.Api.Client.Services;
+using MovieFiles.Ui.Http.Helpers;
 
-namespace MovieFiles.Ui.Http.Helpers
+namespace MovieFiles.Ui.Http.Data
 {
     public interface IUserResolver
     {
@@ -24,10 +26,9 @@ namespace MovieFiles.Ui.Http.Helpers
             var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
-            if (user.Identity.IsAuthenticated)
+            if (user?.Identity?.IsAuthenticated?? false)
             {
-                // Your custom logic here
-                // You can use the _userService to communicate with your database
+                 await _userService.ResolveUser(user.GetUserId(), user?.Identity?.Name);
             }
         }
     }
