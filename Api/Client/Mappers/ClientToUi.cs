@@ -31,7 +31,7 @@
                 Overview = movie.Overview,
                 ReleaseDate = movie.ReleaseDate,
                 GenreIds = movie.GenreIds,
-                Id = movie.Id,
+                Id = (int)movie.Id,
                 OriginalTitle = movie.OriginalTitle,
                 OriginalLanguage = movie.OriginalLanguage,
                 Title = movie.Title,
