@@ -20,7 +20,7 @@ namespace MovieFiles.Adapters
                     TotalPages = 0,
                     TotalResults = 0
                 };
-        public async Task<MovieList> searchForMovies(string name, int page)
+        public async Task<MovieList> SearchForMovies(string name, int page)
         {
             var apiKey = MovieApiUtil.apiKey;
             if (String.IsNullOrEmpty(apiKey)){
@@ -44,12 +44,12 @@ namespace MovieFiles.Adapters
 
             List<Movie> updatedMovieList = new List<Movie>();
             foreach (Movie movie in list.Results){
-                await updateMovieRating(movie);
+                await UpdateMovieRating(movie);
             }
             return list;
         }
 
-        private async Task updateMovieRating(Movie movie){
+        private async Task UpdateMovieRating(Movie movie){
             double? averRating = await _ratingRepository.GetAverageRatingForMovieAsync(movie.Id);
             if (averRating != null){
                 movie.VoteAverage = (float)averRating;
