@@ -6,11 +6,11 @@ namespace YourNamespace.Controllers
 {
     [ApiController]
     [Route("api/movies")]
-    public class MoviesController : ControllerBase
+    public class MoviesService : ControllerBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public MoviesController(IHttpClientFactory httpClientFactory)
+        public MoviesService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
