@@ -9,22 +9,26 @@ namespace MovieFiles.Adapters.Services
    
     public class MoviesService : IMoviesService
     {
+        private static String API_KEY = "MOVIE_API_KEY";
+        private String _apiKey;
+        
         private readonly HttpClient _httpClient;
         private readonly String language = "en-US";
         private readonly int page = 1;
-        
+   
         public MoviesService()
         { 
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _apiKey = System.Environment.GetEnvironmentVariable(API_KEY);
         }
 
       
-        public async  Task<(IList<Movie>?, HttpResponseMessage?)> GetLatestMoviesAsync(String apiKey)
+        public async  Task<(IList<Movie>?, HttpResponseMessage?)> GetLatestMoviesAsync()
         {
-            string endpoint = $"movie/latest?api_key={apiKey}&language={language}-US&page={page}";
+            string endpoint = $"movie/latest?api_key={_apiKey}&language={language}-US&page={page}";
             HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
             if (response.IsSuccessStatusCode)
             {
@@ -43,10 +47,10 @@ namespace MovieFiles.Adapters.Services
         }
 
     
-        public async Task<(IList<Movie>?, HttpResponseMessage?)> GetNowPlayingMoviesAsync(String apiKey)
+        public async Task<(IList<Movie>?, HttpResponseMessage?)> GetNowPlayingMoviesAsync()
         {
             // Set the endpoint URL
-            string endpoint = $"movie/now_playing?api_key={apiKey}&language={language}-US&page={page}";
+            string endpoint = $"movie/now_playing?api_key={_apiKey}&language={language}-US&page={page}";
             HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
             if (response.IsSuccessStatusCode)
             {
@@ -66,9 +70,9 @@ namespace MovieFiles.Adapters.Services
         }
 
     
-        public async Task<(IList<Movie>?, HttpResponseMessage?)> GetPopularMoviesAsync(String apiKey)
+        public async Task<(IList<Movie>?, HttpResponseMessage?)> GetPopularMoviesAsync()
         {
-            string endpoint = $"movie/latest?api_key={apiKey}&language={language}&page={page}";
+            string endpoint = $"movie/latest?api_key={_apiKey}&language={language}&page={page}";
             HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
             if (response.IsSuccessStatusCode)
             {
@@ -87,10 +91,10 @@ namespace MovieFiles.Adapters.Services
             
         }
 
-        public async Task<(IList<Movie>?, HttpResponseMessage?)> GetTopRatedMoviesAsync(String apiKey)
+        public async Task<(IList<Movie>?, HttpResponseMessage?)> GetTopRatedMoviesAsync()
         {
             
-            string endpoint = $"movie/top_rated?api_key={apiKey}&language={language}&page={page}";
+            string endpoint = $"movie/top_rated?api_key={_apiKey}&language={language}&page={page}";
             HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
             if (response.IsSuccessStatusCode)
             {
@@ -109,9 +113,9 @@ namespace MovieFiles.Adapters.Services
             
         }
 
-        public async Task<(IList<Movie>?, HttpResponseMessage?)> GetUpcomingMoviesAsync(String apiKey)
+        public async Task<(IList<Movie>?, HttpResponseMessage?)> GetUpcomingMoviesAsync()
         {
-            string endpoint = $"movie/upcoming?api_key={apiKey}&language={language}&page={page}";
+            string endpoint = $"movie/upcoming?api_key={_apiKey}&language={language}&page={page}";
             HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
             if (response.IsSuccessStatusCode)
             {

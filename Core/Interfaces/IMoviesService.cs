@@ -5,11 +5,11 @@ namespace MovieFiles.Core.Interfaces
 {
     public interface IMoviesService
     {
-        Task<(IList<Movie>?, HttpResponseMessage?)> GetLatestMoviesAsync(String apiKey);
-        Task<(IList<Movie>?, HttpResponseMessage?)> GetNowPlayingMoviesAsync(String apiKey);
-        Task<(IList<Movie>?, HttpResponseMessage?)> GetPopularMoviesAsync(String apiKey);
-        Task<(IList<Movie>?, HttpResponseMessage?)> GetTopRatedMoviesAsync(String apiKey);
-        Task<(IList<Movie>?, HttpResponseMessage?)> GetUpcomingMoviesAsync(String apiKey);
+        Task<(IList<Movie>?, HttpResponseMessage?)> GetLatestMoviesAsync();
+        Task<(IList<Movie>?, HttpResponseMessage?)> GetNowPlayingMoviesAsync();
+        Task<(IList<Movie>?, HttpResponseMessage?)> GetPopularMoviesAsync();
+        Task<(IList<Movie>?, HttpResponseMessage?)> GetTopRatedMoviesAsync();
+        Task<(IList<Movie>?, HttpResponseMessage?)> GetUpcomingMoviesAsync();
     }
 
 }
