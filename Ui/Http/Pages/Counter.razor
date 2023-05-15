@@ -1,4 +1,7 @@
 ﻿@page "/counter"
+@using MovieFiles.Core.Interfaces
+@using MovieFiles.Core.Models
+@inject IMoviesService MoviesService
 
 <PageTitle>Counter</PageTitle>
 
@@ -10,9 +13,31 @@
 
 @code {
     private int currentCount = 0;
-
+    
     private void IncrementCount()
     {
-        currentCount++;
+        string apiKey = "2d540c52d96bd6b20f3fc9282c3f627c";
+        Task<(IList<Movie>?, HttpResponseMessage?)> result =  MoviesService.GetLatestMoviesAsync(apiKey);
+        (IList<Movie>? movies, HttpResponseMessage? response) = result;
+
+        if (response?.IsSuccessStatusCode == true)
+        {
+            if (movies != null)
+            {
+                foreach (var movie in movies)
+                {
+                    Console.WriteLine(movie.Title);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No movies found.");
+            }
+        }
+        else
+        {
+    // Request failed
+            Console.WriteLine($"Request failed. StatusCode: {response?.StatusCode}");
+        }
     }
 }
