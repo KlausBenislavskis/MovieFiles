@@ -2,11 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace YourNamespace.Controllers
+namespace Adapters.Controllers
 {
-    [ApiController]
-    [Route("api/movies")]
-    public class MoviesService : ControllerBase
+   
+    public class MoviesService : IMovieRepository
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
@@ -15,7 +14,7 @@ namespace YourNamespace.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet("latest")]
+      
         public async Task<IActionResult> GetLatestMoviesAsync(String apiKey)
         {
         
@@ -37,7 +36,7 @@ namespace YourNamespace.Controllers
             }
         }
 
-         [HttpGet("now_playing")]
+    
         public async Task<IActionResult> GetNowPlayingMoviesAsync(String apiKey)
         {
         
@@ -59,7 +58,7 @@ namespace YourNamespace.Controllers
             }
         }
 
-        [HttpGet("popular")]
+    
         public async Task<IActionResult> GetPopularMoviesAsync(String apiKey)
         {
         
@@ -83,7 +82,6 @@ namespace YourNamespace.Controllers
             }
         }
 
-        [HttpGet("top_rated")]
         public async Task<IActionResult> GetTopRatedMoviesAsync(String apiKey)
         {
     
@@ -104,7 +102,7 @@ namespace YourNamespace.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
-        [HttpGet("upcoming")]
+
         public async Task<IActionResult> GetUpcomingMoviesAsync(String apiKey)
         {
             string url = $"https://api.themoviedb.org/3/movie/upcoming?api_key={apiKey}&language=en-US&page=1";
