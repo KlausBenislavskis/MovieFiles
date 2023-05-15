@@ -41,7 +41,19 @@ namespace MovieFiles.Adapters
             if (list == null){
                 list = emptyList;
             }
+
+            List<Movie> updatedMovieList = new List<Movie>();
+            foreach (Movie movie in list.Results){
+                await updateMovieRating(movie);
+            }
             return list;
+        }
+
+        private async Task updateMovieRating(Movie movie){
+            double? averRating = await _ratingRepository.GetAverageRatingForMovieAsync(movie.Id);
+            if (averRating != null){
+                movie.VoteAverage = (float)averRating;
+            }
         }
     }
 }
