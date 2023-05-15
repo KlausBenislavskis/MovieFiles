@@ -8,7 +8,7 @@ public class Movie
     public string Overview { get; set; }
     public string ReleaseDate { get; set; }
     public ICollection<int> GenreIds { get; set; }
-    public int? Id { get; set; }
+    public int Id { get; set; }
     public string OriginalTitle { get; set; }
     public string OriginalLanguage { set; get; }
     public string Title { set; get; }
