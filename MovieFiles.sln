@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Adapters", "Adap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Infrastructure", "Infrastructure\MovieFiles.Infrastructure.csproj", "{DF543D8E-D83A-42A1-881E-12D4A3FEDB88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieFiles.Api.Client", "Api\Client\MovieFiles.Api.Client.csproj", "{A3D554FE-0C33-42C6-B257-6A12FF1AC47A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieFiles.Api.Client", "Api\Client\MovieFiles.Api.Client.csproj", "{A3D554FE-0C33-42C6-B257-6A12FF1AC47A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

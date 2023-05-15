@@ -8,8 +8,9 @@ namespace MovieFiles.Infrastructure
         public static IServiceCollection AddMovieFilesClient(this IServiceCollection services,string apiUrl, string appKey)
         {
             
-            services.AddTransient<IRatingService>(provider => new RatingService(apiUrl, appKey));
-            
+            services.AddScoped<IRatingService>(provider => new RatingService(apiUrl, appKey));
+            services.AddScoped<IUserService>(provider => new UserService(apiUrl, appKey));
+
             return services;
         }
 
