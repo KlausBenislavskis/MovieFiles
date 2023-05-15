@@ -15,5 +15,29 @@
                 RatingValue = (int)rating.RatingValue
             };
         }
+        internal static Models.Movie Map(Movie movie)
+        {
+            if (movie == null)
+            {
+                return null;
+            }
+            return new()
+            {
+                PosterPath = movie.PosterPath,
+            };
+        }
+        internal static Models.MovieList Map(MovieList movieList)
+        {
+            if (movieList == null)
+            {
+                return null;
+            }
+            return new()
+            {
+                Page = movieList.Page,
+                Results = movieList.Results.Select(Map).ToList(),
+                TotalPages = movieList.TotalPages
+            };
+        }
     }
 }
