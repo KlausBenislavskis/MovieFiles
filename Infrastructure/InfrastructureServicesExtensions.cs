@@ -9,7 +9,8 @@ namespace MovieFiles.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, string serverName, string databaseName, string userName, string password)
         {
 
-            services.AddTransient<IRatingRepository>(provider => new RatingRepository(serverName, databaseName, userName, password));
+            services.AddScoped<IRatingRepository>(provider => new RatingRepository(serverName, databaseName, userName, password));
+            services.AddScoped<IUserRepository>(provider => new UserRepository(serverName, databaseName, userName, password));
 
             return services;
         }

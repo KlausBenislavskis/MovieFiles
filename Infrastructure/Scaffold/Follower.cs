@@ -18,5 +18,19 @@ namespace MovieFiles.Infrastructure.Scaffold
 	{
 		[Column("user_id"        , IsPrimaryKey = true, PrimaryKeyOrder = 0)] public Guid UserId        { get; set; } // uuid
 		[Column("follows_user_id", IsPrimaryKey = true, PrimaryKeyOrder = 1)] public Guid FollowsUserId { get; set; } // uuid
+
+		#region Associations
+		/// <summary>
+		/// follower_follows_user_id_fkey
+		/// </summary>
+		[Association(CanBeNull = false, ThisKey = nameof(FollowsUserId), OtherKey = nameof(User.UserId))]
+		public User Followsuseridfkey { get; set; } = null!;
+
+		/// <summary>
+		/// follower_user_id_fkey
+		/// </summary>
+		[Association(CanBeNull = false, ThisKey = nameof(UserId), OtherKey = nameof(User.UserId))]
+		public User Useridfkey { get; set; } = null!;
+		#endregion
 	}
 }
