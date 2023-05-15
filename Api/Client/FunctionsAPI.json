@@ -4,10 +4,10 @@
     "title": "OpenAPI Document on Azure Functions",
     "version": "1.0.0"
   },
-  "host": "localhost:7008",
+  "host": "moviefilesfunctions.azurewebsites.net",
   "basePath": "/api",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/Function1": {
