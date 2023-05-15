@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using MovieFiles.Adapters.Services;
-using MovieFiles.Core.Interfaces;
+
 using MovieFiles.Ui.Http.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +38,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddScoped<IMoviesService, MoviesService>();
+
 
 var app = builder.Build();
 
