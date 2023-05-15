@@ -3,7 +3,6 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MovieFiles.Infrastructure;
 using MovieFiles.Ui.Http.Data;
-using MovieFiles.Ui.Http.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
