@@ -65,7 +65,7 @@ namespace MovieFiles.Api.Functions
             string name = req.Query["name"];
             int page = int.Parse(req.Query["page"]);
 
-            return new OkObjectResult(await _searchMovies.searchForMovies(name,page));
+            return new OkObjectResult(await _searchMovies.SearchForMovies(name,page));
         }
     }
 }
