@@ -8,13 +8,9 @@ namespace MovieFiles.Core.Models
 {
     public class MovieList
     {
-        [JsonPropertyName("page")]
-        public int page {get;set;}
-        [JsonPropertyName("results")]
+        public int Page {get;set;}
         public Movie[] Results {get;set;}
-        [JsonPropertyName("total_results")]
-        public int total_results {get;set;}
-        [JsonPropertyName("total_pages")]
-        public int totalPages {get;set;}
+        public int TotalResults {get;set;}
+        public int TotalPages {get;set;}
     }
 }
