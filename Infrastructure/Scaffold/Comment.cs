@@ -18,7 +18,7 @@ namespace MovieFiles.Infrastructure.Scaffold
 	{
 		[Column("comment_id", IsPrimaryKey = true, IsIdentity = true, SkipOnInsert = true, SkipOnUpdate = true)] public int     CommentId { get; set; } // integer
 		[Column("user_id"                                                                                     )] public Guid    UserId    { get; set; } // uuid
-		[Column("movie_id"                                                                                    )] public Guid    MovieId   { get; set; } // uuid
+		[Column("movie_id"                                                                                    )] public int     MovieId   { get; set; } // integer
 		[Column("comment"                                                                                     )] public string? Comment1  { get; set; } // text
 	}
 }

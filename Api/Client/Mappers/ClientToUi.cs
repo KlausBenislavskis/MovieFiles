@@ -10,7 +10,7 @@
             }
             return new()
             {
-                MovieId = (Guid)rating.MovieId,
+                MovieId = (int)rating.MovieId,
                 UserId = (Guid)rating.UserId,
                 RatingValue = (int)rating.RatingValue
             };
