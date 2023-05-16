@@ -12,9 +12,11 @@ else
 {
 
     <div class="movies-container">
-        <Virtualize Items="@MovieList.Results" Context="movie">
+        @foreach (var movie in MovieList.Results)
+        {
             <Movie Movie="@movie"></Movie>
-        </Virtualize>
+        }
+        @* </Virtualize> *@
     </div>
 }
 
