@@ -26,20 +26,16 @@
 
             return new()
             {
-                PosterPath = movie.PosterPath,
-                Adult = movie.Adult,
-                Overview = movie.Overview,
-                ReleaseDate = movie.ReleaseDate,
-                GenreIds = movie.GenreIds,
                 Id = (int)movie.Id,
-                OriginalTitle = movie.OriginalTitle,
-                OriginalLanguage = movie.OriginalLanguage,
+                ImdbId = (int)movie.ImdbId,
+                PosterPath = movie.PosterPath,
                 Title = movie.Title,
-                BackdropPath = movie.BackdropPath,
-                Popularity = movie.Popularity,
-                VoteCount = movie.VoteCount,
-                Video = movie.Video,
-                VoteAverage = movie.VoteAverage
+                OriginalTitle = movie.OriginalTitle,
+                ReleaseDate = movie.ReleaseDate,
+                Revenue = (double)movie.Revenue,
+                Budget = (double)movie.Budget,
+                Overview = movie.Overview,
+                Runtime = (int)movie.Runtime,
             };
         }
 
