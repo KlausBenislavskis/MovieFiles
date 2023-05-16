@@ -3,17 +3,11 @@ using System.ComponentModel;
 
 namespace MovieFiles.Api.Client.Services
 {
-    public class RatingService : IRatingService
+    public class RatingService : BaseService, IRatingService 
     {
-        private readonly MovieFilesFunctions _client;
-        private readonly string _functionAppKey;
-        public RatingService(string httpUrl, string functionAppKey)
+        public RatingService(string httpUrl, string functionAppKey) : base(httpUrl, functionAppKey)
         {
-            _client = new MovieFilesFunctions(new HttpClient { BaseAddress = new Uri(httpUrl) });
-            _client.BaseUrl = httpUrl;
-            _functionAppKey = functionAppKey;
         }
-
 
         public async Task<Models.Rating?> GetRatingAsync(Guid userId, int movieId)
         {
@@ -29,7 +23,15 @@ namespace MovieFiles.Api.Client.Services
         }
         public async Task<double?> GetAverageRating(int movieId)
         {
-            return await _client.GetAverageRatingAsync(movieId, _functionAppKey);
+            try
+            {
+                return await _client.GetAverageRatingAsync(movieId, _functionAppKey);
+            }
+            //Found no rating 
+            catch (ApiException e)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<Models.Rating>> GetRatingsByUserAsync(Guid userId)

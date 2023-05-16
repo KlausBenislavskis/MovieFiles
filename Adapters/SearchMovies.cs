@@ -9,11 +9,6 @@ namespace MovieFiles.Adapters
 {
     public class SearchMovies : ISearchMovies
     {
-        private IRatingRepository _ratingRepository;
-        public SearchMovies(IRatingRepository ratingRepository){
-            _ratingRepository = ratingRepository;
-        }
-
         private static MovieList emptyList = new MovieList(){
                     Page = 0,
                     Results = new Movie[0],
@@ -42,18 +37,27 @@ namespace MovieFiles.Adapters
                 list = emptyList;
             }
 
-            List<Movie> updatedMovieList = new List<Movie>();
-            foreach (Movie movie in list.Results){
-                await UpdateMovieRating(movie);
-            }
             return list;
         }
 
-        private async Task UpdateMovieRating(Movie movie){
-            double? averRating = await _ratingRepository.GetAverageRatingForMovieAsync(movie.Id);
-            if (averRating != null){
-                movie.VoteAverage = (float)averRating;
+        public async Task<MovieList> GetTestingMovies(int page){
+            var apiKey = MovieApiUtil.apiKey;
+            if (String.IsNullOrEmpty(apiKey)){
+                return emptyList;
             }
+
+            using HttpClient client = new HttpClient(); 
+            using HttpResponseMessage response = await client.GetAsync($"https://api.themoviedb.org/3/movie/popular?api_key={apiKey}&page={page}");
+            response.EnsureSuccessStatusCode();
+            
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            MovieList? list = MovieApiUtil.ConvertApiMessage<MovieList>(responseMessage);
+            
+            if (list == null){
+                list = emptyList;
+            }
+
+            return list;
         }
     }
 }
