@@ -1,0 +1,29 @@
+﻿.box {
+    background: #101215;
+    transition: transform 0.5s;
+}
+.box:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+.box .box-img {
+    width: 100%;
+    height: 270px;
+}
+.box .box-img img{
+    width: 100%;
+    height: 100%;
+}
+.box h5 {
+    padding: 10px;
+}
+.star{
+    width: 10%;
+}
+.rating-box{
+    display: flex;
+    padding: 10px;
+    gap: 1rem;
+    align-items: center;
+
+}

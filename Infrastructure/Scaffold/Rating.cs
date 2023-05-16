@@ -19,5 +19,13 @@ namespace MovieFiles.Infrastructure.Scaffold
 		[Column("user_id" , IsPrimaryKey = true, PrimaryKeyOrder = 0)] public Guid UserId  { get; set; } // uuid
 		[Column("movie_id", IsPrimaryKey = true, PrimaryKeyOrder = 1)] public int  MovieId { get; set; } // integer
 		[Column("rating"                                            )] public int  Rating1 { get; set; } // integer
+
+		#region Associations
+		/// <summary>
+		/// ratings_user_id_fkey
+		/// </summary>
+		[Association(CanBeNull = false, ThisKey = nameof(UserId), OtherKey = nameof(User.UserId))]
+		public User Useridfkey { get; set; } = null!;
+		#endregion
 	}
 }

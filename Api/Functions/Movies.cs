@@ -22,11 +22,11 @@ namespace MovieFiles.Api.Functions
         private readonly string _apiKey;
         private readonly ISearchMovies _searchMovies;
 
-        public Movies(ILogger<Movies> log, IRatingRepository ratingRepository)
+        public Movies(ILogger<Movies> log)
         {
             _logger = log;
             _apiKey = System.Environment.GetEnvironmentVariable("MOVIE_API_KEY");
-            _searchMovies = new SearchMovies(ratingRepository);
+            _searchMovies = new SearchMovies();
         }
 
         // @Nick remove this method if your function will work.
@@ -40,13 +40,7 @@ namespace MovieFiles.Api.Functions
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
             
-            using HttpClient client = new HttpClient(); 
-            using HttpResponseMessage response = await client.GetAsync($"https://api.themoviedb.org/3/movie/popular?api_key={_apiKey}&page=1");
-            response.EnsureSuccessStatusCode();
-            
-            string responseMessage = await response.Content.ReadAsStringAsync();
-            
-            MovieList list = JsonSerializer.Deserialize<MovieList>(responseMessage);
+            MovieList list = await _searchMovies.GetTestingMovies(1);
 
             return new OkObjectResult(list);
         }
