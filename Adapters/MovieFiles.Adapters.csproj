@@ -6,11 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+<ItemGroup>
+  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Core\MovieFiles.Core.csproj" />
-  </ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\Core\MovieFiles.Core.csproj" />
+</ItemGroup>
 </Project>
