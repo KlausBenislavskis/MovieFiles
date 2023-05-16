@@ -7,13 +7,16 @@
 }
 else if (AverageRating.HasValue)
 {
-        <div>
-        <span class="starAverage">&#9733;</span> <h2>@AverageRating.Value.ToString("0.0")</h2>
+        <div class="rating">
+            <img class="star" src="svgs/star.svg">
+            <h4 class="item">@AverageRating.Value.ToString("0.0")</h4>
         </div>
 }
 else
 {
-        <p>No ratings available.</p>
+        <div class="rating">
+            <p class="noRating">No ratings available.</p>
+        </div>
 }
 
 @code {
