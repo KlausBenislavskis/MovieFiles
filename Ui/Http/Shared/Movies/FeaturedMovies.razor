@@ -1,5 +1,6 @@
 ﻿@using MovieFiles.Api.Client.Models
 @using MovieFiles.Api.Client.Services
+@using MovieFiles.Api.Client.Services.Interfaces
 @inject IMoviesService MoviesService
 
 @if (IsLoading)
@@ -29,7 +30,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         this.Page = this.Page == 0 ? 1 : this.Page;
-        MovieList = await MoviesService.GetFavoriteMoviesAsync(Page);
+        //MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+        MovieList = await MoviesService.GetUpcomingMoviesAsync(Page);
         IsLoading = false;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MovieFiles.Api.Client.Services;
+using MovieFiles.Api.Client.Services.Interfaces;
 
 namespace MovieFiles.Infrastructure
 {

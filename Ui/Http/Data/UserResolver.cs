@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Identity.Web;
 using MovieFiles.Api.Client.Services;
+using MovieFiles.Api.Client.Services.Interfaces;
 using MovieFiles.Ui.Http.Helpers;
 
 namespace MovieFiles.Ui.Http.Data

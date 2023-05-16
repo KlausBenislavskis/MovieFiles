@@ -19,7 +19,8 @@ namespace MovieFiles.Adapters.Services
             _httpClient.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _apiKey = Environment.GetEnvironmentVariable(API_KEY);
+            // should be instatiated differently
+            _apiKey = "";
         }
 
         private async Task<MovieList> GetMoviesAsync(string endpoint)

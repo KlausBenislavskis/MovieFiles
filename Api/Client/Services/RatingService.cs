@@ -1,5 +1,6 @@
 ﻿using MovieFiles.Api.Client.Mappers;
 using System.ComponentModel;
+using MovieFiles.Api.Client.Services.Interfaces;
 
 namespace MovieFiles.Api.Client.Services
 {

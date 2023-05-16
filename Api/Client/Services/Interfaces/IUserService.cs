@@ -1,4 +1,4 @@
-﻿namespace MovieFiles.Api.Client.Services
+﻿namespace MovieFiles.Api.Client.Services.Interfaces
 {
     public interface IUserService
     {

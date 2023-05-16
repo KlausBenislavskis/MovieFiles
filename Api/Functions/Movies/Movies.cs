@@ -1,3 +1,5 @@
+using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -6,10 +8,8 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.OpenApi.Models;
 using MovieFiles.Core.Interfaces;
 using MovieFiles.Core.Models;
-using System.Net;
-using System.Threading.Tasks;
 
-namespace MovieFiles.Api.Functions
+namespace MovieFiles.Api.Functions.Movies
 {
     public class MoviesFunction
     {
@@ -21,13 +21,12 @@ namespace MovieFiles.Api.Functions
             _moviesService = moviesService;
         }
 
-
         // For GetNowPlayingMoviesAsync:
         [FunctionName("GetNowPlayingMovies")]
         [OpenApiOperation(operationId: "GetNowPlayingMovies", tags: new[] { "Movies" })]
         [OpenApiParameter(name: "page", In = ParameterLocation.Path, Required = false, Type = typeof(int))]
-        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string),
-            Description = "The function key")]
+        // [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string),
+        //     Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
 
         public async Task<IActionResult> GetNowPlayingMovies(
@@ -43,8 +42,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string),
             Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
-
-
+        
         public async Task<IActionResult> GetPopularMovies(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movies/popular/{page}")] HttpRequest req, int page = 1)
         {
@@ -81,7 +79,6 @@ namespace MovieFiles.Api.Functions
         [FunctionName("MovieFilter")]
         [OpenApiOperation(operationId: "MovieFilter", tags: new[] { "Movies" })]
         [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Name that you want to search for")]
-        [OpenApiParameter(name: "page", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "Page number that you want to see")]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
         public async Task<IActionResult> MovieFilter(

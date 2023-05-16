@@ -1,4 +1,6 @@
-﻿namespace MovieFiles.Api.Client.Services
+﻿using MovieFiles.Api.Client.Services.Interfaces;
+
+namespace MovieFiles.Api.Client.Services
 {
     public class UserService : BaseService, IUserService
     {
