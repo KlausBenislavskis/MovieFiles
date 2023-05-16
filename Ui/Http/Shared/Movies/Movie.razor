@@ -7,19 +7,31 @@
     <div class="rating-box">
         @* <img class="star" src="svgs/star.svg"> *@
         @* <div>@movie.VoteAverage</div> *@
-        @try{
+
+        @if (rating)
+        {
             <RatingAverage MovieId="@movie.Id"></RatingAverage>
         }
-        catch(Exception ex)
-        {
-            <h1>none</h1>
-        }
+
     </div>
     <h5>@movie.Title</h5>
 </div>
+
 
 @code
 {
     [Parameter]
     public Api.Client.Models.Movie movie { get; set; }
+
+    public bool rating { get; set; } = false;
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            rating = true;
+            StateHasChanged(); 
+        }
+        
+    }
 }
