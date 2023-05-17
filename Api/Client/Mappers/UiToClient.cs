@@ -2,7 +2,7 @@
 {
     internal class UiToClient
     {
-        internal static Rating Map(Models.Rating rating)
+        internal static Rating Map(Core.Models.Rating rating)
         {
             return new ()
             {

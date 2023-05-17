@@ -27,4 +27,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\MovieFiles.Core.csproj" />
+  </ItemGroup>
+
 </Project>
