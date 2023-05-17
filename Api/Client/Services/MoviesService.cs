@@ -34,9 +34,10 @@ namespace MovieFiles.Api.Client.Services
             throw new NotImplementedException();
         }
 
-        public Task<Core.Models.MovieList> SearchForMovies(string name, int page)
+        public async Task<Core.Models.MovieList> SearchForMovies(string name, int page)
         {
-            throw new NotImplementedException();
+            var response = await _client.MovieFilterAsync(name,page,_functionAppKey);
+            return ClientToUi.Map(response);
         }
     }
 }

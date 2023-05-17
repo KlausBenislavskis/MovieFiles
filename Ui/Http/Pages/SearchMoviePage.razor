@@ -1,0 +1,46 @@
+@page "/find"
+@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.WebUtilities
+@using MovieFiles.Api.Client.Services
+@using Microsoft.AspNetCore.Components.Routing
+
+@inject IMoviesService MoviesService
+
+@if (IsLoading)
+{
+    <div class="loading">
+        <div class="spinner"></div>
+    </div>
+    <p>@Query</p>
+} else {
+    <div class="body">
+        <h1>
+            Movies
+        </h1>
+        <MovieFiles.Ui.Http.Shared.Movies.FeaturedMovies MovieGetter=@movieGetter/>
+    </div>
+}
+
+
+@code {
+    public bool IsLoading { get; set; } = true;
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "q")]
+    public string Query {get;set;} = "";
+    private Func<int,Task<MovieList>>? movieGetter = null;
+
+    private Func<int,Task<MovieList>> searchMoviesGetter(){
+        return page => MoviesService.SearchForMovies(Query,page);
+    }
+
+    protected override void OnInitialized()
+    {
+        movieGetter = searchMoviesGetter();
+        IsLoading = false;
+    }
+
+    protected override void OnParametersSet(){
+        movieGetter = searchMoviesGetter();
+    }
+}

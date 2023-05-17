@@ -1,4 +1,4 @@
-@using MovieFiles.Core.Models
+﻿@using MovieFiles.Core.Models
 @using MovieFiles.Api.Client.Services
 @using Microsoft.AspNetCore.Diagnostics
 @inject IMoviesService MoviesService
@@ -47,15 +47,26 @@
 @code{
     public MovieList MovieList = new MovieList(12);
     public int Page { get; set; } = 1;
-    public int TotalPages { get; set; } = 500;
-    public int PageRange { get; set; } = 3;
+    [Parameter]
+    public Func<int,Task<MovieList>>? MovieGetter {get;set;}
+    public static readonly int TotalPages = 500;
+    public static readonly int PageRange = 3;
 
     public bool reRender { get; set; } = false;
-
     protected override async Task OnInitializedAsync()
     {
-        this.Page = this.Page == 0 ? 1 : this.Page;
-        MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+        this.Page = Math.Max(1, this.Page);
+        if (MovieGetter != null){
+            MovieList = await MovieGetter(Page);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        this.Page = Math.Max(1, this.Page);
+        if (MovieGetter != null){
+            MovieList = await MovieGetter(Page);
+        }
     }
 
     async Task OnClick(int id)

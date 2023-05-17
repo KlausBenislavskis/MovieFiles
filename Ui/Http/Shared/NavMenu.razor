@@ -6,6 +6,8 @@
 @*         </button> *@
 @*     </div> *@
 @* </div> *@
+
+@inject NavigationManager NavigationManager
 <style>
     .nav-button{
         color: white;
@@ -17,6 +19,12 @@
     .nav-button:hover{
         color: #8534e7;
     }
+    #searchBar{
+        width: 100%;
+    }
+    .searchComponent{
+        width: 60%;
+    }
 </style>
 
 <div class="navbar">
@@ -24,6 +32,9 @@
         <span>M</span>
         <span>ovieFiles</span>
     </a>
+    <EditForm class="searchComponent" Model="SearchString" OnSubmit="@SearchMovies">
+        <InputText id="searchBar" @bind-Value="SearchString"/>
+    </EditForm>
 
     <AuthorizeView>
         <Authorized>
@@ -48,3 +59,11 @@
     </AuthorizeView>
     <LoginDisplay/>
 </div>
+
+@code {
+    private string SearchString = "";
+
+    private void SearchMovies(){
+        NavigationManager.NavigateTo($"find?q={SearchString}");
+    }
+}
