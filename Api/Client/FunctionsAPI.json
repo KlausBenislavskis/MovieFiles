@@ -272,6 +272,14 @@
             "type": "string"
           },
           {
+            "in": "query",
+            "name": "page",
+            "description": "Page number that you want to see",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
             "in": "header",
             "name": "x-functions-key",
             "description": "The function key",

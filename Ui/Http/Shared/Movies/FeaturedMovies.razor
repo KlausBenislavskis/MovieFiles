@@ -2,6 +2,8 @@
 @using MovieFiles.Api.Client.Services
 @using Microsoft.AspNetCore.Diagnostics
 @inject IMoviesService MoviesService
+@inject IMovieDetailsService MovieDetailsService
+
 @inject IJSRuntime JSRuntime
 
 
@@ -59,6 +61,8 @@
         if (MovieGetter != null){
             MovieList = await MovieGetter(Page);
         }
+
+      await  MovieDetailsService.GetMovieDetailsAsync(640146);
     }
 
     protected override async Task OnParametersSetAsync()

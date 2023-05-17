@@ -79,6 +79,7 @@ namespace MovieFiles.Api.Functions.Movies
         [FunctionName("MovieFilter")]
         [OpenApiOperation(operationId: "MovieFilter", tags: new[] { "Movies" })]
         [OpenApiParameter(name: "name", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Name that you want to search for")]
+        [OpenApiParameter(name: "page", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "Page number that you want to see")]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
         public async Task<IActionResult> MovieFilter(
