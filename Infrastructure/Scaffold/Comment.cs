@@ -20,5 +20,13 @@ namespace MovieFiles.Infrastructure.Scaffold
 		[Column("user_id"                                                                                     )] public Guid    UserId    { get; set; } // uuid
 		[Column("movie_id"                                                                                    )] public int     MovieId   { get; set; } // integer
 		[Column("comment"                                                                                     )] public string? Comment1  { get; set; } // text
+
+		#region Associations
+		/// <summary>
+		/// comments_user_id_fkey
+		/// </summary>
+		[Association(CanBeNull = false, ThisKey = nameof(UserId), OtherKey = nameof(Scaffold.User.UserId))]
+		public User User { get; set; } = null!;
+		#endregion
 	}
 }

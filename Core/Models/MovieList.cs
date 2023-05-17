@@ -1,20 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.Json.Serialization;
-
 namespace MovieFiles.Core.Models
 {
     public class MovieList
     {
-        [JsonPropertyName("page")]
-        public int page {get;set;}
-        [JsonPropertyName("results")]
-        public Movie[] Results {get;set;}
-        [JsonPropertyName("total_results")]
-        public int total_results {get;set;}
-        [JsonPropertyName("total_pages")]
-        public int totalPages {get;set;}
+        //Default Constructor
+        public MovieList()
+        {
+            Page = 0;
+            Results = new Movie[0];
+            TotalPages = 0;
+            TotalResults = 0;
+        }
+        public MovieList(int loadingItems = 0)
+        {
+            var emptyMovies = new List<Movie>();
+            for (int i = 0; i < loadingItems; i++)
+            {
+                emptyMovies.Add(new Movie());
+            }
+            Results = emptyMovies.ToArray();
+        }
+        public int Page { get; set; }
+        public Movie[] Results { get; set; }
+        public int TotalResults { get; set; }
+        public int TotalPages { get; set; }
     }
 }

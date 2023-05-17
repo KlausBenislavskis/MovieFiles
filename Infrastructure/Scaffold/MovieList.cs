@@ -20,5 +20,13 @@ namespace MovieFiles.Infrastructure.Scaffold
 		[Column("list_id"  , IsPrimaryKey = true , IsIdentity = true, SkipOnInsert = true, SkipOnUpdate = true)] public int    ListId   { get; set; } // integer
 		[Column("list_name", CanBeNull    = false                                                             )] public string ListName { get; set; } = null!; // character varying(255)
 		[Column("movie_id"                                                                                    )] public int    MovieId  { get; set; } // integer
+
+		#region Associations
+		/// <summary>
+		/// movie_lists_user_id_fkey
+		/// </summary>
+		[Association(CanBeNull = false, ThisKey = nameof(UserId), OtherKey = nameof(Scaffold.User.UserId))]
+		public User User { get; set; } = null!;
+		#endregion
 	}
 }

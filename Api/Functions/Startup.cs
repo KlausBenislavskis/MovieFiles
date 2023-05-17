@@ -1,5 +1,8 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+using MovieFiles.Adapters.Services;
 using MovieFiles.Api.Functions;
+using MovieFiles.Core.Interfaces;
 using MovieFiles.Infrastructure;
 using System;
 
@@ -15,8 +18,10 @@ namespace MovieFiles.Api.Functions
             string dbName = Environment.GetEnvironmentVariable("MOVIE_DB_NAME");
             string dbUser = Environment.GetEnvironmentVariable("MOVIE_DB_USER");
             string dbPass = Environment.GetEnvironmentVariable("MOVIE_DB_PASS");
-
-            builder.Services.AddInfrastructure(dbServer,dbName,dbUser,dbPass); 
+            string movieDbApiKey = Environment.GetEnvironmentVariable("MOVIE_API_KEY");
+            
+            builder.Services.AddInfrastructure(dbServer,dbName,dbUser,dbPass);
+            builder.Services.AddScoped<IMoviesService>(provider => new MoviesService(movieDbApiKey));
         }
     }
 }

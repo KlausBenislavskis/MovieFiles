@@ -1,5 +1,8 @@
+﻿@using MovieFiles.Ui.Http.Data;
 @using MovieFiles.Ui.Http.Helpers;
-@inject AuthenticationStateProvider AuthenticationStateProvider
+@using MovieFiles.Ui.Http.Data;
+@inject IUserResolver UserResolver
+
 <style>
             :root{
                 --gradiant: linear-gradient(45deg, #631abc,#631abc, #8534e7, #8534e7,#8534e7,#631abc,  #631abc);
@@ -30,3 +33,10 @@
         <a class="login-button" href="MicrosoftIdentity/Account/SignIn">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await UserResolver.ResolveUser();
+    }
+}
