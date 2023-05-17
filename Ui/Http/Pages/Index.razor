@@ -1,6 +1,5 @@
 ﻿@page "/"
 @using MovieFiles.Api.Client.Services
-@using MovieFiles.Api.Client.Models
 @inject IMoviesService MoviesService
 
 @using MovieFiles.Ui.Http.Shared.Movies;
@@ -10,57 +9,16 @@
 
     <PageTitle>Movies</PageTitle>
 
-    <div class="body">
-        <h1>Movies</h1>
-        <FeaturedMovies Page="1" MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
-        @* <ul id="page-list" > *@
-        @*      <li id="Prev" onclick="setActive(id)"> *@
-        @*          <a >Prev</a> *@
-        @*      </li> *@
-        @*      <li id="@id1" class="active" onclick="@(() => SetPage(id1))"> *@
-        @*          <a >@id1</a> *@
-        @*      </li> *@
-        @*      <li id="2" onclick="setActive(id)"> *@
-        @*          <a >2</a> *@
-        @*      </li> *@
-        @*      <li id="3" onclick="setActive(id)"> *@
-        @*          <a >3</a> *@
-        @*      </li> *@
-        @*      <li id="4" onclick="setActive(id)"> *@
-        @*          <a >4</a> *@
-        @*      </li> *@
-        @*      <li id="5" onclick="setActive(id)"> *@
-        @*          <a >5</a> *@
-        @*      </li> *@
-        @*      <li id="Next" onclick="setActive(id)" > *@
-        @*          <a>Next</a> *@
-        @*      </li> *@
-        @*  </ul> *@
-    </div>
+<div class="body">
+    <h1>Movies</h1>
+    <FeaturedMovies Page="1" MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
+</div>
     
 
 
-
-@* <script suppress-error="BL9992"> *@
-@*      *@
-@*     function setActive(id){ *@
-@*         if (id.toString() !== "Prev" && id.toString() !== "Next"){     *@
-@*             removeAllActive(); *@
-@*             document.getElementById(id).classList.add("active"); *@
-@*         } *@
-@*     } *@
-@*     function removeAllActive() { *@
-@*         var elements = document.getElementsByClassName("active"); *@
-@*         for (var i = 0; i < elements.length; i++) { *@
-@*             elements[i].classList.remove("active"); *@
-@*         } *@
-@*     } *@
-@* </script> *@
-
 @code {
     protected Func<int,Task<MovieList>> featuredMoviesGetter(){
-        Func<int,Task<MovieList>> myFunc = page => MoviesService.GetFavoriteMoviesAsync(page);
+        Func<int,Task<MovieList>> myFunc = page => MoviesService.GetPopularMoviesAsync(page);
         return myFunc;
     }
 }
-
