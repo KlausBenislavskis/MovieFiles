@@ -1,25 +1,20 @@
-using System.Text.Json.Serialization;
-
 namespace MovieFiles.Core.Models
 {
-    /// <summary>
-    /// Class that represents what attributes a movie have and which of them can be nullable from API
-    /// </summary>
     public class Movie
     {
-        public string? PosterPath { get; set; }
-        public bool Adult { get; set; }
-        public string Overview { get; set; }
-        public string ReleaseDate { get; set; }
-        public int[] GenreIds { get; set; }
         public int Id { get; set; }
+        public int ImdbId { get; set; }
+        public string PosterPath { get; set; }
+        public string Title { get; set; }
         public string OriginalTitle { get; set; }
-        public string OriginalLanguage { set; get; }
-        public string Title { set; get; }
-        public string? BackdropPath { set; get; }
-        public float Popularity { set; get; }
-        public int VoteCount { set; get; }
-        public bool Video { get; set; }
-        public float VoteAverage { get; set; }
+        public string ReleaseDate { get; set; }
+        public double Revenue { get; set; }
+        public double Budget { get; set; }
+        public string Overview { get; set; }
+        public int Runtime { get; set; }
+        public double VoteAverage { get; set; }
+        public int VoteCount { get; set; }
+        public IList<Genre> Genres { get; set; } = new List<Genre>();
+        public IList<ProductionCompany> ProductionCompanies { get; set; } = new List<ProductionCompany>();
     }
 }
