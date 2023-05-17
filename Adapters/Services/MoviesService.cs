@@ -14,13 +14,11 @@ namespace MovieFiles.Adapters.Services
 
         public MoviesService()
         {
-
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            // should be instatiated differently
-            _apiKey = "";
+            
         }
 
         private async Task<MovieList> GetMoviesAsync(string endpoint)
@@ -35,7 +33,6 @@ namespace MovieFiles.Adapters.Services
             MovieList? movieList = MovieApiUtil.ConvertApiMessage<MovieList>(jsonResponse);
 
             return movieList ?? new MovieList();
-
         }
 
         public async Task<MovieList> GetNowPlayingMoviesAsync(int page)
