@@ -1,17 +1,18 @@
 ﻿@page "/"
+@using MovieFiles.Ui.Http.Shared.Movies
+@inject IMoviesService MoviesService
 
 
+<PageTitle>Movies</PageTitle>
 
-@using MovieFiles.Ui.Http.Shared.Movies;
+<div class="body">
+    <h1>Movies</h1>
+    <FeaturedMovies MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
+</div>
 
-
-
-    <PageTitle>Movies</PageTitle>
-
-    <div class="body">
-        <h1>Movies</h1>
-        <FeaturedMovies ></FeaturedMovies>
-    </div>
-
-
-
+@code {
+    protected Func<int,Task<MovieList>> featuredMoviesGetter(){
+        Func<int,Task<MovieList>> myFunc = page => MoviesService.GetPopularMoviesAsync(page);
+        return myFunc;
+    }
+}
