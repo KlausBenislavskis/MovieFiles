@@ -8,7 +8,15 @@
 
         public async Task ResolveUser(Guid userId, string username)
         {
-            await _client.ResolveUserAsync(userId, username, _functionAppKey);
+            try
+            {
+                await _client.ResolveUserAsync(userId, username, _functionAppKey);
+            }
+            //Can happen if reloading page 10x fast
+            catch (ApiException e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
