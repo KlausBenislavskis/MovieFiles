@@ -2,17 +2,6 @@ namespace MovieFiles.Core.Models
 {
     public class Movie
     {
-        
-        // public Movie()
-        // {
-        //     Id = 0;
-        //     ImdbId = 0;
-        //     PosterPath = null;
-        //     Results = new Movie[0];
-        //     TotalPages = 0;
-        //     TotalResults = 0;
-        // }
-        
         public int Id { get; set; }
         public string ImdbId { get; set; }
         public string PosterPath { get; set; }

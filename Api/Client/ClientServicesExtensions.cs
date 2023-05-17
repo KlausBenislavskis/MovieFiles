@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MovieFiles.Api.Client.Services;
-using MovieFiles.Core.Interfaces;
+using MovieFiles.Api.Client.Services.Interfaces;
+using IMoviesService = MovieFiles.Core.Interfaces.IMoviesService;
+using IRatingService = MovieFiles.Api.Client.Services.IRatingService;
 
 namespace MovieFiles.Infrastructure
 {
