@@ -1,17 +1,18 @@
 ﻿@page "/"
-@using MovieFiles.Api.Client.Services
+@using MovieFiles.Ui.Http.Shared.Movies
+@inject IMoviesService MoviesService
 
 
-@using MovieFiles.Ui.Http.Shared.Movies;
-@using Microsoft.AspNetCore.Mvc.RazorPages
-@using System.Runtime.CompilerServices
-
-
-    <PageTitle>Movies</PageTitle>
+<PageTitle>Movies</PageTitle>
 
 <div class="body">
     <h1>Movies</h1>
-    <FeaturedMovies Page="1"></FeaturedMovies>
+    <FeaturedMovies MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
 </div>
-    
 
+@code {
+    protected Func<int,Task<MovieList>> featuredMoviesGetter(){
+        Func<int,Task<MovieList>> myFunc = page => MoviesService.GetPopularMoviesAsync(page);
+        return myFunc;
+    }
+}

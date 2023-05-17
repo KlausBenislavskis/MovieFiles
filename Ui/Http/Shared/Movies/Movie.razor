@@ -9,7 +9,9 @@
     <div class="rating-box">
         @if (!string.IsNullOrEmpty(movie.OriginalTitle))
         {
-            <RatingAverage MovieId="@movie.Id"></RatingAverage>
+            <div style="height: 30px">
+                <RatingAverage MovieId="@movie.Id" reRender="reRender"></RatingAverage>
+            </div>
         }
 
     </div>
@@ -22,4 +24,17 @@
     [Parameter]
     public Core.Models.Movie movie { get; set; }
 
+    [Parameter]
+    public bool reRender { get; set; } = true;
+
+    public bool rating { get; set; } = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            rating = true;
+            StateHasChanged();
+        }
+    }
 }
