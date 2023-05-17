@@ -7,6 +7,7 @@ namespace MovieFiles.Api.Client.Services
     {
         private readonly MovieFilesFunctions _client;
         private readonly string _functionAppKey;
+
         public MoviesService(string httpUrl, string functionAppKey)
         {
             _client = new MovieFilesFunctions(new HttpClient { BaseAddress = new Uri(httpUrl) });
@@ -25,6 +26,7 @@ namespace MovieFiles.Api.Client.Services
             var response = await _client.GetNowPlayingMoviesAsync(page, _functionAppKey);
             return ClientToUi.Map(response);
         }
+
         public async Task<Core.Models.MovieList> GetTopRatedMoviesAsync(int page)
         {
             var response = await _client.GetTopRatedMoviesAsync(page, _functionAppKey);

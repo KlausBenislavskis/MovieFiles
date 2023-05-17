@@ -16,12 +16,12 @@ using Newtonsoft.Json;
 
 namespace MovieFiles.Api.Functions.Movies
 {
-    public class Ratings
+    public class RatingsFunction
     {
-        private readonly ILogger<Ratings> _logger;
+        private readonly ILogger<RatingsFunction> _logger;
         private readonly IRatingRepository _ratingRepository;
 
-        public Ratings(ILogger<Ratings> log, IRatingRepository ratingRepository)
+        public RatingsFunction(ILogger<RatingsFunction> log, IRatingRepository ratingRepository)
         {
             _logger = log;
             _ratingRepository = ratingRepository;

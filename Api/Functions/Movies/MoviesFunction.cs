@@ -25,8 +25,8 @@ namespace MovieFiles.Api.Functions.Movies
         [FunctionName("GetNowPlayingMovies")]
         [OpenApiOperation(operationId: "GetNowPlayingMovies", tags: new[] { "Movies" })]
         [OpenApiParameter(name: "page", In = ParameterLocation.Path, Required = false, Type = typeof(int))]
-        // [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string),
-        //     Description = "The function key")]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string),
+            Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
 
         public async Task<IActionResult> GetNowPlayingMovies(
