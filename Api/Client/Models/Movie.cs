@@ -2,19 +2,27 @@
 
 public class Movie
 {
-    
-    public string? PosterPath { get; set; }
-    public bool? Adult { get; set; }
-    public string Overview { get; set; }
-    public string ReleaseDate { get; set; }
-    public ICollection<int> GenreIds { get; set; }
-    public int Id { get; set; }
-    public string OriginalTitle { get; set; }
-    public string OriginalLanguage { set; get; }
-    public string Title { set; get; }
-    public string? BackdropPath { set; get; }
-    public double? Popularity { set; get; }
-    public int? VoteCount { set; get; }
-    public bool? Video { get; set; }
-    public double? VoteAverage { get; set; }
+        public int Id { get; set; }
+
+        public int ImdbId { get; set; }
+
+        public string PosterPath { get; set; }
+
+        public string Title { get; set; }
+
+        public string OriginalTitle { get; set; }
+
+        public string ReleaseDate { get; set; }
+
+        public double Revenue { get; set; }
+
+        public double Budget { get; set; }
+
+        public string Overview { get; set; }
+
+        public int Runtime { get; set; }
+
+        //public ICollection<Genre> Genres { get; set; }
+
+        //public ICollection<ProductionCompany> ProductionCompanies { get; set; }
 }
