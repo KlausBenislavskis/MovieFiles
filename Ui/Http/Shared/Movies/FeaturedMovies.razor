@@ -1,6 +1,9 @@
 ﻿@using MovieFiles.Api.Client.Models
 @using MovieFiles.Api.Client.Services
+@using Microsoft.AspNetCore.Diagnostics
 @inject IMoviesService MoviesService
+@inject IJSRuntime JSRuntime
+
 
 @if (IsLoading)
 {
@@ -14,22 +17,103 @@ else
     <div class="movies-container">
         @foreach (var movie in MovieList.Results)
         {
-            <Movie Movie="@movie"></Movie>
+            <Movie Movie="@movie" reRender="reRender"></Movie>
         }
         @* </Virtualize> *@
     </div>
 }
 
+<ul id="page-list" >
+    <li id="Prev" onclick="@(() => Prev())">
+        <a >Prev</a>
+    </li>
+    <li id="@id1" onclick="@(() => OnClick(@id1))">
+        <a >@id1</a>
+    </li>
+    <li id="@id2" onclick="@(() => OnClick(@id2))">
+        <a >@id2</a>
+    </li>
+    <li id="@id3" onclick="@(() => OnClick(@id3))">
+        <a >@id3</a>
+    </li>
+    <li id="@id4" onclick="@(() => OnClick(@id4))">
+        <a >@id4</a>
+    </li>
+    <li id="@id5" onclick="@(() => OnClick(@id5))">
+        <a >@id5</a>
+    </li>
+    <li id="Next" onclick="@(() => Next())">
+        <a>Next</a>
+    </li>
+</ul>
+
+<script  suppress-error="BL9992">
+    function setActive(id){
+        removeAllActive();
+        
+        var element = document.getElementById(id);
+        element.classList.add("active");
+    }
+    function removeAllActive(){
+        var activeElements = document.getElementsByClassName("active");
+        for (var i = 0; i < activeElements.length; i++) {
+            activeElements[i].classList.remove("active");
+        }
+    }
+
+</script>
+
 @code{
+    public int id1 { get; set; } =1;
+    public int id2 { get; set; } =2;
+    public int id3 { get; set; } =3;
+    public int id4 { get; set; } =4;
+    public int id5 { get; set; } =5;
+    
     public MovieList MovieList { get; set; }
-    [Parameter]
-    public int Page { get; set; }
+
+    public int Page { get; set; } = 1;
     public bool IsLoading { get; set; } = true;
+    public bool reRender { get; set; } = false;
     
     protected override async Task OnInitializedAsync()
     {
-        this.Page = this.Page == 0 ? 1 : this.Page;
         MovieList = await MoviesService.GetFavoriteMoviesAsync(Page);
         IsLoading = false;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("setActive", Page);
+    }
+    
+    async Task OnClick(int id)
+    {
+        if (Page != id)
+        {
+            Page = id;
+            await JSRuntime.InvokeVoidAsync("setActive", id);
+            reRender = true;
+            MovieList = await MoviesService.GetFavoriteMoviesAsync(Page);
+        }
+    }
+    async Task Prev()
+    {
+        if (Page > 1)
+        {
+            Page--;
+            await JSRuntime.InvokeVoidAsync("setActive", Page);
+            reRender = true;
+            MovieList = await MoviesService.GetFavoriteMoviesAsync(Page);
+        }
+    }
+    async Task Next()
+    {
+        if (Page < 5)
+        {
+            Page++;
+            await JSRuntime.InvokeVoidAsync("setActive", Page);
+            reRender = true;
+            MovieList = await MoviesService.GetFavoriteMoviesAsync(Page);
+        }
     }
 }
