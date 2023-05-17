@@ -2,7 +2,7 @@
   "profiles": {
     "Function": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7008"
+      "commandLineArgs": "--port 7008 --verbose"
     },
     "Docker": {
       "commandName": "Docker",

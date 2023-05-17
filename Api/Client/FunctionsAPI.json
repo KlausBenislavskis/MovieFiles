@@ -4,10 +4,10 @@
     "title": "OpenAPI Document on Azure Functions",
     "version": "1.0.0"
   },
-  "host": "moviefilesfunctions.azurewebsites.net",
+  "host": "localhost:7008",
   "basePath": "/api",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/Function1": {
@@ -43,7 +43,41 @@
         ]
       }
     },
-    "/movies/popular": {
+    "/movies/now-playing/{page}": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "GetNowPlayingMovies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/movieList"
+            }
+          }
+        }
+      }
+    },
+    "/movies/popular/{page}": {
       "get": {
         "tags": [
           "Movies"
@@ -56,6 +90,117 @@
           {
             "in": "path",
             "name": "page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/movieList"
+            }
+          }
+        }
+      }
+    },
+    "/movies/top-rated/{page}": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "GetTopRatedMovies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/movieList"
+            }
+          }
+        }
+      }
+    },
+    "/movies/upcoming/{page}": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "GetUpcomingMovies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/movieList"
+            }
+          }
+        }
+      }
+    },
+    "/movie/name": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "MovieFilter",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "description": "Name that you want to search for",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number that you want to see",
+            "required": true,
             "type": "integer",
             "format": "int32"
           },
@@ -318,58 +463,74 @@
     }
   },
   "definitions": {
+    "genre": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
     "movie": {
       "type": "object",
       "properties": {
-        "posterPath": {
-          "type": "string"
-        },
-        "adult": {
-          "type": "boolean"
-        },
-        "overview": {
-          "type": "string"
-        },
-        "releaseDate": {
-          "type": "string"
-        },
-        "genreIds": {
-          "type": "array",
-          "items": {
-            "format": "int32",
-            "type": "integer"
-          }
-        },
         "id": {
           "format": "int32",
           "type": "integer"
         },
-        "originalTitle": {
-          "type": "string"
+        "imdbId": {
+          "format": "int32",
+          "type": "integer"
         },
-        "originalLanguage": {
+        "posterPath": {
           "type": "string"
         },
         "title": {
           "type": "string"
         },
-        "backdropPath": {
+        "originalTitle": {
           "type": "string"
         },
-        "popularity": {
-          "format": "float",
+        "releaseDate": {
+          "type": "string"
+        },
+        "revenue": {
+          "format": "double",
+          "type": "number"
+        },
+        "budget": {
+          "format": "double",
+          "type": "number"
+        },
+        "overview": {
+          "type": "string"
+        },
+        "runtime": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "voteAverage": {
+          "format": "double",
           "type": "number"
         },
         "voteCount": {
           "format": "int32",
           "type": "integer"
         },
-        "video": {
-          "type": "boolean"
+        "genres": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/genre"
+          }
         },
-        "voteAverage": {
-          "format": "float",
-          "type": "number"
+        "productionCompanies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/productionCompany"
+          }
         }
       }
     },
@@ -386,13 +547,30 @@
             "$ref": "#/definitions/movie"
           }
         },
-        "total_results": {
+        "totalResults": {
           "format": "int32",
           "type": "integer"
         },
         "totalPages": {
           "format": "int32",
           "type": "integer"
+        }
+      }
+    },
+    "productionCompany": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "logoPath": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "originCountry": {
+          "type": "string"
         }
       }
     },

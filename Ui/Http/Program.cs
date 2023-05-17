@@ -32,6 +32,8 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddAuthorization();
 
+
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();

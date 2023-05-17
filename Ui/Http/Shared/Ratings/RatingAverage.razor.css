@@ -1,12 +1,34 @@
-﻿.star {
-    font-size: 2em;
-    color: #ccc;
-    cursor: pointer;
+﻿/*.star {*/
+/*    font-size: 2em;*/
+/*    color: #ccc;*/
+/*    cursor: pointer;*/
+/*}*/
+/*.star.selected {*/
+/*    color: gold;*/
+/*}*/
+/*.starAverage {*/
+/*    font-size: 4em;*/
+/*    color: gold;*/
+/*}*/
+
+
+.rating{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    height: 100%;
 }
-.star.selected {
-    color: gold;
+.item{
+    margin: 0;
+    padding: 0;
+    color: white;
 }
-.starAverage {
-    font-size: 4em;
-    color: gold;
+.star{
+    width: 10%;
+}
+.noRating{
+    color: gray;
+    margin: 0;
+    padding: 0;
+    opacity: 0.5;
 }

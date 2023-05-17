@@ -1,0 +1,40 @@
+﻿@using MovieFiles.Ui.Http.Shared.Ratings;
+
+<div class="box">
+    <div class="box-img">
+        @if(!string.IsNullOrEmpty(movie.PosterPath)){
+            <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="Example Image">
+        }
+    </div>
+    <div class="rating-box">
+        @if (!string.IsNullOrEmpty(movie.OriginalTitle))
+        {
+            <div style="height: 30px">
+                <RatingAverage MovieId="@movie.Id" reRender="reRender"></RatingAverage>
+            </div>
+        }
+
+    </div>
+    <h5>@movie.Title</h5>
+</div>
+
+
+@code
+{
+    [Parameter]
+    public Core.Models.Movie movie { get; set; }
+
+    [Parameter]
+    public bool reRender { get; set; } = true;
+
+    public bool rating { get; set; } = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            rating = true;
+            StateHasChanged();
+        }
+    }
+}

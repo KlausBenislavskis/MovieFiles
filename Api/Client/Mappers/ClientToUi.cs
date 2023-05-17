@@ -2,7 +2,7 @@
 {
     internal class ClientToUi
     {
-        internal static Models.Rating Map(Rating rating)
+        internal static Core.Models.Rating Map(Rating rating)
         {
             if (rating == null)
             {
@@ -17,7 +17,7 @@
             };
         }
 
-        internal static Models.Movie Map(Movie movie)
+        internal static Core.Models.Movie Map(Movie movie)
         {
             if (movie == null)
             {
@@ -26,24 +26,20 @@
 
             return new()
             {
+                Id = (int)movie.Id,
+                ImdbId = (int)movie.ImdbId,
                 PosterPath = movie.PosterPath,
-                Adult = movie.Adult,
-                Overview = movie.Overview,
-                ReleaseDate = movie.ReleaseDate,
-                GenreIds = movie.GenreIds,
-                Id = movie.Id,
-                OriginalTitle = movie.OriginalTitle,
-                OriginalLanguage = movie.OriginalLanguage,
                 Title = movie.Title,
-                BackdropPath = movie.BackdropPath,
-                Popularity = movie.Popularity,
-                VoteCount = movie.VoteCount,
-                Video = movie.Video,
-                VoteAverage = movie.VoteAverage
+                OriginalTitle = movie.OriginalTitle,
+                ReleaseDate = movie.ReleaseDate,
+                Revenue = (double)movie.Revenue,
+                Budget = (double)movie.Budget,
+                Overview = movie.Overview,
+                Runtime = (int)movie.Runtime,
             };
         }
 
-        internal static Models.MovieList Map(MovieList movieList)
+        internal static Core.Models.MovieList Map(MovieList movieList)
         {
             if (movieList == null)
             {
@@ -52,9 +48,9 @@
 
             return new()
             {
-                Page = movieList.Page,
-                Results = movieList.Results.Select(Map).ToList(),
-                TotalPages = movieList.TotalPages
+                Page = (int)movieList.Page,
+                Results = movieList.Results.Select(Map).ToArray(),
+                TotalPages = (int)movieList.TotalPages
             };
         }
     }

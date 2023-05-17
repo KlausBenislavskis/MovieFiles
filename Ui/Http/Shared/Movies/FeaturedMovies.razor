@@ -1,0 +1,84 @@
+@using MovieFiles.Core.Models
+@using MovieFiles.Api.Client.Services
+@using Microsoft.AspNetCore.Diagnostics
+@inject IMoviesService MoviesService
+@inject IJSRuntime JSRuntime
+
+
+<div class="movies-container">
+    @foreach (var movie in MovieList.Results)
+    {
+        <Movie Movie="@movie"></Movie>
+    }
+    @* </Virtualize> *@
+</div>
+
+
+
+<ul id="page-list">
+    <li @onclick="First">
+        «
+    </li>
+    @for (int i = @Page - @PageRange; i <= @Page + @PageRange; i++)
+    {
+        if (i >= 1 && i <= @TotalPages)
+        {
+            var pageI = i;
+            if (i == @Page)
+            {
+                <li class="active" @onclick="() => OnClick(pageI)">
+                    @pageI
+                </li>
+            }
+            else
+            {
+                <li class="" @onclick="() => OnClick(pageI)">
+                    @pageI
+                </li>
+            }
+        }
+    }
+    <li @onclick="Last">
+        »
+    </li>
+</ul>
+
+
+@code{
+    public MovieList MovieList = new MovieList(12);
+    public int Page { get; set; } = 1;
+    public int TotalPages { get; set; } = 500;
+    public int PageRange { get; set; } = 3;
+
+    public bool reRender { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.Page = this.Page == 0 ? 1 : this.Page;
+        MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+    }
+
+    async Task OnClick(int id)
+    {
+        if (Page != id)
+        {
+            Page = id;
+            reRender = true;
+            MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+        }
+    }
+
+    async Task First()
+    {
+        Page = 1;
+        reRender = true;
+        MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+    }
+    async Task Last()
+    {
+        Page = TotalPages;
+        reRender = true;
+        MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+    }
+
+}
