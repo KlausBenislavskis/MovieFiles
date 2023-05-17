@@ -11,9 +11,9 @@
 
             return new()
             {
-                MovieId = (int) rating.MovieId,
-                UserId = (Guid) rating.UserId,
-                RatingValue = (int) rating.RatingValue
+                MovieId = (int)rating.MovieId,
+                UserId = (Guid)rating.UserId,
+                RatingValue = (int)rating.RatingValue
             };
         }
 
@@ -51,6 +51,19 @@
                 Page = (int)movieList.Page,
                 Results = movieList.Results.Select(Map).ToArray(),
                 TotalPages = (int)movieList.TotalPages
+            };
+        }
+        internal static Core.Models.Comment Map(Comment comment)
+        {
+            if (comment == null)
+            {
+                return new();
+            }
+
+            return new()
+            {
+                Author = comment.Author,
+                Text = comment.Text
             };
         }
     }

@@ -1,5 +1,7 @@
-﻿using MovieFiles.Core.Interfaces;
+﻿using LinqToDB;
+using MovieFiles.Core.Interfaces;
 using MovieFiles.Core.Models;
+using MovieFiles.Infrastructure.Mappers;
 
 namespace MovieFiles.Infrastructure.Repositories
 {
@@ -9,14 +11,22 @@ namespace MovieFiles.Infrastructure.Repositories
         {
         }
 
-        public Task Comment(Comment comment, int movieId, Guid userId)
+        public async Task Comment(Comment comment, int movieId, Guid userId)
         {
-            throw new NotImplementedException();
+            using var db = GetQuantityDbUserConnection();
+            await db.InsertAsync(DomToDb.Map(comment, movieId, userId));
         }
 
-        public Task<List<Comment>> GetComments(int movieId, int page)
+        public async Task<List<Comment>> GetComments(int movieId, int page)
         {
-            throw new NotImplementedException();
+
+            using var db = GetQuantityDbUserConnection();
+            return (await db.MovieComments.Where(comment => comment.MovieId == movieId)
+                .Skip((page-1) *20)
+                .Take(20)
+                .ToListAsync())
+                .Select(DbToDom.Map)
+                .ToList();
         }
     }
 }
