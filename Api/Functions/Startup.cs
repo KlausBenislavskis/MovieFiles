@@ -18,9 +18,10 @@ namespace MovieFiles.Api.Functions
             string dbName = Environment.GetEnvironmentVariable("MOVIE_DB_NAME");
             string dbUser = Environment.GetEnvironmentVariable("MOVIE_DB_USER");
             string dbPass = Environment.GetEnvironmentVariable("MOVIE_DB_PASS");
-
+            string movieDbApiKey = Environment.GetEnvironmentVariable("MOVIE_API_KEY");
+            
             builder.Services.AddInfrastructure(dbServer,dbName,dbUser,dbPass);
-            builder.Services.AddScoped < IMoviesService>(provider => new MoviesService());
+            builder.Services.AddScoped<IMoviesService>(provider => new MoviesService(movieDbApiKey));
         }
     }
 }

@@ -1,4 +1,4 @@
-using MovieFiles.Core.Models;
+﻿using MovieFiles.Core.Models;
 
 namespace MovieFiles.Core.Interfaces
 {

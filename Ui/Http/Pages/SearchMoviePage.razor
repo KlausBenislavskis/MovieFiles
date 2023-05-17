@@ -3,7 +3,6 @@
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.WebUtilities
 @using MovieFiles.Api.Client.Services
-@using MovieFiles.Api.Client.Models
 @using Microsoft.AspNetCore.Components.Routing
 
 @inject IMoviesService MoviesService
@@ -32,7 +31,7 @@
     private Func<int,Task<MovieList>>? movieGetter = null;
 
     private Func<int,Task<MovieList>> searchMoviesGetter(){
-        return page => MoviesService.SearchMoviesAsync(page,Query);
+        return page => MoviesService.SearchForMovies(Query,page);
     }
 
     protected override void OnInitialized()
