@@ -24,10 +24,28 @@ else
     public int MovieId { get; set; }
     public double? AverageRating { get; set; }
     public bool IsLoading { get; set; } = true;
+    [Parameter]
+    public bool reRender { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
         AverageRating = await RatingService.GetAverageRating(MovieId);
         IsLoading = false;
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender && reRender)
+        {
+            firstRender = true;
+        }
+        if (firstRender)
+        {
+            AverageRating = await RatingService.GetAverageRating(MovieId);
+            IsLoading = false;
+            reRender = false;
+            StateHasChanged();
+        }
+    }
+
 }

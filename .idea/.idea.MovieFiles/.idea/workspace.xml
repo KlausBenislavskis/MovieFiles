@@ -6,7 +6,15 @@
     <projectFile profileName="https">Ui/Http/MovieFiles.Ui.Http.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8f2aece-bb0f-42d9-b3d5-461e43666b5a" name="Changes" comment="" />
+    <list default="true" id="c8f2aece-bb0f-42d9-b3d5-461e43666b5a" name="Changes" comment="...">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MovieFiles/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MovieFiles/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui/Http/Pages/Index.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Pages/Index.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui/Http/Pages/Index.razor.css" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Pages/Index.razor.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui/Http/Shared/Movies/FeaturedMovies.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Shared/Movies/FeaturedMovies.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui/Http/Shared/Movies/FeaturedMovies.razor.css" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Shared/Movies/FeaturedMovies.razor.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui/Http/Shared/Movies/Movie.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Shared/Movies/Movie.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ui/Http/Shared/Ratings/RatingAverage.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Shared/Ratings/RatingAverage.razor" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,6 +45,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/789b158a98468e474a2af1348cfd47e7792de2ae2344f55a03ddf85b16699b/WebApplicationBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fc4e4f75c352eb03e7d2e4019ef4880ee945db9c16f0e9242a83e2d878a71/Environment.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Ui/Http/Data/WeatherForecastService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Pages/Index.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -147,6 +156,7 @@
       <workItem from="1684249187587" duration="786000" />
       <workItem from="1684300297196" duration="261000" />
       <workItem from="1684300595429" duration="11000" />
+      <workItem from="1684300640074" duration="6911000" />
     </task>
     <task id="LOCAL-00001" summary="Movie page without html">
       <created>1683794430974</created>
@@ -211,7 +221,21 @@
       <option name="project" value="LOCAL" />
       <updated>1684300516849</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="...">
+      <created>1684300876736</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1684300876736</updated>
+    </task>
+    <task id="LOCAL-00011" summary="...">
+      <created>1684300892557</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1684300892557</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
