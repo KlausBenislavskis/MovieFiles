@@ -10,7 +10,15 @@ namespace MovieFiles.Core.Models
             TotalPages = 0;
             TotalResults = 0;
         }
-
+        public MovieList(int loadingItems = 0)
+        {
+            var emptyMovies = new List<Movie>();
+            for (int i = 0; i < loadingItems; i++)
+            {
+                emptyMovies.Add(new Movie());
+            }
+            Results = emptyMovies.ToArray();
+        }
         public int Page { get; set; }
         public Movie[] Results { get; set; }
         public int TotalResults { get; set; }
