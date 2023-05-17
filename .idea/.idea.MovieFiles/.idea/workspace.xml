@@ -6,14 +6,10 @@
     <projectFile profileName="https">Ui/Http/MovieFiles.Ui.Http.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8f2aece-bb0f-42d9-b3d5-461e43666b5a" name="Changes" comment="...">
+    <list default="true" id="c8f2aece-bb0f-42d9-b3d5-461e43666b5a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MovieFiles/.idea/shelf/Uncommitted_changes_before_Merge_at_15-May-23_09_51__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MovieFiles/.idea/shelf/Uncommitted_changes_before_Merge_at_15-May-23_09_51__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MovieFiles/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MovieFiles/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui/Http/Pages/Index.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Pages/Index.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui/Http/Pages/Index.razor.css" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Pages/Index.razor.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ui/Http/Shared/Movies/FeaturedMovies.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Shared/Movies/FeaturedMovies.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui/Http/Shared/Movies/FeaturedMovies.razor.css" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Shared/Movies/FeaturedMovies.razor.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui/Http/Shared/Movies/Movie.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Shared/Movies/Movie.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ui/Http/Shared/Ratings/RatingAverage.razor" beforeDir="false" afterPath="$PROJECT_DIR$/Ui/Http/Shared/Ratings/RatingAverage.razor" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +42,15 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fc4e4f75c352eb03e7d2e4019ef4880ee945db9c16f0e9242a83e2d878a71/Environment.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Ui/Http/Data/WeatherForecastService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Pages/Index.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/FeaturedMovies.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/FeaturedMovies.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/FeaturedMovies.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/FeaturedMovies.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/FeaturedMovies.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/FeaturedMovies.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/Movie.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/Movie.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/hanch/Desktop/MovieFiles/Ui/Http/Shared/Movies/Movie.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -81,7 +86,7 @@
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
-      <option name="PROJECT_KIND" value="RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=None)))))))))))))))" />
+      <option name="PROJECT_KIND" value="RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=RunnableProjectKind(name=None))))))))))))))))" />
       <option name="PROJECT_TFM" value="" />
       <option name="FUNCTION_NAMES" value="" />
       <method v="2">
