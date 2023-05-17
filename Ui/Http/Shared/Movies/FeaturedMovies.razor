@@ -2,34 +2,22 @@
 @using MovieFiles.Api.Client.Services
 @inject IMoviesService MoviesService
 
-@if (IsLoading)
-{
-    <div class="loading">
-        <div class="spinner"></div>
-    </div>
-}
-else
-{
-
-    <div class="movies-container">
-        @foreach (var movie in MovieList.Results)
-        {
-            <Movie Movie="@movie"></Movie>
-        }
-        @* </Virtualize> *@
-    </div>
-}
+<div class="movies-container">
+    @foreach (var movie in MovieList.Results)
+    {
+        <Movie Movie="@movie"></Movie>
+    }
+    @* </Virtualize> *@
+</div>
 
 @code{
-    public MovieList MovieList { get; set; }
+    public MovieList MovieList = new MovieList(12);
     [Parameter]
     public int Page { get; set; }
-    public bool IsLoading { get; set; } = true;
     
     protected override async Task OnInitializedAsync()
     {
         this.Page = this.Page == 0 ? 1 : this.Page;
         MovieList = await MoviesService.GetFavoriteMoviesAsync(Page);
-        IsLoading = false;
     }
 }
