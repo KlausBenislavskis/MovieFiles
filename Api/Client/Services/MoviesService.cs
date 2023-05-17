@@ -19,4 +19,10 @@ public class MoviesService: IMoviesService
         var response = await _client.GetPopularMoviesAsync(page, _functionAppKey);
         return ClientToUi.Map(response);
     }
+
+    public async Task<Models.MovieList> SearchMoviesAsync(int page, string query)
+    {
+        var response = await _client.MovieFilterAsync(query,page,_functionAppKey);
+        return ClientToUi.Map(response);
+    }
 }

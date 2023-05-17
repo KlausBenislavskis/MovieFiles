@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using MovieFiles.Api.Client.Services
-
+@using MovieFiles.Api.Client.Models
+@inject IMoviesService MoviesService
 
 @using MovieFiles.Ui.Http.Shared.Movies;
 @using Microsoft.AspNetCore.Mvc.RazorPages
@@ -11,7 +12,7 @@
 
     <div class="body">
         <h1>Movies</h1>
-        <FeaturedMovies Page="1"></FeaturedMovies>
+        <FeaturedMovies Page="1" MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
         @* <ul id="page-list" > *@
         @*      <li id="Prev" onclick="setActive(id)"> *@
         @*          <a >Prev</a> *@
@@ -55,4 +56,11 @@
 @*         } *@
 @*     } *@
 @* </script> *@
+
+@code {
+    protected Func<int,Task<MovieList>> featuredMoviesGetter(){
+        Func<int,Task<MovieList>> myFunc = page => MoviesService.GetFavoriteMoviesAsync(page);
+        return myFunc;
+    }
+}
 
