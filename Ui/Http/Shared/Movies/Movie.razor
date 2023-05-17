@@ -2,13 +2,12 @@
 
 <div class="box">
     <div class="box-img">
-        <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="Example Image">
+        @if(!string.IsNullOrEmpty(movie.PosterPath)){
+            <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="Example Image">
+        }
     </div>
     <div class="rating-box">
-        @* <img class="star" src="svgs/star.svg"> *@
-        @* <div>@movie.VoteAverage</div> *@
-
-        @if (rating)
+        @if (!string.IsNullOrEmpty(movie.OriginalTitle))
         {
             <RatingAverage MovieId="@movie.Id"></RatingAverage>
         }
@@ -21,17 +20,6 @@
 @code
 {
     [Parameter]
-    public Api.Client.Models.Movie movie { get; set; }
+    public Core.Models.Movie movie { get; set; }
 
-    public bool rating { get; set; } = false;
-    
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            rating = true;
-            StateHasChanged(); 
-        }
-        
-    }
 }
