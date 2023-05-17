@@ -2,7 +2,7 @@
 {
     internal class ClientToUi
     {
-        internal static Models.Rating Map(Rating rating)
+        internal static Core.Models.Rating Map(Rating rating)
         {
             if (rating == null)
             {
@@ -17,7 +17,7 @@
             };
         }
 
-        internal static Models.Movie Map(Movie movie)
+        internal static Core.Models.Movie Map(Movie movie)
         {
             if (movie == null)
             {
@@ -39,7 +39,7 @@
             };
         }
 
-        internal static Models.MovieList Map(MovieList movieList)
+        internal static Core.Models.MovieList Map(MovieList movieList)
         {
             if (movieList == null)
             {
@@ -48,9 +48,9 @@
 
             return new()
             {
-                Page = movieList.Page,
-                Results = movieList.Results.Select(Map).ToList(),
-                TotalPages = movieList.TotalPages
+                Page = (int)movieList.Page,
+                Results = movieList.Results.Select(Map).ToArray(),
+                TotalPages = (int)movieList.TotalPages
             };
         }
     }
