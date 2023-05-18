@@ -1,4 +1,6 @@
-﻿using MovieFiles.Core.Models;
+﻿using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using MovieFiles.Core.Models;
+using MovieFiles.Core.Models.Activity;
 using System.Linq.Expressions;
 
 namespace MovieFiles.Infrastructure.Mappers
@@ -26,5 +28,35 @@ namespace MovieFiles.Infrastructure.Mappers
 
 
         }
+
+        internal static Scaffold.Activity Map(BaseActivity baseActivity)
+        {
+            Scaffold.Activity activity;
+
+            switch (baseActivity)
+            {
+                case RatingActivity ratingActivity:
+                    activity = Map(ratingActivity);
+                    break;
+                default:
+                    throw new NotImplementedException("Need to create mapping for this activity");
+            }
+
+            activity.MovieId = baseActivity.MovieId;
+            activity.Timestamp = baseActivity.Created;
+            activity.UserId = baseActivity.UserId;
+
+            return activity;
+        }
+
+        internal static Scaffold.Activity Map(RatingActivity ratingActivity)
+        {
+            return new Scaffold.Activity
+            {
+                ActivityType = ActivityType.RATED.ToString(),
+                RatingValue = ratingActivity.RatingValue,
+            };
+        }
+
     }
 }

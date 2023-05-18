@@ -22,6 +22,18 @@ namespace MovieFiles.Infrastructure.Scaffold
 
 		#region Associations
 		/// <summary>
+		/// activities_followed_user_id_fkey backreference
+		/// </summary>
+		[Association(ThisKey = nameof(UserId), OtherKey = nameof(Activity.FollowedUserId))]
+		public IEnumerable<Activity> Activities { get; set; } = null!;
+
+		/// <summary>
+		/// activities_user_id_fkey backreference
+		/// </summary>
+		[Association(ThisKey = nameof(UserId), OtherKey = nameof(Activity.UserId))]
+		public IEnumerable<Activity> Activities1 { get; set; } = null!;
+
+		/// <summary>
 		/// comments_user_id_fkey backreference
 		/// </summary>
 		[Association(ThisKey = nameof(UserId), OtherKey = nameof(Comment.UserId))]

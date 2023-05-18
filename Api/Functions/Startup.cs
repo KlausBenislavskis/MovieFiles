@@ -1,8 +1,10 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MovieFiles.Adapters.Services;
+using MovieFiles.Api.Client.Services;
 using MovieFiles.Api.Functions;
 using MovieFiles.Core.Interfaces;
+using MovieFiles.Core.Services;
 using MovieFiles.Infrastructure;
 using System;
 
@@ -22,6 +24,8 @@ namespace MovieFiles.Api.Functions
             
             builder.Services.AddInfrastructure(dbServer,dbName,dbUser,dbPass);
             builder.Services.AddScoped<IMoviesService>(provider => new MoviesService(movieDbApiKey));
+            builder.Services.AddScoped<IRatingService>(provider => new RatingService(provider.GetService<IRatingRepository>(), provider.GetService<IActivityRepository>()));
+
         }
     }
 }
