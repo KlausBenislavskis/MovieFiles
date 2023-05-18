@@ -11,9 +11,9 @@
 
             return new()
             {
-                MovieId = (int) rating.MovieId,
-                UserId = (Guid) rating.UserId,
-                RatingValue = (int) rating.RatingValue
+                MovieId = (int)rating.MovieId,
+                UserId = (Guid)rating.UserId,
+                RatingValue = (int)rating.RatingValue
             };
         }
 
@@ -51,6 +51,43 @@
                 Page = (int)movieList.Page,
                 Results = movieList.Results.Select(Map).ToArray(),
                 TotalPages = (int)movieList.TotalPages
+            };
+        }
+
+        internal static Core.Models.Credit Map(Credit credit)
+        {
+            if (credit == null)
+            {
+                return null;
+            }
+
+            return new()
+            {
+                Adult = (bool)credit.Adult,
+                Gender = (int)credit.Gender,
+                Id = (int)credit.Id,
+                KnownForDepartment = credit.KnownForDepartment,
+                Name = credit.Name,
+                OriginalName = credit.OriginalName,
+                Popularity = (double)credit.Popularity,
+                ProfilePath = credit.ProfilePath,
+                CastId = (int)credit.CastId,
+                Character = credit.Character,
+                CreditId = credit.CreditId,
+                Order = (int)credit.Order
+            };
+        }
+
+        internal static Core.Models.CreditList Map(CreditList creditList)
+        {
+            if (creditList == null)
+            {
+                return null;
+            }
+
+            return new()
+            {
+                Cast = creditList.Cast.Select(Map).ToArray()
             };
         }
     }

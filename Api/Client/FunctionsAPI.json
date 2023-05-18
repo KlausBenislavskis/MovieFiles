@@ -523,7 +523,7 @@
           "200": {
             "description": "The OK response",
             "schema": {
-              "$ref": "#/definitions/credit"
+              "$ref": "#/definitions/creditList"
             }
           }
         }
@@ -572,6 +572,25 @@
           "type": "string"
         },
         "order": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "creditList": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cast": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/credit"
+          }
+        },
+        "totalResults": {
           "format": "int32",
           "type": "integer"
         }

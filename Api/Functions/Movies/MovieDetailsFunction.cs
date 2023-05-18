@@ -41,7 +41,7 @@ public class MovieDetailsFunction
     [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = false, Type = typeof(int))]
     [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string),
         Description = "The function key")]
-    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Credit),
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CreditList),
         Description = "The OK response")]
     public async Task<IActionResult> GetMovieCredits(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movie/{movieId}/credits")]
