@@ -5,10 +5,11 @@ namespace MovieFiles.Core.Interfaces
 {
     public interface IMovieDetailsService
     {
-        Task<Movie> GetMovieDetailsAsync(int movieId);
+        Task<Movie?> GetMovieDetailsAsync(int movieId);
+
+        Task<CreditList?> GetMovieCreditsAsync(int movieId); 
         
-        //Task<Movie> GetMovieProducersAsync(int movieId);
-        
+
     }
 
 }
