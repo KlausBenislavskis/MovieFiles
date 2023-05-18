@@ -12,7 +12,8 @@ namespace MovieFiles.Infrastructure
             services.AddScoped<IRatingService>(provider => new RatingService(apiUrl, appKey));
             services.AddScoped<IUserService>(provider => new UserService(apiUrl, appKey));
             services.AddScoped<IMoviesService>(provider => new MoviesService(apiUrl, appKey));
-          
+            services.AddScoped<IMovieDetailsService>(provider => new MovieDetailsService(apiUrl, appKey));
+            
             return services;
         }
 
