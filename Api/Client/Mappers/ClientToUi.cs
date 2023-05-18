@@ -1,4 +1,5 @@
-﻿namespace MovieFiles.Api.Client.Mappers
+﻿
+namespace MovieFiles.Api.Client.Mappers
 {
     internal class ClientToUi
     {
@@ -26,16 +27,16 @@
 
             return new()
             {
-                Id = (int)movie.Id,
-                ImdbId = (int)movie.ImdbId,
+                Id = (int) movie.Id,
+                ImdbId = (int) movie.ImdbId,
                 PosterPath = movie.PosterPath,
                 Title = movie.Title,
                 OriginalTitle = movie.OriginalTitle,
                 ReleaseDate = movie.ReleaseDate,
-                Revenue = (double)movie.Revenue,
-                Budget = (double)movie.Budget,
+                Revenue = (double) movie.Revenue,
+                Budget = (double) movie.Budget,
                 Overview = movie.Overview,
-                Runtime = (int)movie.Runtime,
+                Runtime = (int) movie.Runtime,
             };
         }
 
@@ -48,10 +49,25 @@
 
             return new()
             {
-                Page = (int)movieList.Page,
+                Page = (int) movieList.Page,
                 Results = movieList.Results.Select(Map).ToArray(),
-                TotalPages = (int)movieList.TotalPages
+                TotalPages = (int) movieList.TotalPages
             };
         }
+
+        internal static Core.Models.User Map(User user)
+        {
+            if (user == null)
+            {
+                return null;
+            }
+        
+            return new()
+            {
+                Id = (Guid) user.Id,
+                Username = user.Username
+            };
+        }
+
     }
 }

@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MovieFiles.Core.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -29,23 +31,42 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "username", In = ParameterLocation.Path, Required = true, Type = typeof(string))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(void))]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
-
+        
         public async Task<IActionResult> ResolveUser(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "users/resolve/{userId}/{username}")] HttpRequest req,
             string userId,
             string username)
         {
             _logger.LogInformation($"ResolveUser function processed a request for user {userId}.");
-
+        
             // Convert string parameter to Guid
             if (!Guid.TryParse(userId, out var userIdGuid))
             {
                 return new BadRequestObjectResult("Invalid user ID.");
             }
-
+        
             await _userRepository.ResolveUser(userIdGuid, username);
-
+        
             return new OkResult();
         }
+
+        [FunctionName("SearchUsersByName")]
+        [OpenApiOperation(operationId: "SearchUsersByName", tags: new[] { "Users" })]
+        [OpenApiParameter(name: "username", In = ParameterLocation.Path, Required = true, Type = typeof(string))]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(IList<Core.Models.User>))]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
+        public async Task<IActionResult> SearchUsersByName(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "users/search/{username}")] HttpRequest req,
+            string userName)
+        {
+        
+            var users = await _userRepository.GetUsersByName(userName);
+            
+            if(users == null || !users.Any())
+                return new NotFoundResult();
+            
+            return new OkObjectResult(users);
+        }
+        
     }
 }

@@ -4,7 +4,7 @@
     "title": "OpenAPI Document on Azure Functions",
     "version": "1.0.0"
   },
-  "host": "localhost:7008",
+  "host": "localhost:7071",
   "basePath": "/api",
   "schemes": [
     "http"
@@ -38,7 +38,7 @@
         },
         "security": [
           {
-            "function_key": []
+            "function_key": [ ]
           }
         ]
       }
@@ -460,6 +460,43 @@
           }
         }
       }
+    },
+    "/users/search/{username}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "SearchUsersByName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of User",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/user"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -588,6 +625,18 @@
         "ratingValue": {
           "format": "int32",
           "type": "integer"
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
         }
       }
     },

@@ -18,5 +18,18 @@
                 Console.WriteLine(e);
             }
         }
+        
+        public async Task SearchUsersByName(string username)
+        {
+            try
+            {
+                await _client.SearchUsersByNameAsync(username, _functionAppKey);
+            }
+            //Can happen if reloading page 10x fast
+            catch (ApiException e)
+            {
+                Console.WriteLine(e);
+            }
+        }
     }
 }

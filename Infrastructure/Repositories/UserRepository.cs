@@ -23,5 +23,12 @@ namespace MovieFiles.Infrastructure.Repositories
                 UserId = userId,
             });
         }
+
+        public async Task<IList<Core.Models.User>> GetUsersByName(string username)
+        {
+            var db = GetQuantityDbUserConnection();
+            var users = await db.Users.Where(user => user.UserName.Contains(username)).ToListAsync();
+            return users.Select(DbToDom.Map).ToList();
+        }
     }
 }
