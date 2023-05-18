@@ -11,5 +11,13 @@
                 RatingValue = dbRating.Rating1
             };
         }
+        internal static Core.Models.Comment Map(Scaffold.MovieComment comment)
+        {
+            return new()
+            {
+                Author = comment.UserName,
+                Text = comment.Comment
+            };
+        }
     }
 }

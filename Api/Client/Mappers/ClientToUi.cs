@@ -90,5 +90,19 @@
                 Cast = creditList.Cast.Select(Map).ToArray()
             };
         }
+
+        internal static Core.Models.Comment Map(Comment comment)
+        {
+            if (comment == null)
+            {
+                return new();
+            }
+
+            return new()
+            {
+                Author = comment.Author,
+                Text = comment.Text
+            };
+        }
     }
 }
