@@ -26,22 +26,30 @@ namespace MovieFiles.Api.Functions
             _logger = log;
             _commentRepository = commentRepository;
         }
+
         [FunctionName("GetComments")]
         [OpenApiOperation(operationId: "GetComments", tags: new[] { "Comments" })]
         [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = true, Type = typeof(int))]
-        [OpenApiParameter(name: "page", In = ParameterLocation.Path, Required = true, Type = typeof(int))]
+        [OpenApiParameter(name: "page", In = ParameterLocation.Query, Required = false, Type = typeof(int))]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<Core.Models.Comment>))]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
 
         public async Task<IActionResult> GetComments(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "comments/{movieId}/{page}")] HttpRequest req,
-            string movieId, string page)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "comments/{movieId}")] HttpRequest req,
+            string movieId)
         {
-            _logger.LogInformation($"GetComments function processed a request for movie {movieId} on page {page}.");
+            _logger.LogInformation($"GetComments function processed a request for movie {movieId}.");
 
-            if (!int.TryParse(movieId, out var movieIdParsed) || !int.TryParse(page, out var pageParsed))
+            if (!int.TryParse(movieId, out var movieIdParsed))
             {
-                return new BadRequestObjectResult("Invalid movie ID or page number.");
+                return new BadRequestObjectResult("Invalid movie ID.");
+            }
+
+            // Retrieve page from query string
+            var page = req.Query["page"];
+            if (!int.TryParse(page, out var pageParsed))
+            {
+                pageParsed = 1;
             }
 
             var comments = await _commentRepository.GetComments(movieIdParsed, pageParsed);
@@ -49,11 +57,11 @@ namespace MovieFiles.Api.Functions
             if (comments?.Any() ?? false)
             {
                 return new OkObjectResult(comments);
-
             }
-            return new NotFoundResult();
 
+            return new NotFoundResult();
         }
+
 
 
         [FunctionName("Comment")]

@@ -10,7 +10,7 @@
     "http"
   ],
   "paths": {
-    "/comments/{movieId}/{page}": {
+    "/comments/{movieId}": {
       "get": {
         "tags": [
           "Comments"
@@ -28,9 +28,8 @@
             "format": "int32"
           },
           {
-            "in": "path",
+            "in": "query",
             "name": "page",
-            "required": true,
             "type": "integer",
             "format": "int32"
           },
