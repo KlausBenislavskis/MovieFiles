@@ -11,5 +11,14 @@
                 RatingValue = dbRating.Rating1
             };
         }
+
+        internal static Core.Models.WatchLaterMovie Map(Scaffold.MovieList dbMovie){
+            return new()
+            {
+                UserId = dbMovie.UserId,
+                MovieId = dbMovie.MovieId,
+                ListId = dbMovie.ListId
+            };
+        }
     }
 }

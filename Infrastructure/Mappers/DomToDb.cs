@@ -19,8 +19,7 @@ namespace MovieFiles.Infrastructure.Mappers
             {
                 UserId = movie.UserId,
                 MovieId = movie.MovieId,
-                ListName = movie.ListName,
-                ListId = movie.ListId
+                ListName = movie.ListName
             };
         }
     }
