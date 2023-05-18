@@ -1,4 +1,6 @@
-﻿namespace MovieFiles.Api.Client.Mappers
+﻿using MovieFiles.Core.Models;
+
+namespace MovieFiles.Api.Client.Mappers
 {
     internal class ClientToUi
     {
@@ -17,7 +19,7 @@
             };
         }
 
-        internal static Core.Models.Movie Map(Movie movie)
+        internal static Core.Models.Movie? Map(Movie movie)
         {
             if (movie == null)
             {
@@ -51,6 +53,21 @@
                 Page = (int)movieList.Page,
                 Results = movieList.Results.Select(Map).ToArray(),
                 TotalPages = (int)movieList.TotalPages
+            };
+        }
+        
+        internal static Core.Models.CreditList Map(CreditList creditList)
+        {
+            if (creditList == null)
+            {
+                return null;
+            }
+
+            return new()
+            {
+                
+               // Results = creditList.Results.Select(Map).ToArray()
+           
             };
         }
     }

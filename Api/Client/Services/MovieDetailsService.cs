@@ -1,5 +1,6 @@
 using MovieFiles.Api.Client.Mappers;
 using MovieFiles.Core.Interfaces;
+using MovieFiles.Core.Models;
 
 namespace MovieFiles.Api.Client.Services;
 
@@ -15,9 +16,14 @@ public class MovieDetailsService : IMovieDetailsService
         _functionAppKey = functionAppKey;
     }
 
-    public async Task<Core.Models.Movie> GetMovieDetailsAsync(int movieId)
+    public async Task<Core.Models.Movie?> GetMovieDetailsAsync(int movieId)
     {
         var response = await _client.GetMovieDetailsAsync(movieId, _functionAppKey);
         return ClientToUi.Map(response);
+    }
+
+    public Task<Core.Models.CreditList?> GetMovieCreditsAsync(int movieId)
+    {
+        throw new NotImplementedException();
     }
 }

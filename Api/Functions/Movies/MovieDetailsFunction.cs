@@ -1,3 +1,4 @@
+using System;
 using MovieFiles.Core.Interfaces;
 using System.Net;
 using System.Threading.Tasks;
@@ -35,5 +36,21 @@ public class MovieDetailsFunction
         HttpRequest req, int movieId)
     {
         return new OkObjectResult(await _movieDetailsService.GetMovieDetailsAsync(movieId));
+    }
+    
+    // For GetMovieCredits:
+    [FunctionName("GetMovieCredits")]
+    [OpenApiOperation(operationId: "GetMovieCredits", tags: new[] { "MovieDetails" })]
+    [OpenApiParameter(name: "movieId", In = ParameterLocation.Path, Required = false, Type = typeof(int))]
+    [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string),
+        Description = "The function key")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Credit),
+        Description = "The OK response")]
+    public async Task<IActionResult> GetMovieCredits(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movie/{movieId}/credits")]
+        HttpRequest req, int movieId)
+    {
+
+        return new OkObjectResult(await _movieDetailsService.GetMovieCreditsAsync(movieId));
     }
 }

@@ -1,6 +1,7 @@
 using MovieFiles.Core.Interfaces;
 using MovieFiles.Core.Models;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Components;
 
 namespace MovieFiles.Adapters.Services
 {
@@ -47,12 +48,13 @@ namespace MovieFiles.Adapters.Services
 
         public async Task<MovieList> SearchForMovies(string name, int page)
         {
-            // if (string.IsNullOrEmpty(_apiKey) || page < 1)
-            // {
-            //     return new MovieList();
-            // }
-
             return await GetMoviesAsync($"search/movie?page={page}&query={name}");
+        }
+        public async Task<MovieList> SearchForMoviesByGenre(string genreName, int page)
+        {
+
+           // return await GetMoviesAsync($"movie/{movieId}/credits");
+           throw new NotImplementedException();
         }
     }
 }

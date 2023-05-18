@@ -7,7 +7,7 @@ namespace MovieFiles.Adapters.Services;
 public class MovieDetailsService : IMovieDetailsService
 {
     private readonly HttpClient _httpClient;
-    private const string language = "en-US";
+    private const string Language = "en-US";
 
     public MovieDetailsService(string apiToken)
     {
@@ -18,20 +18,27 @@ public class MovieDetailsService : IMovieDetailsService
             new AuthenticationHeaderValue("Bearer",apiToken );
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
-
-
-    public async Task<Movie> GetMovieDetailsAsync(int movieId)
+    
+    private async Task<T?> GetMovieDetailAsync<T>(string endpoint)
     {
-        HttpResponseMessage response = await _httpClient.GetAsync($"movie/{movieId}?language={language}");
+        HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
         if (!response.IsSuccessStatusCode)
         {
-            return new Movie();
+            return default(T);
         }
 
-        string jsonResponse = await response.Content.ReadAsStringAsync(); 
+        string jsonResponse = await response.Content.ReadAsStringAsync();
+        T? result = MovieApiUtil.ConvertApiMessage<T>(jsonResponse); 
         Console.WriteLine(jsonResponse);
-        Movie? movie = MovieApiUtil.ConvertApiMessage<Movie>(jsonResponse);
-        
-        return movie?? new Movie();
+        return result;
     }
+    
+    public async Task<Movie?> GetMovieDetailsAsync(int movieId)
+        => await GetMovieDetailAsync<Movie>($"movie/{movieId}?language={Language}");
+    
+    
+    public async Task<CreditList?> GetMovieCreditsAsync(int movieId)
+        => await GetMovieDetailAsync<CreditList>($"movie/{movieId}/credits?language={Language}");
+    
+    
 }
