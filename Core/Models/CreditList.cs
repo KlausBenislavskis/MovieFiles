@@ -1,10 +1,12 @@
 namespace MovieFiles.Core.Models;
 
+
 public class CreditList
 {
     public CreditList()
     {
-        Results = new Credit[0];
+        Id = 0;
+        Cast = new Credit[0];
         TotalResults = 0;
     }
     
@@ -15,10 +17,13 @@ public class CreditList
         {
             emptyCredits.Add(new Credit());
         }
-        Results = emptyCredits.ToArray();
+        Cast = emptyCredits.ToArray();
     }
     
-
-    public Credit[] Results { get; set; }
+    public int Id { get; set; }
+    public Credit[] Cast { get; set; }
     public int TotalResults { get; set; }
+ 
+    
+    
 }

@@ -29,7 +29,4 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Users" />
-  </ItemGroup>
 </Project>

@@ -1,6 +1,8 @@
+using MovieFiles.Core.Models;
+
 namespace MovieFiles.Core.Interfaces;
 
-public class IMovieUtilService
+public interface IMovieUtilService
 {
-    
+    Task<Genre[]?> GetGenresAsync();
 }
