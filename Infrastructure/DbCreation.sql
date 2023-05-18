@@ -67,17 +67,14 @@ SELECT
     a.activity_type, 
     a.movie_id, 
     a.rating_value, 
-    a.comment_text, 
-    fu.user_name as followed_user_name,
+    a.comment_text,
     a.timestamp
 FROM 
     follower f
 JOIN 
-    users u ON u.user_id = f.user_id
+    activities a ON a.user_id = f.follows_user_id
 JOIN 
-    activities a ON a.user_id = f.user_id
-LEFT JOIN
-    users fu ON fu.user_id = a.followed_user_id
+    users u ON u.user_id = a.user_id
 ORDER BY 
     a.timestamp DESC;
 

@@ -19,14 +19,7 @@ namespace MovieFiles.Infrastructure.Repositories
             
             await CheckIfRatingActivityExistsAlready(mappedActivity, db);
 
-            try { 
-
             await db.InsertAsync(mappedActivity);
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
 
         private async Task CheckIfRatingActivityExistsAlready(Activity mappedActivity, MovieFilesDb db)
@@ -41,9 +34,6 @@ namespace MovieFiles.Infrastructure.Repositories
 
         public Task<List<BaseActivity>> GetActivities(Guid userId)
         {
-
-
-
             throw new NotImplementedException();
         }
     }
