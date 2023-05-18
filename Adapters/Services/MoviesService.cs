@@ -48,13 +48,12 @@ namespace MovieFiles.Adapters.Services
 
         public async Task<MovieList> SearchForMovies(string name, int page)
         {
-            return await GetMoviesAsync($"search/movie?page={page}&query={name}");
-        }
-        public async Task<MovieList> SearchForMoviesByGenre(string genreName, int page)
-        {
+            // if (string.IsNullOrEmpty(_apiKey) || page < 1)
+            // {
+            //     return new MovieList();
+            // }
 
-           // return await GetMoviesAsync($"movie/{movieId}/credits");
-           throw new NotImplementedException();
+            return await GetMoviesAsync($"search/movie?page={page}&query={name}");
         }
     }
 }

@@ -9,7 +9,6 @@ namespace MovieFiles.Core.Interfaces
 
         Task<CreditList?> GetMovieCreditsAsync(int movieId); 
         
-
     }
 
 }
