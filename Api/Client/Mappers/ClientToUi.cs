@@ -1,4 +1,6 @@
-﻿namespace MovieFiles.Api.Client.Mappers
+﻿using MovieFiles.Core.Models;
+
+namespace MovieFiles.Api.Client.Mappers
 {
     internal class ClientToUi
     {
@@ -102,6 +104,20 @@
             {
                 Author = comment.Author,
                 Text = comment.Text
+            };
+        }
+
+        internal static Core.Models.GenreList Map(GenreList genreList)
+        {
+            if (genreList == null)
+            {
+                return new();
+            }
+
+            return new()
+            {
+                Genres = genreList.Genres.Select(Map).ToArray()
+                
             };
         }
     }

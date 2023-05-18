@@ -20,8 +20,7 @@ namespace MovieFiles.Api.Functions
         {
             _moviesService = moviesService;
         }
-
-
+        
         // For GetNowPlayingMoviesAsync:
         [FunctionName("GetNowPlayingMovies")]
         [OpenApiOperation(operationId: "GetNowPlayingMovies", tags: new[] { "Movies" })]

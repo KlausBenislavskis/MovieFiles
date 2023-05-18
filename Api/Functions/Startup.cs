@@ -23,6 +23,7 @@ namespace MovieFiles.Api.Functions
             builder.Services.AddInfrastructure(dbServer,dbName,dbUser,dbPass);
             builder.Services.AddScoped<IMoviesService>(provider => new MoviesService(movieDbApiToken));
             builder.Services.AddScoped < IMovieDetailsService>(provider => new MovieDetailsService(movieDbApiToken));
+            builder.Services.AddScoped < IMovieUtilService>(provider => new MovieUtilService(movieDbApiToken));
         }
     }
 }

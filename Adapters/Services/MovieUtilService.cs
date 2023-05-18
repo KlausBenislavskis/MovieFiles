@@ -28,12 +28,12 @@ public class MovieUtilService : IMovieUtilService
         }
 
         string jsonResponse = await response.Content.ReadAsStringAsync();
-        T? result = MovieApiUtil.ConvertApiMessage<T>(jsonResponse); 
-        Console.WriteLine(jsonResponse);
+        T? result = MovieApiUtil.ConvertApiMessage<T>(jsonResponse);
+        
         return result;
     }
 
-    public async Task<Genre[]?> GetGenresAsync()
-        => await GetAsync<Genre[]>($"genre/movie/list?language={Language}");
+    public async Task<GenreList?> GetGenresAsync()
+        => await GetAsync<GenreList>($"genre/movie/list?language={Language}");
     
 }
