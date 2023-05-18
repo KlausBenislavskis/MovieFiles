@@ -4,43 +4,107 @@
     "title": "OpenAPI Document on Azure Functions",
     "version": "1.0.0"
   },
-  "host": "localhost:7071",
+  "host": "localhost:7008",
   "basePath": "/api",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/Function1": {
+    "/comments/{movieId}": {
       "get": {
         "tags": [
-          "name"
+          "Comments"
         ],
-        "operationId": "Run",
+        "operationId": "GetComments",
         "produces": [
-          "text/plain"
+          "application/json"
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "movieId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
             "in": "query",
-            "name": "name",
-            "description": "The **Name** parameter",
+            "name": "page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "The OK response",
+            "description": "Payload of Array of Comment",
             "schema": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/comment"
+              }
             }
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/comments/{movieId}/{userId}": {
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "operationId": "Comment",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
           {
-            "function_key": [ ]
+            "in": "path",
+            "name": "movieId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The comment to be posted",
+            "schema": {
+              "$ref": "#/definitions/comment"
+            }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Comment",
+            "schema": {
+              "$ref": "#/definitions/comment"
+            }
+          }
+        }
       }
     },
     "/movies/now-playing/{page}": {
@@ -500,6 +564,17 @@
     }
   },
   "definitions": {
+    "comment": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        }
+      }
+    },
     "genre": {
       "type": "object",
       "properties": {

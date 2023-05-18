@@ -1,5 +1,4 @@
-﻿
-namespace MovieFiles.Api.Client.Mappers
+﻿namespace MovieFiles.Api.Client.Mappers
 {
     internal class ClientToUi
     {
@@ -12,9 +11,9 @@ namespace MovieFiles.Api.Client.Mappers
 
             return new()
             {
-                MovieId = (int) rating.MovieId,
-                UserId = (Guid) rating.UserId,
-                RatingValue = (int) rating.RatingValue
+                MovieId = (int)rating.MovieId,
+                UserId = (Guid)rating.UserId,
+                RatingValue = (int)rating.RatingValue
             };
         }
 
@@ -52,6 +51,19 @@ namespace MovieFiles.Api.Client.Mappers
                 Page = (int) movieList.Page,
                 Results = movieList.Results.Select(Map).ToArray(),
                 TotalPages = (int) movieList.TotalPages
+            };
+        }
+        internal static Core.Models.Comment Map(Comment comment)
+        {
+            if (comment == null)
+            {
+                return new();
+            }
+
+            return new()
+            {
+                Author = comment.Author,
+                Text = comment.Text
             };
         }
 

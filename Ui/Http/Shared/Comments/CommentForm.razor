@@ -1,0 +1,20 @@
+﻿<EditForm Model="@NewComment" OnValidSubmit="HandleValidSubmit">
+    <div class="form-group">
+        <label for="text">Comment:</label>
+        <InputTextArea id="text" class="form-control" @bind-Value="NewComment.Text" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public EventCallback<Comment> OnCommentSubmitted { get; set; }
+
+    private Comment NewComment { get; set; } = new Comment();
+
+    private async Task HandleValidSubmit()
+    {
+        await OnCommentSubmitted.InvokeAsync(NewComment);
+        NewComment = new Comment(); // reset the form
+    }
+}

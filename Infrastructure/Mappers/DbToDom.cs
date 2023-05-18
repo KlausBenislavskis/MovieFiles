@@ -1,6 +1,4 @@
-﻿using MovieFiles.Core.Models;
-
-namespace MovieFiles.Infrastructure.Mappers
+﻿namespace MovieFiles.Infrastructure.Mappers
 {
     internal class DbToDom
     {
@@ -13,10 +11,18 @@ namespace MovieFiles.Infrastructure.Mappers
                 RatingValue = dbRating.Rating1
             };
         }
+        internal static Core.Models.Comment Map(Scaffold.MovieComment comment)
+        {
+            return new()
+            {
+                Author = comment.UserName,
+                Text = comment.Comment
+            };
+        }
 
         internal static Core.Models.User Map(Scaffold.User dbRating)
         {
-            return new User()
+            return new ()
             {
                 Id = dbRating.UserId,
                 Username = dbRating.UserName

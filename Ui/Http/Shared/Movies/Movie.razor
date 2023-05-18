@@ -1,8 +1,10 @@
-﻿@using MovieFiles.Ui.Http.Shared.Ratings;
+﻿@using Microsoft.AspNetCore.Components
+@using MovieFiles.Ui.Http.Shared.Ratings;
 
-<div class="box">
+<div class="box" @onclick="NavigateToMovie">
     <div class="box-img">
-        @if(!string.IsNullOrEmpty(movie.PosterPath)){
+        @if (!string.IsNullOrEmpty(movie.PosterPath))
+        {
             <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="Example Image">
         }
     </div>
@@ -13,14 +15,15 @@
                 <RatingAverage MovieId="@movie.Id" reRender="reRender"></RatingAverage>
             </div>
         }
-
     </div>
     <h5>@movie.Title</h5>
 </div>
 
-
 @code
 {
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     [Parameter]
     public Core.Models.Movie movie { get; set; }
 
@@ -36,5 +39,10 @@
             rating = true;
             StateHasChanged();
         }
+    }
+
+    private void NavigateToMovie()
+    {
+        NavigationManager.NavigateTo($"/movie/{movie.Id}");
     }
 }
