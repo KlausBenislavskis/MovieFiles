@@ -38,11 +38,12 @@ namespace MovieFiles.Infrastructure.Scaffold
 
 		partial void InitDataContext();
 
-		public ITable<Comment>   Comments   => this.GetTable<Comment>();
-		public ITable<Follower>  Followers  => this.GetTable<Follower>();
-		public ITable<MovieList> MovieLists => this.GetTable<MovieList>();
-		public ITable<Rating>    Ratings    => this.GetTable<Rating>();
-		public ITable<User>      Users      => this.GetTable<User>();
+		public ITable<Comment>      Comments      => this.GetTable<Comment>();
+		public ITable<Follower>     Followers     => this.GetTable<Follower>();
+		public ITable<MovieList>    MovieLists    => this.GetTable<MovieList>();
+		public ITable<Rating>       Ratings       => this.GetTable<Rating>();
+		public ITable<User>         Users         => this.GetTable<User>();
+		public ITable<MovieComment> MovieComments => this.GetTable<MovieComment>();
 	}
 
 	public static partial class ExtensionMethods
