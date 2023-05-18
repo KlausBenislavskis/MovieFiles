@@ -4,7 +4,7 @@
     "title": "OpenAPI Document on Azure Functions",
     "version": "1.0.0"
   },
-  "host": "localhost:7008",
+  "host": "localhost:7071",
   "basePath": "/api",
   "schemes": [
     "http"
@@ -38,7 +38,7 @@
         },
         "security": [
           {
-            "function_key": []
+            "function_key": [ ]
           }
         ]
       }
@@ -467,7 +467,8 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "format": "int32",
+          "type": "integer"
         },
         "name": {
           "type": "string"
@@ -482,8 +483,7 @@
           "type": "integer"
         },
         "imdbId": {
-          "format": "int32",
-          "type": "integer"
+          "type": "string"
         },
         "posterPath": {
           "type": "string"
@@ -561,7 +561,8 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "format": "int32",
+          "type": "integer"
         },
         "logoPath": {
           "type": "string"

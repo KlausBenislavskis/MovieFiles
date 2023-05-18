@@ -8,7 +8,7 @@ namespace MovieFiles.Adapters.Services
     {
         private readonly string _apiKey;
         private readonly HttpClient _httpClient;
-        private const string language = "en-US";
+        private const string Language = "en-US";
 
         public MoviesService(string apiKey)
         {
@@ -36,16 +36,16 @@ namespace MovieFiles.Adapters.Services
         }
 
         public async Task<MovieList> GetNowPlayingMoviesAsync(int page)
-            => await GetMoviesAsync($"movie/now_playing?api_key={_apiKey}&language={language}-US&page={page}");
+            => await GetMoviesAsync($"movie/now_playing?api_key={_apiKey}&language={Language}-US&page={page}");
 
         public async Task<MovieList> GetPopularMoviesAsync(int page)
-            => await GetMoviesAsync($"movie/popular?api_key={_apiKey}&language={language}&page={page}");
+            => await GetMoviesAsync($"movie/popular?api_key={_apiKey}&language={Language}&page={page}");
 
         public async Task<MovieList> GetTopRatedMoviesAsync(int page)
-            => await GetMoviesAsync($"movie/top_rated?api_key={_apiKey}&language={language}&page={page}");
+            => await GetMoviesAsync($"movie/top_rated?api_key={_apiKey}&language={Language}&page={page}");
 
         public async Task<MovieList> GetUpcomingMoviesAsync(int page)
-            => await GetMoviesAsync($"movie/upcoming?api_key={_apiKey}&language={language}&page={page}");
+            => await GetMoviesAsync($"movie/upcoming?api_key={_apiKey}&language={Language}&page={page}");
 
         public async Task<MovieList> SearchForMovies(string name, int page)
         {
@@ -53,7 +53,6 @@ namespace MovieFiles.Adapters.Services
             {
                 return new MovieList();
             }
-
             return await GetMoviesAsync($"search/movie?api_key={_apiKey}&page={page}&query={name}");
         }
     }
