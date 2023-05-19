@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
-using MovieFiles.Infrastructure;
+using MovieFiles.Api.Client;
 using MovieFiles.Ui.Http.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)

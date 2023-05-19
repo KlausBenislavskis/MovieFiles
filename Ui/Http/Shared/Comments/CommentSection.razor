@@ -1,0 +1,35 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ICommentService CommentService
+
+<AuthorizeView>
+    <Authorized>
+        <CommentForm OnCommentSubmitted="AddComment" />
+    </Authorized>
+</AuthorizeView>
+@foreach (var comment in Comments)
+{
+    <CommentDisplay Comment="@comment" />
+}
+@code {
+    [Parameter]
+    public int MovieId { get; set; }
+
+    private List<Comment> Comments { get; set; } = new List<Comment>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Comments = await CommentService.GetComments(MovieId,1); 
+    }
+
+    private async Task AddComment(Comment comment)
+    {
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        string username = user?.User?.Identity?.Name;
+
+        comment.Author = username;
+
+        await CommentService.Comment(comment, MovieId, userId);
+        Comments.Add(comment);
+    }
+}
