@@ -2,15 +2,7 @@ namespace MovieFiles.Core.Models;
 
 public class Genre
 {
-    public string Id
-    {
-        get => Id;
-        set => Id = value;
-    }
+    public int Id { get; set; }
     
-    public string Name
-    {
-        get => Name;
-        set => Name = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public string Name { get; set; }
 }
