@@ -14,32 +14,28 @@ namespace MovieFiles.Infrastructure.Repositories
         public static readonly int PAGE_SIZE = 20;
         public MovieListRepository(string serverName, string databaseName, string userName, string password) : base(serverName, databaseName, userName, password){}
 
-        public async Task<bool> AddMovieToWatchLater(int movieId, Guid userId){
+        public async Task<bool> AddMovieToMyList(MyMovieListItem movieToAdd){
             using var db = GetQuantityDbUserConnection();
             // first check if such movie is already on the list
             // as we use listID as identifier that can not be inserted we have to do it manually
             var countAlreadyExisting = await db.MovieLists.Where(ml =>
-                ml.UserId == userId &&
-                ml.MovieId == movieId &&
-                ml.ListName == WatchLaterMovie.WATCH_LATER_LIST_NAME).CountAsync();
+                ml.UserId == movieToAdd.UserId &&
+                ml.MovieId == movieToAdd.MovieId &&
+                ml.ListName == movieToAdd.ListName).CountAsync();
             if (countAlreadyExisting > 0){
                 return false;
             }
 
-            WatchLaterMovie movieList = new() {
-                MovieId = movieId,
-                UserId = userId
-            };
-            var dbMovieList = DomToDb.Map(movieList);
+            var dbMovieList = DomToDb.Map(movieToAdd);
             var countEffectedRecords = await db.InsertAsync(dbMovieList);
             return countEffectedRecords>0;
         }
 
-        public async Task<CustomMovieList<WatchLaterMovie>> GetWatchLaterList(Guid userId, int page){
+        public async Task<CustomMovieList<MyMovieListItem>> GetMyMovieList(Guid userId, MyMovieListItem.ListType listType, int page){
             using var db = GetQuantityDbUserConnection();
             var dbMovieQuery = db.MovieLists.Where(ml => 
                     ml.UserId == userId && 
-                    ml.ListName == WatchLaterMovie.WATCH_LATER_LIST_NAME);
+                    ml.ListName == MyMovieListItem.GetListTypeName(listType));
             var totalResults = await dbMovieQuery.CountAsync();
             var dbMovies = await dbMovieQuery
                 .Skip((page-1) * PAGE_SIZE)
@@ -48,7 +44,7 @@ namespace MovieFiles.Infrastructure.Repositories
 
             var movies = dbMovies.Select(DbToDom.Map).ToArray();
 
-            return new CustomMovieList<WatchLaterMovie>()
+            return new CustomMovieList<MyMovieListItem>()
             {
                 Page = page, 
                 List = movies, 
@@ -57,13 +53,13 @@ namespace MovieFiles.Infrastructure.Repositories
             };
         }
 
-        public async Task<bool> RemoveMovieToWatchLater(int movieId, Guid userId)
+        public async Task<bool> RemoveMovieFromMyList(MyMovieListItem movieToRemove)
         {
             using var db = GetQuantityDbUserConnection();
             var entryToRemove = db.MovieLists.Where(ml => 
-                ml.UserId == userId &&
-                ml.ListName == WatchLaterMovie.WATCH_LATER_LIST_NAME && 
-                ml.MovieId == movieId);
+                ml.UserId == movieToRemove.UserId &&
+                ml.ListName == movieToRemove.ListName && 
+                ml.MovieId == movieToRemove.MovieId);
             var entriesRemoved = await entryToRemove.DeleteAsync();
             return entriesRemoved>0;
         }

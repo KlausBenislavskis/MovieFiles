@@ -12,12 +12,13 @@
             };
         }
 
-        internal static Core.Models.WatchLaterMovie Map(Scaffold.MovieList dbMovie){
+        internal static Core.Models.MyMovieListItem Map(Scaffold.MovieList dbMovie){
             return new()
             {
                 UserId = dbMovie.UserId,
                 MovieId = dbMovie.MovieId,
-                ListId = dbMovie.ListId
+                ListId = dbMovie.ListId,
+                ListName = dbMovie.ListName
             };
         }
     }

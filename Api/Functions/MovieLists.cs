@@ -37,7 +37,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "text/plain", bodyType: typeof(string), Description = "Incorrect parameters were provided.")]
         public async Task<IActionResult> AddMovieToWatchLater(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "my-movies/watch-later")] HttpRequest req)
         {
             _logger.LogInformation($"Get Movies to watch later triggered with userId {req.Query["userId"]} and movie id {req.Query["movieId"]}");
 
@@ -48,7 +48,9 @@ namespace MovieFiles.Api.Functions
                 return new BadRequestObjectResult("Invalid user ID.");
             }
 
-            var additionSuccesful = await _movieListService.AddMovieToWatchLater(movieId, userId);
+            var additionSuccesful = await _movieListService.AddMovieToMyList(
+                MyMovieListItem.CreateWatchLaterListItem(movieId,userId)
+            );
 
             if (additionSuccesful){
                 return new OkObjectResult("Saved");
@@ -64,10 +66,10 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "userId", In = ParameterLocation.Query, Required = true, Type = typeof(Guid), Description = "Id of a user to get the list of.")]
         [OpenApiParameter(name: "page", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "Page number to return.")]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CustomMovieList<WatchLaterMovie>), Description = "The OK response")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(CustomMovieList<MyMovieListItem>), Description = "The OK response")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "text/plain", bodyType: typeof(string), Description = "Incorrect parameters were provided.")]
         public async Task<IActionResult> GetMoviesToWatchLater(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "my-movies/watch-later")] HttpRequest req)
         {
             _logger.LogInformation($"Get Movies to watch later triggered with userId {req.Query["userId"]}");
 
@@ -79,7 +81,7 @@ namespace MovieFiles.Api.Functions
                 return new BadRequestObjectResult("Invalid page number.");
             }
 
-            CustomMovieList<WatchLaterMovie> list = await _movieListService.GetWatchLaterList(userId,page);
+            CustomMovieList<MyMovieListItem> list = await _movieListService.GetMyMovieList(userId, MyMovieListItem.ListType.WATCH_LATER, page);
 
             return new OkObjectResult(list);
         }
@@ -92,7 +94,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "text/plain", bodyType: typeof(string), Description = "Incorrect parameters were provided.")]
         public async Task<IActionResult> RemoveMovieToWatchLater(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "my-movies/watch-later")] HttpRequest req)
         {
             _logger.LogInformation($"Get Movies to watch later triggered with userId {req.Query["userId"]} and movie id {req.Query["movieId"]}");
 
@@ -103,10 +105,12 @@ namespace MovieFiles.Api.Functions
                 return new BadRequestObjectResult("Invalid user ID.");
             }
 
-            var deletionSuccesfull = await _movieListService.RemoveMovieToWatchLater(movieId, userId);
+            var deletionSuccesfull = await _movieListService.RemoveMovieFromMyList(
+                MyMovieListItem.CreateWatchLaterListItem(movieId,userId)
+            );
 
             if (deletionSuccesfull){
-                return new OkObjectResult("Saved");
+                return new OkObjectResult("Deleted");
             } else {
                 return new NotFoundObjectResult("Unable to find resource to delete");
             }
