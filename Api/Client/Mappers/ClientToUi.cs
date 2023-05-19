@@ -26,16 +26,16 @@
 
             return new()
             {
-                Id = (int) movie.Id,
-                ImdbId = (int) movie.ImdbId,
+                Id = (int)movie.Id,
+                ImdbId = movie.ImdbId,
                 PosterPath = movie.PosterPath,
                 Title = movie.Title,
                 OriginalTitle = movie.OriginalTitle,
                 ReleaseDate = movie.ReleaseDate,
-                Revenue = (double) movie.Revenue,
-                Budget = (double) movie.Budget,
+                Revenue = (double)movie.Revenue,
+                Budget = (double)movie.Budget,
                 Overview = movie.Overview,
-                Runtime = (int) movie.Runtime,
+                Runtime = (int)movie.Runtime,
             };
         }
 
@@ -48,11 +48,49 @@
 
             return new()
             {
-                Page = (int) movieList.Page,
+                Page = (int)movieList.Page,
                 Results = movieList.Results.Select(Map).ToArray(),
-                TotalPages = (int) movieList.TotalPages
+                TotalPages = (int)movieList.TotalPages
             };
         }
+
+        internal static Core.Models.Credit Map(Credit credit)
+        {
+            if (credit == null)
+            {
+                return null;
+            }
+
+            return new()
+            {
+                Adult = (bool)credit.Adult,
+                Gender = (int)credit.Gender,
+                Id = (int)credit.Id,
+                KnownForDepartment = credit.KnownForDepartment,
+                Name = credit.Name,
+                OriginalName = credit.OriginalName,
+                Popularity = (double)credit.Popularity,
+                ProfilePath = credit.ProfilePath,
+                CastId = (int)credit.CastId,
+                Character = credit.Character,
+                CreditId = credit.CreditId,
+                Order = (int)credit.Order
+            };
+        }
+
+        internal static Core.Models.CreditList Map(CreditList creditList)
+        {
+            if (creditList == null)
+            {
+                return null;
+            }
+
+            return new()
+            {
+                Cast = creditList.Cast.Select(Map).ToArray()
+            };
+        }
+
         internal static Core.Models.Comment Map(Comment comment)
         {
             if (comment == null)
@@ -66,20 +104,5 @@
                 Text = comment.Text
             };
         }
-
-        internal static Core.Models.User Map(User user)
-        {
-            if (user == null)
-            {
-                return null;
-            }
-        
-            return new()
-            {
-                Id = (Guid) user.Id,
-                Username = user.Username
-            };
-        }
-
     }
 }
