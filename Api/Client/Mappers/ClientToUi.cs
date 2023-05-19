@@ -23,7 +23,7 @@ namespace MovieFiles.Api.Client.Mappers
         {
             if (movie == null)
             {
-                return null;
+                return new ();
             }
 
             return new()
@@ -106,7 +106,21 @@ namespace MovieFiles.Api.Client.Mappers
                 Text = comment.Text
             };
         }
+    
+        internal static Core.Models.Genre Map(Genre genre)
+        {
+            if (genre == null)
+            {
+                return new();
+            }
 
+            return new()
+            {
+                Id = (int)genre.Id,
+                Name = genre.Name
+            };
+        }
+                
         internal static Core.Models.GenreList Map(GenreList genreList)
         {
             if (genreList == null)
@@ -117,7 +131,6 @@ namespace MovieFiles.Api.Client.Mappers
             return new()
             {
                 Genres = genreList.Genres.Select(Map).ToArray()
-                
             };
         }
     }
