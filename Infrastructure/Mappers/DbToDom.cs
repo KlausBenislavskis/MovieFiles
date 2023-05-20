@@ -19,5 +19,15 @@
                 Text = comment.Comment
             };
         }
+
+        internal static Core.Models.MyMovieListItem Map(Scaffold.MovieList dbMovie){
+            return new()
+            {
+                UserId = dbMovie.UserId,
+                MovieId = dbMovie.MovieId,
+                ListId = dbMovie.ListId,
+                ListName = dbMovie.ListName
+            };
+        }
     }
 }
