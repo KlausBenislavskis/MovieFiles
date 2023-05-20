@@ -2,25 +2,89 @@
 @using MovieFiles.Ui.Http.Shared.Ratings;
 @inject IMovieDetailsService MovieDetailsService
 
-
-@if(MovieId == null)
+@if (MovieId == null)
 {
     <h1>Could not find requested movie</h1>
 }
 else
 {
-    <RaitingMain MovieId="MovieId"></RaitingMain>
+    <div class="grid-container">
+
+        <div class="grid-item picture fade-out-image">
+            <img src="https://image.tmdb.org/t/p/w400/@Movie.PosterPath" alt="Movie Poster" class="responsive-picture"/>
+        </div>
+
+        <div class="grid-item details">
+            <div class="display-flex align-center">
+                <p class="movie-title" style="color: #fffbff"> @Movie.Title </p>
+                <RaitingMain MovieId="MovieId"></RaitingMain>
+            </div>
+            <div class="horizontal-items">
+                <p> @ShowYearFromDate(@Movie.ReleaseDate)</p>
+                <hr class="vertical-separator">
+                <p> @ConvertMinutesToHours(@Movie.Runtime)</p>
+            </div>
+            @* Tabs: Overview/Trailers/More like this/Details  *@
+            <p style="color: #fffbff">@Movie.Overview</p>
+            @* <p>Cast: @string.Join(", ", Movie.Cast)</p> *@
+            @* <p>Cast: @string.Join(", ", Movie.Cast)</p> *@
+            @* <p>Genres: @string.Join(", ", Movie.Genres)</p> *@
+        </div>
+    </div>
+    @* <RaitingMain MovieId="MovieId"></RaitingMain> *@
     <CommentSection MovieId="MovieId"></CommentSection>
 }
+
 @code {
+
     [Parameter]
     public int MovieId { get; set; }
 
+    private Core.Models.Movie Movie;
 
-    public async  Task<Movie> getMovieAsync(int movieId)
+    protected async override Task OnInitializedAsync()
     {
-      Core.Models.Movie? movie =  await MovieDetailsService.GetMovieDetailsAsync(movieId);
-        return movie;
+        this.Movie = await GetMovieDetailsAsync(MovieId);
+        Console.WriteLine(Movie.OriginalTitle);
     }
-}
 
+    public async Task<Movie> GetMovieDetailsAsync(int movieId)
+    {
+    // Core.Models.Movie? movie = await MovieDetailsService.GetMovieDetailsAsync(movieId);
+    // return movie ?? new Movie();
+
+        return new()
+        {
+            Id = 1231,
+            ImdbId = "db_1233",
+            PosterPath = "/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg",
+            Title = "Star Wars Collection Dark Ages",
+            OriginalTitle = "Star Wars Collection",
+            ReleaseDate = "06-12-2021",
+            Revenue = 112313.123,
+            Budget = 100.41,
+            Overview = "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire. Venturesome Luke Skywalker and dashing captain Han Solo team together with the loveable robot duo R2-D2 and C-3PO to rescue the beautiful princess and restore peace and justice in the Empire.",
+            Runtime = 123,
+        };
+    }
+
+    public string ConvertMinutesToHours(int minutes)
+    {
+        int hours = minutes / 60;
+        int remainingMinutes = minutes % 60;
+
+        string result = $"{hours}h {remainingMinutes}min";
+        return result;
+    }
+
+    public int ShowYearFromDate(string date)
+    {
+        if (DateTime.TryParse(date, out DateTime parsedDate))
+        {
+            int year = parsedDate.Year;
+            return year;
+        }
+        return 0;
+    }
+
+}

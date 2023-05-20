@@ -1,4 +1,5 @@
 ﻿@using MovieFiles.Api.Client.Services;
+@using System.Globalization
 @inject IRatingService RatingService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
@@ -7,10 +8,10 @@
 }
 else if (AverageRating.HasValue)
 {
-        <div class="rating">
-            <img class="star" src="svgs/star.svg">
-            <h4 class="item">@AverageRating.Value.ToString("0.0")</h4>
-        </div>
+    <div class="rating">
+        <h4 class="item">@AverageRating.Value.ToString("0.0", CultureInfo.InvariantCulture)</h4>
+        <img class="star" src="svgs/star.svg">
+    </div>
 }
 else
 {
