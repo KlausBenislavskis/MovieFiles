@@ -14,7 +14,7 @@ using MovieFiles.Core.Interfaces;
 using MovieFiles.Core.Models;
 using System.Collections.Generic;
 
-namespace MovieFiles.Api.Functions
+namespace MovieFiles.Api.Functions.Movies
 {
     public class MovieGenre
     {
@@ -32,7 +32,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(GenreList), Description = "The OK response")]
         public async Task<IActionResult> GetAllGenre(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request to get all genre.");
 

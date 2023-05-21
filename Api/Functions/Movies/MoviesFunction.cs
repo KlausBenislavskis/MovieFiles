@@ -93,6 +93,34 @@ namespace MovieFiles.Api.Functions
 
             return new OkObjectResult(await _moviesService.SearchForMovies(name, page));
         }
+
+        [FunctionName("DiscoverMovies")]
+        [OpenApiOperation(operationId: "MovieDiscover", tags: new[] { "Movies" })]
+        [OpenApiParameter(name: "minPrimaryReleaseData", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Lowes year to find")]
+        [OpenApiParameter(name: "maxPrimaryReleaseData", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Highest year of release to find")]
+        [OpenApiParameter(name: "cast", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "person that should be part of cast")]
+        [OpenApiParameter(name: "crew", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "person that should be part of crew")]
+        [OpenApiParameter(name: "genres", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "genre that movies should have")]
+        [OpenApiParameter(name: "page", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "Page number that you want to see")]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
+        public async Task<IActionResult> MovieDiscover(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movie/discover")] HttpRequest req)
+        {
+            if (!int.TryParse(req.Query["minPrimaryReleaseData"], out var yearLow)){
+                return new BadRequestObjectResult("illegal value of minimum primary release data.");
+            }
+            if (!int.TryParse(req.Query["maxPrimaryReleaseData"], out var yearHigh)){
+                return new BadRequestObjectResult("illegal value of maximum primary release data.");
+            }
+            string cast = req.Query["cast"];
+            string crew = req.Query["crew"];
+            string genres = req.Query["genres"];
+            int page = int.Parse(req.Query["page"]);
+
+            return new OkObjectResult(await _moviesService.FilterMovies(yearHigh,yearLow,cast,crew,genres,page));
+        }
+
     }
 
 }

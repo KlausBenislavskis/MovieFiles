@@ -39,5 +39,10 @@ namespace MovieFiles.Api.Client.Services
             var response = await _client.MovieFilterAsync(name,page,_functionAppKey);
             return ClientToUi.Map(response);
         }
+
+        public Task<Core.Models.MovieList> FilterMovies(int? highYear, int? lowYear, string cast, string crew, string genres, int page)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

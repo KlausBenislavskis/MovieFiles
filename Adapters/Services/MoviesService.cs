@@ -1,6 +1,7 @@
 using MovieFiles.Core.Interfaces;
 using MovieFiles.Core.Models;
 using System.Net.Http.Headers;
+using System.Web;
 
 namespace MovieFiles.Adapters.Services
 {
@@ -48,6 +49,28 @@ namespace MovieFiles.Adapters.Services
         public async Task<MovieList> SearchForMovies(string name, int page)
         {
             return await GetMoviesAsync($"search/movie?page={page}&query={name}");
+        }
+
+        public async Task<MovieList> FilterMovies(int? highYear, int? lowYear, string cast, string crew, string genres, int page)
+        {
+            var parameters = HttpUtility.ParseQueryString(string.Empty);
+            if (lowYear != null){
+                parameters["primary_release_date.gte"] = lowYear.ToString();
+            }
+            if (highYear != null){
+                parameters["primary_release_date.lte"] = highYear.ToString();
+            }
+            if (!String.IsNullOrWhiteSpace(cast)){
+                parameters["with_cast"] = cast;
+            }
+            if (!String.IsNullOrWhiteSpace(crew)){
+                parameters["with_crew"] = crew;
+            }
+            if (!String.IsNullOrWhiteSpace(genres)){
+                parameters["with_genres"] = genres;
+            }
+            parameters["page"] = page.ToString();
+            return await GetMoviesAsync($"discover/movie?" + parameters.ToString());
         }
     }
 }
