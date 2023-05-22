@@ -96,8 +96,8 @@ namespace MovieFiles.Api.Functions
 
         [FunctionName("DiscoverMovies")]
         [OpenApiOperation(operationId: "MovieDiscover", tags: new[] { "Movies" })]
-        [OpenApiParameter(name: "minPrimaryReleaseData", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "Lowes year to find")]
-        [OpenApiParameter(name: "maxPrimaryReleaseData", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "Highest year of release to find")]
+        [OpenApiParameter(name: "minPrimaryReleaseData", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Lowes year to find")]
+        [OpenApiParameter(name: "maxPrimaryReleaseData", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Highest year of release to find")]
         [OpenApiParameter(name: "cast", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "person that should be part of cast")]
         [OpenApiParameter(name: "crew", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "person that should be part of crew")]
         [OpenApiParameter(name: "genres", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "genre that movies should have")]
