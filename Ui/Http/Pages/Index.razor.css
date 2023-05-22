@@ -19,6 +19,7 @@ h1{
 .typeahead-block {
     max-width: 450px;
     display: flex;
+    align-items: center;
 }
 
 
