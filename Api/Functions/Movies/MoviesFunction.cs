@@ -85,7 +85,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
         public async Task<IActionResult> MovieFilter(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movie/name")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movies/name")] HttpRequest req)
         {
 
             string name = req.Query["name"];
@@ -105,7 +105,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
         public async Task<IActionResult> MovieDiscover(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movie/discover")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movies/discover")] HttpRequest req)
         {
             int? yearLow = null;
             if (int.TryParse(req.Query["minPrimaryReleaseData"], out var minReleaseDate)){
