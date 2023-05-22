@@ -1,0 +1,12 @@
+﻿@using MovieFiles.Core.Models.Activity
+
+<ActivityBaseComponent Activity="Activity">
+    <div class="comment-container">
+        <p class="comment-text">@Activity?.CommentText</p>
+    </div>
+</ActivityBaseComponent>
+
+@code {
+    [Parameter]
+    public CommentActivity Activity { get; set; }
+}

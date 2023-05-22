@@ -20,6 +20,9 @@ public class BaseActivityConverter : JsonConverter
             case "RATED":
                 result = new RatingActivity();
                 break;
+            case "COMMENTED":
+                result = new CommentActivity();
+                break;
             // Add other types as needed...
             default:
                 throw new ArgumentException($"Invalid activity type: {jObject["Type"].Value<string>()}");

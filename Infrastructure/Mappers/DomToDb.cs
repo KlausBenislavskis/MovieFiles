@@ -38,6 +38,9 @@ namespace MovieFiles.Infrastructure.Mappers
                 case RatingActivity ratingActivity:
                     activity = Map(ratingActivity);
                     break;
+                case CommentActivity commentActivity:
+                    activity = Map(commentActivity);
+                    break;
                 default:
                     throw new NotImplementedException("Need to create mapping for this activity");
             }
@@ -45,6 +48,7 @@ namespace MovieFiles.Infrastructure.Mappers
             activity.MovieId = baseActivity.MovieId;
             activity.Timestamp = baseActivity.Created;
             activity.UserId = baseActivity.UserId;
+            activity.ActivityType = baseActivity.Type.ToString();
 
             return activity;
         }
@@ -53,11 +57,16 @@ namespace MovieFiles.Infrastructure.Mappers
         {
             return new Scaffold.Activity
             {
-                ActivityType = ActivityType.RATED.ToString(),
                 RatingValue = ratingActivity.RatingValue,
             };
         }
-
+        internal static Scaffold.Activity Map(CommentActivity ratingActivity)
+        {
+            return new Scaffold.Activity
+            {
+                CommentText = ratingActivity.CommentText,
+            };
+        }
         internal static Scaffold.MovieList Map(MyMovieListItem movie){
             return new()
             {

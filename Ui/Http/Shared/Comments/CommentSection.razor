@@ -26,7 +26,11 @@
         var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var userId = user.User.GetUserId();
         string username = user?.User?.Identity?.Name;
+        if (username == null)
+        {
+            username = user?.User?.FindFirst(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname")?.Value;
 
+        }
         comment.Author = username;
 
         await CommentService.Comment(comment, MovieId, userId);

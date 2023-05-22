@@ -31,6 +31,7 @@ namespace MovieFiles.Api.Functions
             builder.Services.AddScoped<IMovieUtilService>(provider => new MovieUtilService(movieDbApiToken));
             builder.Services.AddScoped<IPeopleService>(provider => new PeopleServices(movieDbApiToken));
             builder.Services.AddScoped<IRatingService>(provider => new RatingService(provider.GetService<IRatingRepository>(), provider.GetService<IActivityRepository>()));
+            builder.Services.AddScoped<ICommentService>(provider => new CommentService(provider.GetService<ICommentRepository>(), provider.GetService<IActivityRepository>()));
 
         }
     }

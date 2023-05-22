@@ -1,5 +1,6 @@
 ﻿using MovieFiles.Core.Models.Activity;
 using MovieFiles.Core.Models;
+using MovieFiles.Infrastructure.Scaffold;
 
 namespace MovieFiles.Infrastructure.Mappers
 {
@@ -31,6 +32,9 @@ namespace MovieFiles.Infrastructure.Mappers
                 case "RATED":
                     activity = MapToRatingActivity(scaffoldActivity);
                     break;
+                case "COMMENTED":
+                    activity = MapToCommentActivity(scaffoldActivity);
+                    break;
                 // case "OTHER":
                 //     activity = MapToOtherActivity(scaffoldActivity);
                 //     break;
@@ -44,6 +48,15 @@ namespace MovieFiles.Infrastructure.Mappers
             activity.Username = scaffoldActivity.UserName;
             //activity.UserId = (Guid)scaffoldActivity.UserId;
             return activity;
+        }
+
+        private static CommentActivity MapToCommentActivity(UserActivity scaffoldActivity)
+        {
+            return new CommentActivity
+            {
+                CommentText = scaffoldActivity.CommentText,
+                // set other specific properties of CommentActivity here
+            };
         }
 
         private static RatingActivity MapToRatingActivity(Scaffold.UserActivity scaffoldActivity)

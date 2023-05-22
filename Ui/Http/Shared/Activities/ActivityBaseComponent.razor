@@ -1,0 +1,42 @@
+﻿@using MovieFiles.Core.Models
+@using MovieFiles.Core.Models.Activity
+@inject IMovieDetailsService MovieDetailsService
+@inject NavigationManager NavManager
+
+<div class="card mb-2 d-flex flex-row" @onclick="GoToMovieDetail">
+<div class="col-2">
+    <img class="card-img-top activity-card" src="https://image.tmdb.org/t/p/w500/@Movie?.PosterPath" alt="Activity Image">
+</div>
+
+    @if (Movie != null)
+    {
+
+        <div class="card-body col-10">
+            <h5 class="card-title">@Activity.Username</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@Activity.Created.ToShortDateString()</h6>
+            <p>@Movie.OriginalTitle</p>
+            @ChildContent
+        </div>
+    }
+    
+</div>
+
+@code {
+    [Parameter]
+    public BaseActivity Activity { get; set; }
+    public Core.Models.Movie Movie { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Movie = await MovieDetailsService.GetMovieDetailsAsync(Activity.MovieId);
+
+    }
+
+    private void GoToMovieDetail()
+    {
+        NavManager.NavigateTo($"/movie/{Movie.Id}");
+    }
+}

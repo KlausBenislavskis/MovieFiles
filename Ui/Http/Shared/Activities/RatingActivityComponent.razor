@@ -1,23 +1,16 @@
 @using MovieFiles.Core.Models.Activity
-@inject IMovieDetailsService MovieDetailsService
-<div class="card mb-2">
-    if()
-    <img class="card-img-top" src="@Activity.ImageUrl" alt="Activity Image">
-    <div class="card-body">
-        <h5 class="card-title">@Activity.Username</h5>
-        <h6 class="card-subtitle mb-2 text-muted">@Activity.Created.ToShortDateString()</h6>
-        <p>Rated @Activity.MovieId with rating @Activity.RatingValue</p>
-    </div>
-</div>
 
+<ActivityBaseComponent Activity="Activity">
+    <div class="rating">
+        @for (int i = 1; i <= 5; i++)
+        {
+            var starIndex = i;
+            <span class="star @(Activity?.RatingValue >= starIndex ? "selected" : "")">&#9733;</span>
+        }
+    </div>
+</ActivityBaseComponent>
 
 @code {
     [Parameter]
     public RatingActivity Activity { get; set; }
-    public Core.Models.Movie Movie;
-    protected override async Task OnParametersSetAsync()
-    {
-        Movie = MovieDetailsService.get
-        
-    }
 }
