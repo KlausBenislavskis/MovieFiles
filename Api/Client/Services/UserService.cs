@@ -1,4 +1,6 @@
-﻿namespace MovieFiles.Api.Client.Services
+﻿using MovieFiles.Api.Client.Mappers;
+
+namespace MovieFiles.Api.Client.Services
 {
     public class UserService : BaseService, IUserService
     {
@@ -19,16 +21,17 @@
             }
         }
         
-        public async Task SearchUsersByName(string username)
+        public async Task<List<Core.Models.User>> SearchUsersByName(string username)
         {
             try
             {
-                await _client.SearchUsersByNameAsync(username, _functionAppKey);
+                return (await _client.SearchUsersByNameAsync(username, _functionAppKey)).Select(ClientToUi.Map)
+                    .ToList();
             }
-            //Can happen if reloading page 10x fast
-            catch (ApiException e)
+            catch (ApiException ex)
             {
-                Console.WriteLine(e);
+                //No comments found for a movie
+                return new List<Core.Models.User>();
             }
         }
     }

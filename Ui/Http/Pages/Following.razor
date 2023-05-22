@@ -1,0 +1,66 @@
+﻿@page "/follow"
+@using MovieFiles.Api.Client.Services
+@inject IUserService UserService
+
+<div class="body">
+    <div class="">
+        <EditForm id="searchForm" class="searchComponent" Model="SearchString" OnSubmit="@SearchPerson">
+            <InputText id="searchBar" @bind-Value="SearchString" placeholder="Search for user"/>
+            <button id="searchIcon" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
+                    <path d="M21 21l-6 -6"/>
+                </svg>
+            </button>
+        </EditForm>
+    </div>
+    <div class="followList">
+        @if (SearchUsers.Count == 0)
+        {
+            foreach (var user in FollowedUsers)
+            {
+                <a class="user">
+                    <h5>@user.Username</h5>
+                    <button>Remove</button>
+                </a>
+            }
+        }
+        else
+        {
+            foreach (var user in SearchUsers)
+            {
+                if(FollowedUsers.Contains(user))
+                {
+                    <a class="user">
+                        <h5>@user.Username</h5>
+                        <button>Remove</button>
+                    </a>
+                }
+                else
+                {
+                    <a class="user">
+                        <h5>@user.Username</h5>
+                        <button>Add</button>
+                    </a>
+                }
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private string SearchString = "";
+    private List<User> SearchUsers = new List<User>();
+    private List<User> FollowedUsers = new List<User>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        SearchUsers = await UserService.SearchUsersByName("a");
+    }
+
+    private void SearchPerson()
+    {
+    }
+
+}

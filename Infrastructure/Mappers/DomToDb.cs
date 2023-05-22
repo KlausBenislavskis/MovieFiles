@@ -23,8 +23,14 @@ namespace MovieFiles.Infrastructure.Mappers
                 Comment1 = comment.Text,
                 MovieId = movieId
             };
-
-
+        }
+        internal static Scaffold.Follower Map(Guid userId, Guid followingUserId)
+        {
+            return new()
+            {
+                UserId = userId,
+                FollowsUserId = followingUserId
+            };
         }
     }
 }
