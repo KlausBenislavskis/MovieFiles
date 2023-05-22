@@ -12,6 +12,15 @@ h1{
     font-weight: bold;
 }
 
+.typeahead-result {
+    color: black;
+}
+
+.typeahead-block {
+    max-width: 450px;
+    display: flex;
+}
+
 
 
 

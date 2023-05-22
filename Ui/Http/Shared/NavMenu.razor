@@ -23,7 +23,7 @@
         width: 100%;
     }
     .searchComponent{
-        width: 60%;
+        width: 50%;
     }
 </style>
 
@@ -33,7 +33,7 @@
         <span>ovieFiles</span>
     </a>
     <EditForm class="searchComponent" Model="SearchString" OnSubmit="@SearchMovies">
-        <InputText id="searchBar" @bind-Value="SearchString"/>
+        <InputText id="searchBar" placeholder="Search movies" @bind-Value="SearchString"/>
     </EditForm>
 
     <AuthorizeView>

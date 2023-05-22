@@ -1,18 +1,128 @@
 ﻿@page "/"
 @using MovieFiles.Ui.Http.Shared.Movies
+@using Blazored.Typeahead
+@using MovieFiles.Core.Models.People;
 @inject IMoviesService MoviesService
+@inject IMovieUtilService UtilService
+@inject IPeopleService PeopleService
 
 
 <PageTitle>Movies</PageTitle>
 
 <div class="body">
     <h1>Movies</h1>
-    <FeaturedMovies MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
+    <p>advanced filter: <InputCheckbox @bind-Value="showFilterBox"/></p>
+    @if (showFilterBox){
+        <div class="filter-box">
+            <p>minimum year <InputNumber @bind-Value="minYear"/></p>
+            <p>maximum year <InputNumber @bind-Value="maxYear"/></p>
+            <p>
+                Categories
+                <InputSelect id="genreSelection" @bind-Value="selectedGenreId">
+                    @foreach (var category in genreList.Genres){
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </InputSelect>
+            </p>
+            <p class="typeahead-block">crew: 
+            <BlazoredTypeahead SearchMethod="searchPeople" @bind-Value="filterCrew">
+                <SelectedTemplate>
+                    @context.Name
+                </SelectedTemplate>
+                <ResultTemplate>
+                    <div class="typeahead-result">
+                        @context.Name
+                    </div>
+                </ResultTemplate>
+                <NotFoundTemplate>
+                    <div class="typeahead-result">
+                        <i>Sorry, but we can not find a person matching this name</i>
+                    </div>
+                </NotFoundTemplate>
+            </BlazoredTypeahead>
+            </p>
+            <p class="typeahead-block">cast: 
+            <BlazoredTypeahead SearchMethod="searchPeople" @bind-Value="filterCast">
+                <SelectedTemplate>
+                    @context.Name
+                </SelectedTemplate>
+                <ResultTemplate>
+                    <div class="typeahead-result">
+                        @context.Name
+                    </div>
+                </ResultTemplate>
+                <NotFoundTemplate>
+                    <div class="typeahead-result">
+                        <i>Sorry, but we can not find a person matching this name</i>
+                    </div>
+                </NotFoundTemplate>
+            </BlazoredTypeahead>
+            </p>
+            
+            <div>
+                <button @onclick="filterMovies">Filter</button><button @onclick="unfilterMovies">Cancel</button>
+            </div>
+        </div>
+    }
+    
+    <FeaturedMovies MovieGetter="moviesToDisplay"></FeaturedMovies>
 </div>
 
 @code {
+    private int minYear {get;set;} = 1800;
+    private int maxYear {get;set;} = System.DateTime.Now.Year;
+    private bool showFilterBox = false;
+    private Func<int,Task<MovieList>>? moviesToDisplay = null;
+    private GenreList genreList = new(){Genres = new()};
+    private int selectedGenreId {get;set;} = emptyGenre.Id;
+    private static readonly Genre emptyGenre = new() {Id = -1, Name = "---"};
+
+    private Person? filterCrew {get;set;}
+
+    private Person? filterCast {get;set;}
+
+    protected override async Task OnInitializedAsync(){
+        moviesToDisplay = featuredMoviesGetter();
+        GenreList list = await UtilService.GetGenresAsync();
+        list.Genres.Insert(0,emptyGenre);
+        genreList = list;
+        selectedGenreId = emptyGenre.Id;
+
+    }
     protected Func<int,Task<MovieList>> featuredMoviesGetter(){
         Func<int,Task<MovieList>> myFunc = page => MoviesService.GetPopularMoviesAsync(page);
         return myFunc;
+    }
+    protected void filterMovies(){
+        var genre="";
+        if (selectedGenreId != -1){
+            genre = selectedGenreId.ToString();
+        }
+        var crew="";
+        if (filterCrew != null){
+            crew = filterCrew.Id.ToString();
+        }
+
+        var cast="";
+        if (filterCast != null){
+            cast = filterCast.Id.ToString();
+        }
+        // adding these 2 variables as local ones as blazor would reload movies at any change of year or genre
+        var minimumYear = minYear;
+        var maximumYear = maxYear;
+        Console.WriteLine(crew);
+        moviesToDisplay = page => MoviesService.FilterMovies(maximumYear,minimumYear,cast,crew,genre,page);
+    }
+    protected void unfilterMovies(){
+        moviesToDisplay = featuredMoviesGetter();
+        minYear = 1800;
+        maxYear = System.DateTime.Now.Year;
+        selectedGenreId = emptyGenre.Id;
+        filterCrew = null;
+    }
+
+    protected async Task<IEnumerable<Person>?> searchPeople(string query){
+        PeopleList? list = await PeopleService.SearchPeople(query);
+        return list?.Results;
     }
 }
