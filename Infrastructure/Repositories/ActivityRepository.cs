@@ -32,9 +32,16 @@ namespace MovieFiles.Infrastructure.Repositories
             activity.UserId == mappedActivity.UserId);
         }
 
-        public Task<List<BaseActivity>> GetActivities(Guid userId)
+        public async Task<List<BaseActivity>> GetActivities(Guid userId, int page = 1, int pageSize = 25)
         {
-            throw new NotImplementedException();
+            using var db = GetQuantityDbUserConnection();
+
+            return (await db.UserActivities.Where(x => x.UserId == userId)
+                .Skip((page - 1)* pageSize)
+                .Take(pageSize)
+                .ToListAsync())
+                .Select(DbToDom.Map)
+                .ToList();
         }
     }
 }

@@ -6,7 +6,10 @@ using MovieFiles.Api.Functions;
 using MovieFiles.Core.Interfaces;
 using MovieFiles.Core.Services;
 using MovieFiles.Infrastructure;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Identity.Web;
 using MovieFiles.Api.Client.Services;
 using MovieFiles.Ui.Http.Helpers;
 
@@ -26,9 +25,19 @@ namespace MovieFiles.Ui.Http.Data
             var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
-            if (user?.Identity?.IsAuthenticated?? false)
+            if (user?.Identity?.IsAuthenticated ?? false)
             {
-                 await _userService.ResolveUser(user.GetUserId(), user?.Identity?.Name);
+                string username;
+                if (user?.Identity?.Name != null)
+                {
+                    username = user.Identity.Name;
+                }
+                else
+                {
+                    username = user.FindFirst(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname")?.Value;
+                }
+                await _userService.ResolveUser(user.GetUserId(), username);
+
             }
         }
     }

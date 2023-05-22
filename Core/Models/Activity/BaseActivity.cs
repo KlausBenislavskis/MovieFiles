@@ -18,6 +18,7 @@ namespace MovieFiles.Core.Models
         public Guid UserId { get; set; }
         public DateTime Created { get; set; }
         public int MovieId { get; set; }
+        public string  Username { get; set; }
         public ActivityType Type { get; set; }
 
     }

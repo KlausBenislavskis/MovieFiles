@@ -10,6 +10,55 @@
     "http"
   ],
   "paths": {
+    "/activities": {
+      "get": {
+        "tags": [
+          "Activities"
+        ],
+        "operationId": "GetActivities",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "Number of records per page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of String",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/comments/{movieId}": {
       "get": {
         "tags": [
