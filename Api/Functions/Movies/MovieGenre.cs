@@ -29,8 +29,8 @@ namespace MovieFiles.Api.Functions.Movies
 
         [FunctionName("MovieGenre")]
         [OpenApiOperation(operationId: "GetAllGenre", tags: new[] { "Genre" })]
-        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(GenreList), Description = "The OK response")]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(GenreList), Description = "The OK response")]
         public async Task<IActionResult> GetAllGenre(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
         {
