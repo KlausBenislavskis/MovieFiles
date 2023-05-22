@@ -47,5 +47,12 @@ namespace MovieFiles.Infrastructure.Repositories
 
             await db.InsertAsync(DomToDb.Map(userId, followingUserId));
         }
+
+        public Task Unfollow(Guid userId, Guid followingUserId)
+        {
+            var db = GetQuantityDbUserConnection();
+            return db.Followers.Where(user => user.UserId == userId && user.FollowsUserId == followingUserId).DeleteAsync();
+        }
+        
     }
 }

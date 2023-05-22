@@ -116,6 +116,32 @@ namespace MovieFiles.Api.Functions
             return new OkResult();
         }
         
+        [FunctionName("UnfollowUser")]
+        [OpenApiOperation(operationId: "UnfollowUser", tags: new[] { "Users" })]
+        [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
+        [OpenApiParameter(name: "followUserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(void))]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
+        public async Task<IActionResult> UnfollowUser(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "users/unfollow/{userId}/{followUserId}")] HttpRequest req,
+            string userId,
+            string followUserId)
+        {
+            if (!Guid.TryParse(userId, out var userIdGuid))
+            {
+                return new BadRequestObjectResult("Invalid user ID.");
+            }
+        
+            if (!Guid.TryParse(followUserId, out var followUserIdGuid))
+            {
+                return new BadRequestObjectResult("Invalid follow user ID.");
+            }
+        
+            await _userRepository.Unfollow(userIdGuid, followUserIdGuid);
+        
+            return new OkResult();
+        }
+        
         
     }
     

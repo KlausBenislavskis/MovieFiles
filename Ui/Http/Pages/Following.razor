@@ -1,5 +1,6 @@
 ﻿@page "/follow"
 @using MovieFiles.Api.Client.Services
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IUserService UserService
 
 <div class="body">
@@ -22,7 +23,7 @@
             {
                 <a class="user">
                     <h5>@user.Username</h5>
-                    <button>Remove</button>
+                    <button onclick="@(() => Unfollow(user.Id))">Remove</button>
                 </a>
             }
         }
@@ -30,18 +31,18 @@
         {
             foreach (var user in SearchUsers)
             {
-                if(FollowedUsers.Contains(user))
+                @if(FollowedUsers.Any(follower => follower.Id == user.Id))
                 {
                     <a class="user">
                         <h5>@user.Username</h5>
-                        <button>Remove</button>
+                        <button onclick="@(() => Unfollow(user.Id))">Remove</button>
                     </a>
                 }
                 else
                 {
                     <a class="user">
                         <h5>@user.Username</h5>
-                        <button>Add</button>
+                        <button onclick="@(() => Follow(user.Id))">Add</button>
                     </a>
                 }
             }
@@ -56,11 +57,34 @@
 
     protected override async Task OnInitializedAsync()
     {
-        SearchUsers = await UserService.SearchUsersByName("a");
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        FollowedUsers = await UserService.GetFollowing(userId);
     }
 
-    private void SearchPerson()
+    private async Task SearchPerson()
     {
+        SearchUsers = await UserService.SearchUsersByName(SearchString);
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        SearchUsers = SearchUsers.Where(u => u.Id != userId).ToList();
+    }
+
+    private async Task Follow(Guid followId)
+    {
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        await UserService.Follow(userId, followId);
+        FollowedUsers = await UserService.GetFollowing(userId);
+        StateHasChanged();
+    }
+    private async Task Unfollow(Guid followId)
+    {
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        await UserService.Unfollow(userId, followId);
+        FollowedUsers = await UserService.GetFollowing(userId);
+        StateHasChanged();
     }
 
 }
