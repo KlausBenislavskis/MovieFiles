@@ -37,5 +37,10 @@ namespace MovieFiles.Adapters.Services
         public async Task<PeopleList?> GetPopularPeople(int page){
             return await GetAsync<PeopleList>($"person/popular?page={page}");
         }
+
+        public async Task<PeopleList?> SearchPeople(string query)
+        {
+            return await GetAsync<PeopleList>($"search/person?query={query}");
+        }
     }
 }

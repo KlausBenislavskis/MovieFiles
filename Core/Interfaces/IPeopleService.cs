@@ -9,5 +9,6 @@ namespace MovieFiles.Core.Interfaces
     public interface IPeopleService
     {
         public Task<PeopleList?> GetPopularPeople(int page);
+        public Task<PeopleList?> SearchPeople(string query);
     }
 }
