@@ -27,7 +27,7 @@
             return new()
             {
                 Id = (int)movie.Id,
-                ImdbId = (int)movie.ImdbId,
+                ImdbId = movie.ImdbId,
                 PosterPath = movie.PosterPath,
                 Title = movie.Title,
                 OriginalTitle = movie.OriginalTitle,
@@ -53,6 +53,44 @@
                 TotalPages = (int)movieList.TotalPages
             };
         }
+
+        internal static Core.Models.Credit Map(Credit credit)
+        {
+            if (credit == null)
+            {
+                return null;
+            }
+
+            return new()
+            {
+                Adult = (bool)credit.Adult,
+                Gender = (int)credit.Gender,
+                Id = (int)credit.Id,
+                KnownForDepartment = credit.KnownForDepartment,
+                Name = credit.Name,
+                OriginalName = credit.OriginalName,
+                Popularity = (double)credit.Popularity,
+                ProfilePath = credit.ProfilePath,
+                CastId = (int)credit.CastId,
+                Character = credit.Character,
+                CreditId = credit.CreditId,
+                Order = (int)credit.Order
+            };
+        }
+
+        internal static Core.Models.CreditList Map(CreditList creditList)
+        {
+            if (creditList == null)
+            {
+                return null;
+            }
+
+            return new()
+            {
+                Cast = creditList.Cast.Select(Map).ToArray()
+            };
+        }
+
         internal static Core.Models.Comment Map(Comment comment)
         {
             if (comment == null)

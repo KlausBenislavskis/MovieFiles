@@ -58,5 +58,13 @@ namespace MovieFiles.Infrastructure.Mappers
             };
         }
 
+        internal static Scaffold.MovieList Map(MyMovieListItem movie){
+            return new()
+            {
+                UserId = movie.UserId,
+                MovieId = movie.MovieId,
+                ListName = movie.ListName
+            };
+        }
     }
 }

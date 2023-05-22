@@ -54,5 +54,15 @@ namespace MovieFiles.Infrastructure.Mappers
                 // set other specific properties of RatingActivity here
             };
         }
+
+        internal static Core.Models.MyMovieListItem Map(Scaffold.MovieList dbMovie){
+            return new()
+            {
+                UserId = dbMovie.UserId,
+                MovieId = dbMovie.MovieId,
+                ListId = dbMovie.ListId,
+                ListName = dbMovie.ListName
+            };
+        }
     }
 }

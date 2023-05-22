@@ -1,23 +1,23 @@
 using MovieFiles.Core.Interfaces;
 using MovieFiles.Core.Models;
 using System.Net.Http.Headers;
+using System.Web;
 
 namespace MovieFiles.Adapters.Services
 {
-    public class MoviesService : IMoviesService
+   public class MoviesService : IMoviesService
     {
-        private readonly string _apiKey;
         private readonly HttpClient _httpClient;
-        private const string language = "en-US";
+        private const string Language = "en-US";
 
-        public MoviesService(string apiKey)
+        public MoviesService(string apiToken)
         {
-
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer",apiToken );
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _apiKey = apiKey;
         }
 
         private async Task<MovieList> GetMoviesAsync(string endpoint)
@@ -32,29 +32,45 @@ namespace MovieFiles.Adapters.Services
             MovieList? movieList = MovieApiUtil.ConvertApiMessage<MovieList>(jsonResponse);
 
             return movieList ?? new MovieList();
-
         }
 
         public async Task<MovieList> GetNowPlayingMoviesAsync(int page)
-            => await GetMoviesAsync($"movie/now_playing?api_key={_apiKey}&language={language}-US&page={page}");
+            => await GetMoviesAsync($"movie/now_playing?language={Language}-US&page={page}");
 
         public async Task<MovieList> GetPopularMoviesAsync(int page)
-            => await GetMoviesAsync($"movie/popular?api_key={_apiKey}&language={language}&page={page}");
+            => await GetMoviesAsync($"movie/popular?language={Language}&page={page}");
 
         public async Task<MovieList> GetTopRatedMoviesAsync(int page)
-            => await GetMoviesAsync($"movie/top_rated?api_key={_apiKey}&language={language}&page={page}");
+            => await GetMoviesAsync($"movie/top_rated?language={Language}&page={page}");
 
         public async Task<MovieList> GetUpcomingMoviesAsync(int page)
-            => await GetMoviesAsync($"movie/upcoming?api_key={_apiKey}&language={language}&page={page}");
+            => await GetMoviesAsync($"movie/upcoming?language={Language}&page={page}");
 
         public async Task<MovieList> SearchForMovies(string name, int page)
         {
-            if (string.IsNullOrEmpty(_apiKey) || page < 1)
-            {
-                return new MovieList();
-            }
+            return await GetMoviesAsync($"search/movie?page={page}&query={name}");
+        }
 
-            return await GetMoviesAsync($"search/movie?api_key={_apiKey}&page={page}&query={name}");
+        public async Task<MovieList> FilterMovies(int? highYear, int? lowYear, string cast, string crew, string genres, int page)
+        {
+            var parameters = HttpUtility.ParseQueryString(string.Empty);
+            if (lowYear != null){
+                parameters["primary_release_date.gte"] = lowYear.ToString();
+            }
+            if (highYear != null){
+                parameters["primary_release_date.lte"] = highYear.ToString();
+            }
+            if (!String.IsNullOrWhiteSpace(cast)){
+                parameters["with_cast"] = cast;
+            }
+            if (!String.IsNullOrWhiteSpace(crew)){
+                parameters["with_crew"] = crew;
+            }
+            if (!String.IsNullOrWhiteSpace(genres)){
+                parameters["with_genres"] = genres;
+            }
+            parameters["page"] = page.ToString();
+            return await GetMoviesAsync($"discover/movie?" + parameters.ToString());
         }
     }
 }
