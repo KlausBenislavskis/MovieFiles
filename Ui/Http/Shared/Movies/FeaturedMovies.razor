@@ -75,7 +75,7 @@
         {
             Page = id;
             reRender = true;
-            MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+            MovieList = await MovieGetter(Page);
         }
     }
 
@@ -83,13 +83,13 @@
     {
         Page = 1;
         reRender = true;
-        MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+        MovieList = await MovieGetter(Page);
     }
     async Task Last()
     {
         Page = TotalPages;
         reRender = true;
-        MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+        MovieList = await MovieGetter(Page);
     }
 
 }
