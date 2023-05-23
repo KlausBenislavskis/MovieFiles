@@ -24,8 +24,8 @@
         {
             return new ()
             {
-                Id = dbRating.UserId,
-                Username = dbRating.UserName
+                Id = dbUser.UserId,
+                Username = dbUser.UserName
             };
         }
 
