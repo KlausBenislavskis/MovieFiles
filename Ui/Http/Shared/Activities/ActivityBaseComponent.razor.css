@@ -1,0 +1,11 @@
+﻿.card:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+.loading-box {
+    width: 100px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
