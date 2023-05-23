@@ -20,7 +20,7 @@
             };
         }
 
-        internal static Core.Models.User Map(Scaffold.User dbRating)
+        internal static Core.Models.User Map(Scaffold.User dbUser)
         {
             return new ()
             {
