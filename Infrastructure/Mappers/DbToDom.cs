@@ -20,6 +20,15 @@
             };
         }
 
+        internal static Core.Models.User Map(Scaffold.User dbUser)
+        {
+            return new ()
+            {
+                Id = dbRating.UserId,
+                Username = dbRating.UserName
+            };
+        }
+
         internal static Core.Models.MyMovieListItem Map(Scaffold.MovieList dbMovie){
             return new()
             {
