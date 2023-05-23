@@ -2,13 +2,11 @@
 @inject IActivityService ActivityService
 @inject AuthenticationStateProvider _authenticationStateProvider;
 
-<div class="activity-container">
 
     @foreach (var activity in Activities)
     {
             <Activity BaseAct="activity" />
     }
-</div>
 @code {
     private List<BaseActivity> Activities = new List<BaseActivity>();
     protected override async Task OnInitializedAsync()

@@ -9,3 +9,12 @@
     align-items: center;
     justify-content: center;
 }
+h5.card-title {
+    color: black;
+}
+h6.card-subtitle {
+    color: black;
+}
+.card-body p {
+    color: black;
+}
