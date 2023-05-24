@@ -6,22 +6,31 @@ public class CreditList
     public CreditList()
     {
         Id = 0;
-        Cast = new Credit[0];
+        Cast = new Cast[0];
+        Crew = new Crew[0];
         TotalResults = 0;
     }
     
     public CreditList(int loadingItems = 0)
     {
-        var emptyCredits = new List<Credit>();
+        var emptyCast = new List<Cast>();
         for (int i = 0; i < loadingItems; i++)
         {
-            emptyCredits.Add(new Credit());
+            emptyCast.Add(new Cast());
         }
-        Cast = emptyCredits.ToArray();
+        Cast = emptyCast.ToArray();
+        
+        var emptyCrew = new List<Crew>();
+        for (int i = 0; i < loadingItems; i++)
+        {
+            emptyCrew.Add(new Crew());
+        }
+        Crew = emptyCrew.ToArray();
     }
     
     public int Id { get; set; }
-    public Credit[] Cast { get; set; }
+    public Cast[] Cast { get; set; }
+    public Crew[] Crew { get; set; }
     public int TotalResults { get; set; }
  
     
