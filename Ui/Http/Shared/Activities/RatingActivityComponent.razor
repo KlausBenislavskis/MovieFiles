@@ -1,0 +1,16 @@
+@using MovieFiles.Core.Models.Activity
+
+<ActivityBaseComponent Activity="Activity">
+    <div class="rating">
+        @for (int i = 1; i <= 5; i++)
+        {
+            var starIndex = i;
+            <span class="star @(Activity?.RatingValue >= starIndex ? "selected" : "")">&#9733;</span>
+        }
+    </div>
+</ActivityBaseComponent>
+
+@code {
+    [Parameter]
+    public RatingActivity Activity { get; set; }
+}

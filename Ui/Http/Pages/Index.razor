@@ -7,90 +7,64 @@
 @inject IMovieUtilService UtilService
 @inject IPeopleService PeopleService
 
-
-<PageTitle>Movies</PageTitle>
-
 <div class="body">
-    <div class="movieHead">
-        <h1>Movies</h1>
-        <button id="filterButton" onclick="toggleFilter()">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-filled" width="100%" height="100%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M6 3a1 1 0 0 1 .993 .883l.007 .117v3.171a3.001 3.001 0 0 1 0 5.658v7.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-7.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-3.17a1 1 0 0 1 1 -1z" stroke-width="0" fill="currentColor"/>
-                <path d="M12 3a1 1 0 0 1 .993 .883l.007 .117v9.171a3.001 3.001 0 0 1 0 5.658v1.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-1.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-9.17a1 1 0 0 1 1 -1z" stroke-width="0" fill="currentColor"/>
-                <path d="M18 3a1 1 0 0 1 .993 .883l.007 .117v.171a3.001 3.001 0 0 1 0 5.658v10.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-10.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-.17a1 1 0 0 1 1 -1z" stroke-width="0" fill="currentColor"/>
-            </svg>
-            <p>Filter</p>
-        </button>
-    </div>
 
-    <div id="filter" >
-        <FilterMovies></FilterMovies>
-    </div>
-    @* <p>advanced filter: <InputCheckbox @bind-Value="showFilterBox"/></p> *@
-    @* @if (showFilterBox){ *@
-    @*     <div class="filter-box"> *@
-    @*         <p>minimum year <InputNumber @bind-Value="minYear"/></p> *@
-    @*         <p>maximum year <InputNumber @bind-Value="maxYear"/></p> *@
-    @*         <p> *@
-    @*             Categories *@
-    @*             <InputSelect id="genreSelection" @bind-Value="selectedGenreId"> *@
-    @*                 @foreach (var category in genreList.Genres){ *@
-    @*                     <option value="@category.Id">@category.Name</option> *@
-    @*                 } *@
-    @*             </InputSelect> *@
-    @*         </p> *@
-    @*         <p class="typeahead-block">crew:  *@
-    @*         <BlazoredTypeahead SearchMethod="searchPeople" @bind-Value="filterCrew"> *@
-    @*             <SelectedTemplate> *@
-    @*                 @context.Name *@
-    @*             </SelectedTemplate> *@
-    @*             <ResultTemplate> *@
-    @*                 <div class="typeahead-result"> *@
-    @*                     @context.Name *@
-    @*                 </div> *@
-    @*             </ResultTemplate> *@
-    @*             <NotFoundTemplate> *@
-    @*                 <div class="typeahead-result"> *@
-    @*                     <i>Sorry, but we can not find a person matching this name</i> *@
-    @*                 </div> *@
-    @*             </NotFoundTemplate> *@
-    @*         </BlazoredTypeahead> *@
-    @*         </p> *@
-    @*         <p class="typeahead-block">cast:  *@
-    @*         <BlazoredTypeahead SearchMethod="searchPeople" @bind-Value="filterCast"> *@
-    @*             <SelectedTemplate> *@
-    @*                 @context.Name *@
-    @*             </SelectedTemplate> *@
-    @*             <ResultTemplate> *@
-    @*                 <div class="typeahead-result"> *@
-    @*                     @context.Name *@
-    @*                 </div> *@
-    @*             </ResultTemplate> *@
-    @*             <NotFoundTemplate> *@
-    @*                 <div class="typeahead-result"> *@
-    @*                     <i>Sorry, but we can not find a person matching this name</i> *@
-    @*                 </div> *@
-    @*             </NotFoundTemplate> *@
-    @*         </BlazoredTypeahead> *@
-    @*         </p> *@
-    @*          *@
-    @*         <div> *@
-    @*             <button @onclick="filterMovies">Filter</button><button @onclick="unfilterMovies">Cancel</button> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* } *@
+    <AuthorizeView>
+        <Authorized>
+            <div class="tabs">
+                <button class="tab-button @(ActiveTab == Tab.discover ? "active" : "")"
+                @onclick="() => SwitchTab(Tab.discover)">Discover</button>
+                <button class="tab-button @(ActiveTab == Tab.following ? "active" : "")"
+                @onclick="() => SwitchTab(Tab.following)">Following</button>
+            </div>
+            @if (ActiveTab == Tab.following)
+            {
+                <div class="body">
+                    <MovieFiles.Ui.Http.Shared.Activities.ActivityList>
+                    </MovieFiles.Ui.Http.Shared.Activities.ActivityList>
+                </div>
+            }
+        </Authorized>
+    </AuthorizeView>
 
-    <FeaturedMovies MovieGetter="moviesToDisplay"></FeaturedMovies>
+    @if (ActiveTab == Tab.discover)
+    {
+        <div class="movieHead">
+            <h1>Popular movies</h1>
+            <button id="filterButton" onclick="toggleFilter()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-filled" width="100%"
+                    height="100%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                        d="M6 3a1 1 0 0 1 .993 .883l.007 .117v3.171a3.001 3.001 0 0 1 0 5.658v7.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-7.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-3.17a1 1 0 0 1 1 -1z"
+                        stroke-width="0" fill="currentColor" />
+                    <path
+                        d="M12 3a1 1 0 0 1 .993 .883l.007 .117v9.171a3.001 3.001 0 0 1 0 5.658v1.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-1.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-9.17a1 1 0 0 1 1 -1z"
+                        stroke-width="0" fill="currentColor" />
+                    <path
+                        d="M18 3a1 1 0 0 1 .993 .883l.007 .117v.171a3.001 3.001 0 0 1 0 5.658v10.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-10.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-.17a1 1 0 0 1 1 -1z"
+                        stroke-width="0" fill="currentColor" />
+                </svg>
+                <p>Filter</p>
+            </button>
+        </div>
+
+        <div id="filter">
+            <FilterMovies />
+        </div>
+        <FeaturedMovies MovieGetter="moviesToDisplay"></FeaturedMovies>
+    }
+
 </div>
 
 <script suppress-error="BL9992">
     function toggleFilter() {
         var filter = document.getElementById("filter");
-        if (filter.style.display === "none") {
-            filter.style.display = "block";
-        } else {
+        if (filter.style.display === "block") {
             filter.style.display = "none";
+        } else {
+            filter.style.display = "block";
         }
     }
 </script>
@@ -100,13 +74,19 @@
     private int maxYear { get; set; } = System.DateTime.Now.Year;
     private bool showFilterBox = false;
     private Func<int, Task<MovieList>>? moviesToDisplay = null;
-    private GenreList genreList = new() {Genres = new()};
+    private GenreList genreList = new() { Genres = new() };
     private int selectedGenreId { get; set; } = emptyGenre.Id;
-    private static readonly Genre emptyGenre = new() {Id = -1, Name = "---"};
-
+    private static readonly Genre emptyGenre = new() { Id = -1, Name = "---" };
     private Person? filterCrew { get; set; }
 
     private Person? filterCast { get; set; }
+    private Tab ActiveTab { get; set; } = Tab.discover;
+
+    private enum Tab
+    {
+        discover,
+        following
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -115,6 +95,10 @@
         list.Genres.Insert(0, emptyGenre);
         genreList = list;
         selectedGenreId = emptyGenre.Id;
+    }
+    private void SwitchTab(Tab tabName)
+    {
+        ActiveTab = tabName;
     }
 
     protected Func<int, Task<MovieList>> featuredMoviesGetter()
@@ -141,7 +125,7 @@
         {
             cast = filterCast.Id.ToString();
         }
-    // adding these 2 variables as local ones as blazor would reload movies at any change of year or genre
+        // adding these 2 variables as local ones as blazor would reload movies at any change of year or genre
         var minimumYear = minYear;
         var maximumYear = maxYear;
         Console.WriteLine(crew);

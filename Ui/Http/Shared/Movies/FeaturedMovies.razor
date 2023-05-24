@@ -10,13 +10,11 @@
     {
         <Movie Movie="@movie"></Movie>
     }
-    @* </Virtualize> *@
 </div>
 
 
-
 <ul id="page-list">
-    <li @onclick="First">
+    <li @onclick="() => UpdatePage(1)">
         «
     </li>
     @for (int i = @Page - @PageRange; i <= @Page + @PageRange; i++)
@@ -26,29 +24,29 @@
             var pageI = i;
             if (i == @Page)
             {
-                <li class="active" @onclick="() => OnClick(pageI)">
+                <li class="active" @onclick="() => UpdatePage(pageI)">
                     @pageI
                 </li>
             }
             else
             {
-                <li class="" @onclick="() => OnClick(pageI)">
+                <li class="" @onclick="() => UpdatePage(pageI)">
                     @pageI
                 </li>
             }
         }
     }
-    <li @onclick="Last">
+    <li @onclick="() => UpdatePage(TotalPages)">
         »
     </li>
 </ul>
 
 
-@code{
+@code {
     public MovieList MovieList = new MovieList(12);
     public int Page { get; set; } = 1;
     [Parameter]
-    public Func<int,Task<MovieList>>? MovieGetter {get;set;}
+    public Func<int, Task<MovieList>>? MovieGetter { get; set; }
     public static readonly int TotalPages = 500;
     public static readonly int PageRange = 3;
 
@@ -56,7 +54,8 @@
     protected override async Task OnInitializedAsync()
     {
         this.Page = Math.Max(1, this.Page);
-        if (MovieGetter != null){
+        if (MovieGetter != null)
+        {
             MovieList = await MovieGetter(Page);
         }
     }
@@ -64,32 +63,20 @@
     protected override async Task OnParametersSetAsync()
     {
         this.Page = Math.Max(1, this.Page);
-        if (MovieGetter != null){
+        if (MovieGetter != null)
+        {
             MovieList = await MovieGetter(Page);
         }
     }
 
-    async Task OnClick(int id)
+    async Task UpdatePage(int newPage)
     {
-        if (Page != id)
+        if (Page != newPage)
         {
-            Page = id;
+            Page = newPage;
             reRender = true;
             MovieList = await MovieGetter(Page);
+            await JSRuntime.InvokeVoidAsync("window.scrollTo", 0, 0);
         }
     }
-
-    async Task First()
-    {
-        Page = 1;
-        reRender = true;
-        MovieList = await MovieGetter(Page);
-    }
-    async Task Last()
-    {
-        Page = TotalPages;
-        reRender = true;
-        MovieList = await MovieGetter(Page);
-    }
-
 }
