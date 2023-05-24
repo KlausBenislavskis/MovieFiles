@@ -1,0 +1,37 @@
+@page "/watch-later-list"
+@using MovieFiles.Ui.Http.Helpers
+@using MovieFiles.Ui.Http.Shared.Movies
+@using System.Diagnostics;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IMoiveListService MovieListService
+
+<AuthorizeView>
+    <Authorized>
+        <div class="body">
+            <h1>Movies to watch later</h1>
+            <FeaturedMovies MovieGetter=@movieGetter></FeaturedMovies>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <h1>You need to log in before you can see your movie lists</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    private string noun {get;set;} = "people";
+    private Func<int, Task<MovieList>> movieGetter;
+
+    protected override void OnInitialized(){
+        movieGetter = getMoviesToWatchLater;
+    }
+
+    protected async Task<MovieList> getMoviesToWatchLater(int page){
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+
+        var listItems = await MovieListService.GetMyMovieList(userId,MyMovieListItem.ListType.WATCH_LATER,page);
+        MovieList list = await MovieListService.ConvertCustomMovieListToMovieList(listItems);
+        return list;
+    }
+}

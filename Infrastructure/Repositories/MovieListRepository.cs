@@ -9,7 +9,7 @@ using MovieFiles.Core.Models;
 
 namespace MovieFiles.Infrastructure.Repositories
 {
-    public class MovieListRepository : BaseRepository, IMovieListService
+    public class MovieListRepository : BaseRepository, IMovieListRepository
     {
         public static readonly int PAGE_SIZE = 20;
         public MovieListRepository(string serverName, string databaseName, string userName, string password) : base(serverName, databaseName, userName, password){}

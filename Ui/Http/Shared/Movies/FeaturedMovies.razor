@@ -75,7 +75,7 @@
         {
             Page = newPage;
             reRender = true;
-            MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+            MovieList = await MovieGetter(Page);
             await JSRuntime.InvokeVoidAsync("window.scrollTo", 0, 0);
         }
     }

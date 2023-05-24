@@ -21,9 +21,9 @@ namespace MovieFiles.Api.Functions
     public class MovieLists
     {
         private readonly ILogger<MovieLists> _logger;
-        private readonly IMovieListService _movieListService;
+        private readonly IMovieListRepository _movieListService;
 
-        public MovieLists(ILogger<MovieLists> log, IMovieListService movieListService)
+        public MovieLists(ILogger<MovieLists> log, IMovieListRepository movieListService)
         {
             _logger = log;
             _movieListService = movieListService;
