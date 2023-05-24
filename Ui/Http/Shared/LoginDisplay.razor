@@ -26,8 +26,20 @@
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity?.Name
-        <a href="MicrosoftIdentity/Account/SignOut">Log out</a>
+        <div id="login-options">
+            <a id="loggedInIcon" onclick="@ToggleHeight">
+                <img class="icon" src="svgs/personIcon.svg" alt="person icon"/>
+            </a>
+
+            <div class="drop-down-menu">
+                <p>Hello, @context.User.Identity?.Name</p>
+                @* <a href="MicrosoftIdentity/Account/SignOut">Add to follow</a> *@
+                <a href="follow">Following</a>
+                <a href="watch-later-list">Watch later list</a>
+                <a href="MicrosoftIdentity/Account/SignOut">Log out</a>
+            </div>
+
+        </div>
     </Authorized>
     <NotAuthorized>
         <a class="login-button" href="MicrosoftIdentity/Account/SignIn">Log in</a>
