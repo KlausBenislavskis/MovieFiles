@@ -13,14 +13,18 @@ namespace MovieFiles.Api.Client.Services
 
         public async Task<List<BaseActivity>> GetActivities(Guid userId, int page = 1, int pageSize = 25)
         {
-            var jsonString = await _client.GetActivitiesAsync(userId, page, pageSize,_functionAppKey);
-            if (string.IsNullOrEmpty(jsonString))
+            try
             {
-                return null;
-            }
-            var activities = JsonConvert.DeserializeObject<List<BaseActivity>>(jsonString, new BaseActivityConverter());
+                var jsonString = await _client.GetActivitiesAsync(userId, page, pageSize, _functionAppKey);
 
-            return activities;
+                var activities = JsonConvert.DeserializeObject<List<BaseActivity>>(jsonString, new BaseActivityConverter());
+
+                return activities;
+                //if not found
+            }catch (ApiException ex)
+            {
+                return new List<BaseActivity>();
+            }
         }
     }
 }

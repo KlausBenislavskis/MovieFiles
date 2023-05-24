@@ -5,38 +5,37 @@ namespace MovieFiles.Api.Client.Services
 {
     public class MoviesService : BaseService, IMoviesService
     {
-
         public MoviesService(string httpUrl, string functionAppKey) : base(httpUrl, functionAppKey)
         {
         }
 
         public async Task<Core.Models.MovieList> GetPopularMoviesAsync(int page)
         {
-            var response = await _client.GetPopularMoviesAsync(page, _functionAppKey);
+            var response = await RetryHelper.RetryOnExceptionAsync<MovieList>(3, () => _client.GetPopularMoviesAsync(page, _functionAppKey));
             return ClientToUi.Map(response);
         }
 
         public async Task<Core.Models.MovieList> GetNowPlayingMoviesAsync(int page)
         {
-            var response = await _client.GetNowPlayingMoviesAsync(page, _functionAppKey);
+            var response = await RetryHelper.RetryOnExceptionAsync<MovieList>(3, () => _client.GetNowPlayingMoviesAsync(page, _functionAppKey));
             return ClientToUi.Map(response);
         }
 
         public async Task<Core.Models.MovieList> GetTopRatedMoviesAsync(int page)
         {
-            var response = await _client.GetTopRatedMoviesAsync(page, _functionAppKey);
+            var response = await RetryHelper.RetryOnExceptionAsync<MovieList>(3, () => _client.GetTopRatedMoviesAsync(page, _functionAppKey));
             return ClientToUi.Map(response);
         }
 
         public async Task<Core.Models.MovieList> GetUpcomingMoviesAsync(int page)
         {
-            var response = await _client.GetUpcomingMoviesAsync(page, _functionAppKey);
+            var response = await RetryHelper.RetryOnExceptionAsync<MovieList>(3, () => _client.GetUpcomingMoviesAsync(page, _functionAppKey));
             return ClientToUi.Map(response);
         }
 
         public async Task<Core.Models.MovieList> SearchForMovies(string name, int page)
         {
-            var response = await _client.MovieFilterAsync(name,page,_functionAppKey);
+            var response = await RetryHelper.RetryOnExceptionAsync<MovieList>(3, () => _client.MovieFilterAsync(name, page, _functionAppKey));
             return ClientToUi.Map(response);
         }
 
