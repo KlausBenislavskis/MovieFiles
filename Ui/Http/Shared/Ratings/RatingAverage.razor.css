@@ -24,11 +24,30 @@
     color: white;
 }
 .star{
-    width: 10%;
+    width: 8%;
 }
+
 .noRating{
     color: gray;
     margin: 0;
     padding: 0;
     opacity: 0.5;
+}
+
+.movie_details_rating{
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    height: 100%;
+}
+
+.movie_details_star{
+    width: 1.7rem;
+}
+
+.movie_details_item{
+    margin: 0;
+    padding: 0;
+    color: #e8e8e8;
+   font-size: 1.8rem;
 }
