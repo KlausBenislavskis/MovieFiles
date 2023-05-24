@@ -1,0 +1,50 @@
+﻿.body {
+    min-height:calc(100vh - 64px) ;
+    color: white;
+    padding-inline: 20%;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    /*overflow: hidden;*/
+}
+
+
+.user{
+    background: #15181c;
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+}
+.user h5{
+    margin: 10px;
+    padding: 0;
+    color: white;
+}
+.user button{
+    margin: 10px;
+    color: black;
+    background: white;
+    font-size: 15px;
+    font-weight: bold;
+    /*border: none;*/
+    border-radius: 5px;
+    transition: color 0.2s, background 0.2s;
+}
+.user button:hover{
+    cursor: pointer;
+    background: #8534e7;
+    color: white;
+}
+
+.searchUser{
+    display: flex;
+}
+.searchUser h5{
+    width: 40%;
+}
+
+.followList{
+    margin-top: 100px;
+}

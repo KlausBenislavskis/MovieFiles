@@ -2,17 +2,50 @@
 @using MovieFiles.Ui.Http.Shared.Movies
 @inject IMoviesService MoviesService
 
+<AuthorizeView>
+    <Authorized>
+        <div class="tabs">
+            @{
+                string discover = "discover";
+                string following = "following";
+            }
+            <button class="tab-button @(ActiveTab == discover ? "active" : "")" @onclick="() => SwitchTab(discover)">Discover</button>
+            <button class="tab-button @(ActiveTab == following ? "active" : "")" @onclick="() => SwitchTab(following)">Following</button>
+        </div>
 
-<PageTitle>Movies</PageTitle>
+        @if (ActiveTab == discover)
+        {
+            <div class="body">
+                <FeaturedMovies MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
+            </div>
+        }
+        else if (ActiveTab == following)
+        {
+            <div class="body">
+                <MovieFiles.Ui.Http.Shared.Activities.ActivityList></MovieFiles.Ui.Http.Shared.Activities.ActivityList>
+            </div>
+        }
+    </Authorized>
 
-<div class="body">
-    <h1>Movies</h1>
-    <FeaturedMovies MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
-</div>
+    <NotAuthorized>
+        <div class="body">
+            <FeaturedMovies MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
-    protected Func<int,Task<MovieList>> featuredMoviesGetter(){
-        Func<int,Task<MovieList>> myFunc = page => MoviesService.GetPopularMoviesAsync(page);
+
+    private string ActiveTab { get; set; } = "discover";
+
+    private void SwitchTab(string tabName)
+    {
+        ActiveTab = tabName;
+    }
+
+    protected Func<int, Task<MovieList>> featuredMoviesGetter()
+    {
+        Func<int, Task<MovieList>> myFunc = page => MoviesService.GetPopularMoviesAsync(page);
         return myFunc;
     }
 }

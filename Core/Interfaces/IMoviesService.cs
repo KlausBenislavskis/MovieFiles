@@ -16,6 +16,8 @@ namespace MovieFiles.Core.Interfaces
         /// <param name="page">number of page that you want to get results of</param>
         /// <returns> list of movies including information about page and number of results</returns>
         Task<MovieList> SearchForMovies(string name, int page);
+
+        Task<MovieList> FilterMovies(int? highYear,int? lowYear, string cast, string crew, string genres, int page);
     }
 
 }

@@ -3,3 +3,6 @@
     margin: 0px;
     background: black;
 }
+.body-blurry{
+    opacity: 0.5;
+}

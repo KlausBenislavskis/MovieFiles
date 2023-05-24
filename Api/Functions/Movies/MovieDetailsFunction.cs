@@ -29,7 +29,7 @@ public class MovieDetailsFunction
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Movie),
         Description = "The OK response")]
     public async Task<IActionResult> GetMovieDetails(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movie/{movieId}")]
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movie/{movieId:int}")]
         HttpRequest req, int movieId)
     {
         return new OkObjectResult(await _movieDetailsService.GetMovieDetailsAsync(movieId));

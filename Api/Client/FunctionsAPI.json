@@ -10,6 +10,55 @@
     "http"
   ],
   "paths": {
+    "/activities": {
+      "get": {
+        "tags": [
+          "Activities"
+        ],
+        "operationId": "GetActivities",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "Number of records per page",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of String",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/comments/{movieId}": {
       "get": {
         "tags": [
@@ -525,6 +574,165 @@
         }
       }
     },
+    "/users/search/{username}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "SearchUsersByName",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of User",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/user"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/follow/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "GetFollowingUsers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of User",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/user"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/follow/{userId}/{followUserId}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "FollowUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "followUserId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Void",
+            "schema": {
+              "$ref": "#/definitions/void"
+            }
+          }
+        }
+      }
+    },
+    "/users/unfollow/{userId}/{followUserId}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "UnfollowUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "path",
+            "name": "followUserId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Void",
+            "schema": {
+              "$ref": "#/definitions/void"
+            }
+          }
+        }
+      }
+    },
     "/movie/{movieId}": {
       "get": {
         "tags": [
@@ -595,6 +803,17 @@
     }
   },
   "definitions": {
+    "comment": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        }
+      }
+    },
     "credit": {
       "type": "object",
       "properties": {
@@ -638,17 +857,6 @@
         "order": {
           "format": "int32",
           "type": "integer"
-        }
-      }
-    },
-    "comment": {
-      "type": "object",
-      "properties": {
-        "text": {
-          "type": "string"
-        },
-        "author": {
-          "type": "string"
         }
       }
     },
@@ -797,6 +1005,18 @@
         "ratingValue": {
           "format": "int32",
           "type": "integer"
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
         }
       }
     },

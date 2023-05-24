@@ -104,5 +104,18 @@
                 Text = comment.Text
             };
         }
+        internal static Core.Models.User Map(User user)
+        {
+            if (user == null)
+            {
+                return new();
+            }
+
+            return new()
+            {
+                Id = (Guid)user.Id,
+                Username = user.Username
+            };
+        }
     }
 }
