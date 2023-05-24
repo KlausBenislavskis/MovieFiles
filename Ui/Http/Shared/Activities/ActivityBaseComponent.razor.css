@@ -1,0 +1,20 @@
+﻿.card:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+.loading-box {
+    width: 100px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+h5.card-title {
+    color: black;
+}
+h6.card-subtitle {
+    color: black;
+}
+.card-body p {
+    color: black;
+}

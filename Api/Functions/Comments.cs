@@ -19,12 +19,12 @@ namespace MovieFiles.Api.Functions
     public class Comments
     {
         private readonly ILogger<Comments> _logger;
-        private readonly ICommentRepository _commentRepository;
+        private readonly ICommentService _commentService;
 
-        public Comments(ILogger<Comments> log, ICommentRepository commentRepository)
+        public Comments(ILogger<Comments> log, ICommentService commentService)
         {
             _logger = log;
-            _commentRepository = commentRepository;
+            _commentService = commentService;
         }
 
         [FunctionName("GetComments")]
@@ -52,7 +52,7 @@ namespace MovieFiles.Api.Functions
                 pageParsed = 1;
             }
 
-            var comments = await _commentRepository.GetComments(movieIdParsed, pageParsed);
+            var comments = await _commentService.GetComments(movieIdParsed, pageParsed);
 
             if (comments?.Any() ?? false)
             {
@@ -91,7 +91,7 @@ namespace MovieFiles.Api.Functions
                 return new BadRequestObjectResult("Invalid comment data.");
             }
 
-            await _commentRepository.Comment(commentData, movieIdParsed, userIdParsed);
+            await _commentService.Comment(commentData, movieIdParsed, userIdParsed);
 
             return new OkResult();
         }

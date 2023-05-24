@@ -4,5 +4,5 @@ namespace MovieFiles.Core.Interfaces;
 
 public interface IMovieUtilService
 {
-    Task<GenreList?> GetGenresAsync();
+    Task<GenreList> GetGenresAsync();
 }

@@ -38,17 +38,29 @@ namespace MovieFiles.Infrastructure.Scaffold
 
 		partial void InitDataContext();
 
-		public ITable<Comment>      Comments      => this.GetTable<Comment>();
-		public ITable<Follower>     Followers     => this.GetTable<Follower>();
-		public ITable<MovieList>    MovieLists    => this.GetTable<MovieList>();
-		public ITable<Rating>       Ratings       => this.GetTable<Rating>();
-		public ITable<User>         Users         => this.GetTable<User>();
-		public ITable<MovieComment> MovieComments => this.GetTable<MovieComment>();
+		public ITable<Activity>     Activities     => this.GetTable<Activity>();
+		public ITable<Comment>      Comments       => this.GetTable<Comment>();
+		public ITable<Follower>     Followers      => this.GetTable<Follower>();
+		public ITable<MovieList>    MovieLists     => this.GetTable<MovieList>();
+		public ITable<Rating>       Ratings        => this.GetTable<Rating>();
+		public ITable<User>         Users          => this.GetTable<User>();
+		public ITable<MovieComment> MovieComments  => this.GetTable<MovieComment>();
+		public ITable<UserActivity> UserActivities => this.GetTable<UserActivity>();
 	}
 
 	public static partial class ExtensionMethods
 	{
 		#region Table Extensions
+		public static Activity? Find(this ITable<Activity> table, int activityId)
+		{
+			return table.FirstOrDefault(e => e.ActivityId == activityId);
+		}
+
+		public static Task<Activity?> FindAsync(this ITable<Activity> table, int activityId, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.ActivityId == activityId, cancellationToken);
+		}
+
 		public static Comment? Find(this ITable<Comment> table, int commentId)
 		{
 			return table.FirstOrDefault(e => e.CommentId == commentId);

@@ -1,0 +1,8 @@
+﻿.activity-container {
+    max-width: 968px;
+    display: grid;
+    grid-template-columns: auto;
+    gap: 1rem;
+    margin-top: 2rem;
+    place-content: center;
+}

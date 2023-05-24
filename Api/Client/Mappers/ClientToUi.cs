@@ -173,5 +173,19 @@ namespace MovieFiles.Api.Client.Mappers
                 Genres = genreList.Genres.Select(Map).ToArray()
             };
         }
+        
+        internal static Core.Models.User Map(User user)
+        {
+            if (user == null)
+            {
+                return new();
+            }
+
+            return new()
+            {
+                Id = (Guid)user.Id,
+                Username = user.Username
+            };
+        }
     }
 }

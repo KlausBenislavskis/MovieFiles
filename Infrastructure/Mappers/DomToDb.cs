@@ -1,4 +1,6 @@
-﻿using MovieFiles.Core.Models;
+﻿using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using MovieFiles.Core.Models;
+using MovieFiles.Core.Models.Activity;
 using System.Linq.Expressions;
 
 namespace MovieFiles.Infrastructure.Mappers
@@ -23,8 +25,61 @@ namespace MovieFiles.Infrastructure.Mappers
                 Comment1 = comment.Text,
                 MovieId = movieId
             };
+        }
+        internal static Scaffold.Follower Map(Guid userId, Guid followingUserId)
+        {
+            return new()
+            {
+                UserId = userId,
+                FollowsUserId = followingUserId
+            };
+        }
 
+        internal static Scaffold.Activity Map(BaseActivity baseActivity)
+        {
+            Scaffold.Activity activity;
 
+            switch (baseActivity)
+            {
+                case RatingActivity ratingActivity:
+                    activity = Map(ratingActivity);
+                    break;
+                case CommentActivity commentActivity:
+                    activity = Map(commentActivity);
+                    break;
+                default:
+                    throw new NotImplementedException("Need to create mapping for this activity");
+            }
+
+            activity.MovieId = baseActivity.MovieId;
+            activity.Timestamp = baseActivity.Created;
+            activity.UserId = baseActivity.UserId;
+            activity.ActivityType = baseActivity.Type.ToString();
+
+            return activity;
+        }
+
+        internal static Scaffold.Activity Map(RatingActivity ratingActivity)
+        {
+            return new Scaffold.Activity
+            {
+                RatingValue = ratingActivity.RatingValue,
+            };
+        }
+        internal static Scaffold.Activity Map(CommentActivity ratingActivity)
+        {
+            return new Scaffold.Activity
+            {
+                CommentText = ratingActivity.CommentText,
+            };
+        }
+        internal static Scaffold.MovieList Map(MyMovieListItem movie){
+            return new()
+            {
+                UserId = movie.UserId,
+                MovieId = movie.MovieId,
+                ListName = movie.ListName
+            };
         }
     }
 }

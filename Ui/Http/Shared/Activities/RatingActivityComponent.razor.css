@@ -1,0 +1,13 @@
+﻿.card:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+.star {
+    color: gray;
+    font-size: 2em; 
+}
+
+.star.selected {
+    color: orange;
+}
+

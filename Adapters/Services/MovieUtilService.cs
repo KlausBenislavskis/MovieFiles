@@ -29,7 +29,6 @@ public class MovieUtilService : IMovieUtilService
 
         string jsonResponse = await response.Content.ReadAsStringAsync();
         T? result = MovieApiUtil.ConvertApiMessage<T>(jsonResponse);
-        
         return result;
     }
 

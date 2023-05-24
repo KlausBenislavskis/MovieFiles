@@ -84,7 +84,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
         public async Task<IActionResult> MovieFilter(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movie/name")] HttpRequest req)
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movies/name")] HttpRequest req)
         {
 
             string name = req.Query["name"];
@@ -92,6 +92,38 @@ namespace MovieFiles.Api.Functions
 
             return new OkObjectResult(await _moviesService.SearchForMovies(name, page));
         }
-    }
 
+        [FunctionName("DiscoverMovies")]
+        [OpenApiOperation(operationId: "MovieDiscover", tags: new[] { "Movies" })]
+        [OpenApiParameter(name: "minPrimaryReleaseData", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Lowes year to find")]
+        [OpenApiParameter(name: "maxPrimaryReleaseData", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Highest year of release to find")]
+        [OpenApiParameter(name: "cast", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "person that should be part of cast")]
+        [OpenApiParameter(name: "crew", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "person that should be part of crew")]
+        [OpenApiParameter(name: "genres", In = ParameterLocation.Query, Required = false, Type = typeof(string), Description = "genre that movies should have")]
+        [OpenApiParameter(name: "page", In = ParameterLocation.Query, Required = false, Type = typeof(int), Description = "Page number that you want to see")]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(MovieList), Description = "The OK response")]
+        public async Task<IActionResult> MovieDiscover(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "movies/discover")] HttpRequest req)
+        {
+            int? yearLow = null;
+            if (int.TryParse(req.Query["minPrimaryReleaseData"], out var minReleaseDate)){
+                yearLow = minReleaseDate;
+            }
+            int? yearHigh = null;
+            if (int.TryParse(req.Query["maxPrimaryReleaseData"], out var maxReleaseDate)){
+                yearHigh = maxReleaseDate;
+            }
+            string cast = req.Query["cast"];
+            string crew = req.Query["crew"];
+            string genres = req.Query["genres"];
+
+            int page = 1;
+            if (int.TryParse(req.Query["page"],out var pageInput) && pageInput>0){
+                page = pageInput;
+            }
+
+            return new OkObjectResult(await _moviesService.FilterMovies(yearHigh,yearLow,cast,crew,genres,page));
+        }
+    }
 }
