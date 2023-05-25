@@ -31,11 +31,11 @@ namespace MovieFiles.Infrastructure.Repositories
             return countEffectedRecords>0;
         }
 
-        public async Task<CustomMovieList<MyMovieListItem>> GetMyMovieList(Guid userId, MyMovieListItem.ListType listType, int page){
+        public async Task<CustomMovieList<MyMovieListItem>> GetMyMovieList(Guid userId, string listName, int page){
             using var db = GetQuantityDbUserConnection();
             var dbMovieQuery = db.MovieLists.Where(ml => 
                     ml.UserId == userId && 
-                    ml.ListName == MyMovieListItem.GetListTypeName(listType));
+                    ml.ListName == listName);
             var totalResults = await dbMovieQuery.CountAsync();
             var dbMovies = await dbMovieQuery
                 .Skip((page-1) * PAGE_SIZE)

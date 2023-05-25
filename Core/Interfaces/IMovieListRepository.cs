@@ -31,6 +31,6 @@ namespace MovieFiles.Core.Interfaces
         /// <param name="userId">the user that we want to get list of</param>
         /// <param name="page"> page that we want to see</param>
         /// <returns>object containg page information and list of movies for the particular user</returns>
-        public Task<CustomMovieList<MyMovieListItem>> GetMyMovieList(Guid userId, MyMovieListItem.ListType listType, int page);
+        public Task<CustomMovieList<MyMovieListItem>> GetMyMovieList(Guid userId, string listName, int page);
     }
 }

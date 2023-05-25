@@ -26,12 +26,12 @@ namespace MovieFiles.Api.Client.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Core.Models.MovieList> GetMyMovieList(Guid userId, Core.Models.MyMovieListItem.ListType movieType, int page)
+        public async Task<Core.Models.MovieList> GetMyMovieList(Guid userId, Core.Models.MyMovieListItem.ListType listType, int page)
         {
             MovieList response = await RetryHelper.RetryOnExceptionAsync<MovieList>(3, () => 
                 _client.GetMoviesFromMovieListAsync(
                     userId,
-                    UiToClient.Map2(movieType),
+                    MyMovieListItem.GetListTypeName(listType),
                     page,
                     _functionAppKey));
             return ClientToUi.Map(response);

@@ -35,7 +35,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiOperation(operationId: "AddMovieToMovieList", tags: new[] { "Movie lists" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Query, Required = true, Type = typeof(Guid), Description = "Id of user that is adding movie to his list")]
         [OpenApiParameter(name: "movieId", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "Id of movie to add to the list")]
-        [OpenApiParameter(name: "movieListType", In = ParameterLocation.Query, Required = true, Type = typeof(MyMovieListItem.ListType), Description = "Type of movie list. 0: watch later, 1: toplist, 2: already watched")]
+        [OpenApiParameter(name: "movieListName", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Name of the movie list")]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "text/plain", bodyType: typeof(string), Description = "Incorrect parameters were provided.")]
@@ -50,15 +50,16 @@ namespace MovieFiles.Api.Functions
             if (!Guid.TryParse(req.Query["userId"], out var userId)){
                 return new BadRequestObjectResult("Invalid user ID.");
             }
-            if (!Enum.TryParse<MyMovieListItem.ListType>(req.Query["movieListType"],true,out var movieListType)){
-                return new BadRequestObjectResult("Invalid type of list.");
+            string movieName = req.Query["movieListName"];
+            if (String.IsNullOrWhiteSpace(movieName)){
+                return new BadRequestObjectResult("Name of list needs to be specified.");
             }
 
             var additionSuccesful = await _movieListService.AddMovieToMyList(
                 new(){
                     UserId = userId,
                     MovieId = movieId,
-                    ListName = MyMovieListItem.GetListTypeName(movieListType)
+                    ListName = req.Query["movieListName"]
                 }
             );
 
@@ -74,7 +75,7 @@ namespace MovieFiles.Api.Functions
         [FunctionName("GetMoviesFromMovieList")]
         [OpenApiOperation(operationId: "GetMoviesFromMovieList", tags: new[] { "Movie lists" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Query, Required = true, Type = typeof(Guid), Description = "Id of a user to get the list of.")]
-        [OpenApiParameter(name: "movieListType", In = ParameterLocation.Query, Required = true, Type = typeof(MyMovieListItem.ListType), Description = "Type of movie list. 0: watch later, 1: toplist, 2: already watched")]
+        [OpenApiParameter(name: "movieListName", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Name of the movie list")]
         [OpenApiParameter(name: "page", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "Page number to return.")]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Core.Models.MovieList), Description = "The OK response")]
@@ -91,11 +92,12 @@ namespace MovieFiles.Api.Functions
             if (!int.TryParse(req.Query["page"], out var page) && page <1){
                 return new BadRequestObjectResult("Invalid page number.");
             }
-            if (!Enum.TryParse<MyMovieListItem.ListType>(req.Query["movieListType"],true,out var movieListType)){
-                return new BadRequestObjectResult("Invalid type of list.");
+            string movieName = req.Query["movieListName"];
+            if (String.IsNullOrWhiteSpace(movieName)){
+                return new BadRequestObjectResult("Name of list needs to be specified.");
             }
 
-            CustomMovieList<MyMovieListItem> list = await _movieListService.GetMyMovieList(userId, movieListType, page);
+            CustomMovieList<MyMovieListItem> list = await _movieListService.GetMyMovieList(userId, movieName, page);
 
             return new OkObjectResult(await ConvertCustomMovieListToMovieList(list));
         }
@@ -104,7 +106,7 @@ namespace MovieFiles.Api.Functions
         [OpenApiOperation(operationId: "RemoveMovieFromMovieList", tags: new[] { "Movie lists" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Query, Required = true, Type = typeof(Guid), Description = "Id of user that is adding movie to his list")]
         [OpenApiParameter(name: "movieId", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "Id of movie to add to the list")]
-        [OpenApiParameter(name: "movieListType", In = ParameterLocation.Query, Required = true, Type = typeof(MyMovieListItem.ListType), Description = "Type of movie list. 0: watch later, 1: toplist, 2: already watched")]
+        [OpenApiParameter(name: "movieListName", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "Name of the movie list")]
         [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/plain", bodyType: typeof(string), Description = "The OK response")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "text/plain", bodyType: typeof(string), Description = "Incorrect parameters were provided.")]
@@ -119,15 +121,16 @@ namespace MovieFiles.Api.Functions
             if (!Guid.TryParse(req.Query["userId"], out var userId)){
                 return new BadRequestObjectResult("Invalid user ID.");
             }
-            if (!Enum.TryParse<MyMovieListItem.ListType>(req.Query["movieListType"],true,out var movieListType)){
-                return new BadRequestObjectResult("Invalid type of list.");
+            string movieName = req.Query["movieListName"];
+            if (String.IsNullOrWhiteSpace(movieName)){
+                return new BadRequestObjectResult("Name of list needs to be specified.");
             }
 
             var deletionSuccesfull = await _movieListService.RemoveMovieFromMyList(
                 new(){
                     UserId = userId,
                     MovieId = movieId,
-                    ListName = MyMovieListItem.GetListTypeName(movieListType)
+                    ListName = movieName
                 }
             );
 

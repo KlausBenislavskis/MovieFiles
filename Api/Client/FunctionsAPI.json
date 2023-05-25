@@ -184,17 +184,10 @@
           },
           {
             "in": "query",
-            "name": "movieListType",
-            "description": "Type of movie list. 0: watch later, 1: toplist, 2: already watched",
+            "name": "movieListName",
+            "description": "Name of the movie list",
             "required": true,
-            "type": "integer",
-            "format": "int32",
-            "default": 0,
-            "enum": [
-              0,
-              1,
-              2
-            ]
+            "type": "string"
           },
           {
             "in": "header",
@@ -239,17 +232,10 @@
           },
           {
             "in": "query",
-            "name": "movieListType",
-            "description": "Type of movie list. 0: watch later, 1: toplist, 2: already watched",
+            "name": "movieListName",
+            "description": "Name of the movie list",
             "required": true,
-            "type": "integer",
-            "format": "int32", 
-            "default": 0,
-            "enum": [
-              0,
-              1,
-              2
-            ]
+            "type": "string"
           },
           {
             "in": "query",
@@ -309,17 +295,10 @@
           },
           {
             "in": "query",
-            "name": "movieListType",
-            "description": "Type of movie list. 0: watch later, 1: toplist, 2: already watched",
+            "name": "movieListName",
+            "description": "Name of the movie list",
             "required": true,
-            "type": "integer",
-            "format": "int32",
-            "default": 0,
-            "enum": [
-              0,
-              1,
-              2
-            ]
+            "type": "string"
           },
           {
             "in": "header",
