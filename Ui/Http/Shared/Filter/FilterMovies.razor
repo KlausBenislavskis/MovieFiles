@@ -1,0 +1,138 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@inject IMovieUtilService UtilService
+@using MovieFiles.Ui.Http.Shared.Movies
+@using MovieFiles.Ui.Http.Shared.Filter
+@using Blazored.Typeahead
+@using MovieFiles.Core.Models.People;
+@inject IMoviesService MoviesService
+@inject IPeopleService PeopleService
+
+<style>
+    .input{
+        width: 100px;
+        height: 30px;
+        margin-inline: 5px;
+        text-align: center;
+    }
+</style>
+
+
+<div id="main-container">
+    <div id="topContainer">
+        <div class="filter">
+            <h5>Year:</h5>
+            <InputNumber class="input" @bind-Value="minYear" placeholder="Min" min="1800" max="@System.DateTime.Now.Year"/>
+            <p> - </p>
+            <InputNumber class="input" @bind-Value="maxYear" placeholder="Max" min="1800" max="@System.DateTime.Now.Year"/>
+        </div>
+        <div class="filter">
+            <h5>Category: </h5>
+            <InputSelect class="input" @bind-Value="selectedGenreId">
+                @foreach (var category in genreList.Genres)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="filter">
+            <h5>Crew: </h5>
+            <BlazoredTypeahead class="input" SearchMethod="searchPeople" @bind-Value="filterCrew">
+                <SelectedTemplate>
+                    @context.Name
+                </SelectedTemplate>
+                <ResultTemplate>
+                    <div class="typeahead-result">
+                        @context.Name
+                    </div>
+                </ResultTemplate>
+                <NotFoundTemplate>
+                    <div class="typeahead-result">
+                        <i>Sorry, but we can not find a person matching this name</i>
+                    </div>
+                </NotFoundTemplate>
+            </BlazoredTypeahead>
+        </div>
+        <div class="filter">
+            <h5>Cast: </h5>
+            <BlazoredTypeahead SearchMethod="searchPeople" @bind-Value="filterCast">
+                <SelectedTemplate>
+                    @context.Name
+                </SelectedTemplate>
+                <ResultTemplate>
+                    <div class="typeahead-result">
+                        @context.Name
+                    </div>
+                </ResultTemplate>
+                <NotFoundTemplate>
+                    <div class="typeahead-result">
+                        <i>Sorry, but we can not find a person matching this name</i>
+                    </div>
+                </NotFoundTemplate>
+            </BlazoredTypeahead>
+        </div>
+    </div>
+    <div id="bottomContainer">
+        <button onclick="@UnfilterMovies">Default</button>
+        <button onclick="@OnFilter">Apply</button>
+    </div>
+</div>
+
+
+@code
+{
+    [Parameter]
+    public EventCallback<FilterParameters> Filter{get;set;}
+    [Parameter]
+    public EventCallback Unfilter{get;set;}
+
+    private int? minYear { get; set; }
+    private int? maxYear { get; set; }
+
+    private static readonly Genre emptyGenre = new() {Id = -1, Name = "---"};
+
+    private GenreList genreList = new() {Genres = new()};
+    private int selectedGenreId { get; set; } = emptyGenre.Id;
+    
+    private Person? filterCrew {get;set;}
+    private Person? filterCast {get;set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        GenreList list = await UtilService.GetGenresAsync();
+        list.Genres.Insert(0, emptyGenre);
+        genreList = list;
+        selectedGenreId = emptyGenre.Id;
+    }
+    
+    protected async Task<IEnumerable<Person>?> searchPeople(string query){
+        PeopleList? list = await PeopleService.SearchPeople(query);
+        return list?.Results;
+    }
+
+    private void OnFilter()
+    {
+        FilterParameters filterParameters = new FilterParameters()
+        {
+            selectedGenreId = selectedGenreId,
+            filterCrew = filterCrew,
+            filterCast = filterCast,
+            minYear = minYear ?? 1800,
+            maxYear = maxYear ?? System.DateTime.Now.Year
+        };
+        Filter.InvokeAsync(filterParameters);
+    }
+
+    private void UnfilterMovies()
+    {
+        Unfilter.InvokeAsync();
+    }
+    
+    public class FilterParameters
+    {
+        public int selectedGenreId { get; set; }
+        public Person filterCrew {get;set;}
+        public Person filterCast {get;set;}
+        public int minYear { get; set; }
+        public int maxYear { get; set; }
+    }
+}

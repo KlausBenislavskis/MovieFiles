@@ -39,9 +39,10 @@ namespace MovieFiles.Api.Client.Services
             return ClientToUi.Map(response);
         }
 
-        public Task<Core.Models.MovieList> FilterMovies(int? highYear, int? lowYear, string cast, string crew, string genres, int page)
+        public async Task<Core.Models.MovieList> FilterMovies(int? highYear, int? lowYear, string cast, string crew, string genres, int page)
         {
-            throw new NotImplementedException();
+            var response = await _client.MovieDiscoverAsync(lowYear,highYear,cast,crew,genres,page,_functionAppKey);
+            return ClientToUi.Map(response);
         }
     }
 }

@@ -13,7 +13,7 @@
         @if (!string.IsNullOrEmpty(movie.OriginalTitle))
         {
             <div style="height: 30px">
-                <RatingAverage StyleClass="@StyleClassObject" MovieId="@movie.Id" reRender="reRender"></RatingAverage>
+                <RatingAverage StyleClass="@StyleClassObject" MovieId="@movie.Id"></RatingAverage>
             </div>
         }
     </div>
@@ -28,8 +28,6 @@
     [Parameter]
     public Core.Models.Movie movie { get; set; }
 
-    [Parameter]
-    public bool reRender { get; set; } = true;
 
     public bool rating { get; set; } = false;
     

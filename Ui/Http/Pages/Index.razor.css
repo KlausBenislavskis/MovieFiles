@@ -16,6 +16,67 @@
     border-bottom: 1px solid #555;
 }
 
+.typeahead-result {
+    color: black;
+}
+
+.typeahead-block {
+    max-width: 450px;
+    display: flex;
+    align-items: center;
+}
+.movieHead{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#filterButton{
+    display: flex;
+    height: 40px;
+    padding-inline: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    border-color: transparent;
+    transition: background-color 0.2s ease-in-out;
+}
+#filterButton:hover {
+    /*background-color: #101215;*/
+    background-color: #8534e7;
+    cursor: pointer;
+}
+#filterButton p{
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    transition: color 0.2s ease-in-out;
+}
+#filterButton:hover p{
+    color: white;
+}
+#filterButton svg{
+    transition: color 0.2s ease-in-out;
+    color: black;
+}
+#filterButton:hover svg{
+    color: white;
+}
+
+
+/*.filter-hidden{*/
+/*    display: none;*/
+/*}*/
+/*.filter-visible{*/
+/*    display: block;*/
+/*}*/
+#filter{
+    display: none;
+}
+
 .tab-button {
     font-size: 20px;
     color: #fff;

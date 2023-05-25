@@ -50,7 +50,6 @@
     public static readonly int TotalPages = 500;
     public static readonly int PageRange = 3;
 
-    public bool reRender { get; set; } = false;
     protected override async Task OnInitializedAsync()
     {
         this.Page = Math.Max(1, this.Page);
@@ -74,8 +73,7 @@
         if (Page != newPage)
         {
             Page = newPage;
-            reRender = true;
-            MovieList = await MoviesService.GetPopularMoviesAsync(Page);
+            MovieList = await MovieGetter(Page);
             await JSRuntime.InvokeVoidAsync("window.scrollTo", 0, 0);
         }
     }

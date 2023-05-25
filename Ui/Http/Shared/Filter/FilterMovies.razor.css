@@ -1,0 +1,53 @@
+﻿#main-container{
+    width: 100%;
+    height: auto;
+    background-color: #5d19b0;
+    padding: 10px;
+    border-radius: 5px;
+}
+#topContainer{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+    gap: 1rem;
+}
+
+
+.filter{
+    display: flex;
+    align-items: center;
+}
+.filter h5,p{
+    padding: 0;
+    margin: 0;
+    color: white;
+    aligne-self: center;
+}
+
+
+#bottomContainer{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+}
+#bottomContainer button{
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    background-color: #101215;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+#bottomContainer button:hover{
+    background-color: white;
+    color: black;
+}
+.typeahead-result {
+    color: black;
+}
+

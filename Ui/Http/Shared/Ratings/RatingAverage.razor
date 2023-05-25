@@ -1,6 +1,7 @@
 ﻿@using MovieFiles.Api.Client.Services;
 @using System.Globalization
 @using MovieFiles.Ui.Http.Pages
+@using System.Globalization;
 @inject IRatingService RatingService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
@@ -32,25 +33,10 @@ else
     [Parameter]
     public MovieDetails.StyleClass StyleClass { get; set; }
     
-    protected override async Task OnInitializedAsync()
+     protected override async Task OnParametersSetAsync()
     {
+        AverageRating = null;
         AverageRating = await RatingService.GetAverageRating(MovieId);
         IsLoading = false;
     }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender && reRender)
-        {
-            firstRender = true;
-        }
-        if (firstRender)
-        {
-            AverageRating = await RatingService.GetAverageRating(MovieId);
-            IsLoading = false;
-            reRender = false;
-            StateHasChanged();
-        }
-    }
-
 }
