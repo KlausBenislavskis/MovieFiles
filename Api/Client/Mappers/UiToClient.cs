@@ -20,5 +20,18 @@
                 Text = comment.Text,
             };
         }
+
+        internal static MovieListType2 Map2(Core.Models.MyMovieListItem.ListType listType){
+            int type = (int)listType;
+            return (MovieListType2)type;
+        }
+        internal static MovieListType Map(Core.Models.MyMovieListItem.ListType listType){
+            int type = (int)listType;
+            return (MovieListType)type;
+        }
+        internal static MovieListType3 Map3(Core.Models.MyMovieListItem.ListType listType){
+            int type = (int)listType;
+            return (MovieListType3)type;
+        }
     }
 }

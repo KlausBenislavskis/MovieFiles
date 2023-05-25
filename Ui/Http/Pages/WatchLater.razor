@@ -30,8 +30,7 @@
         var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var userId = user.User.GetUserId();
 
-        var listItems = await MovieListService.GetMyMovieList(userId,MyMovieListItem.ListType.WATCH_LATER,page);
-        MovieList list = await MovieListService.ConvertCustomMovieListToMovieList(listItems);
+        var list = await MovieListService.GetMyMovieList(userId,MyMovieListItem.ListType.WATCH_LATER,page);
         return list;
     }
 }

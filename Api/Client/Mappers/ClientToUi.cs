@@ -152,24 +152,5 @@
                 TotalResults = (int)list.TotalResults
             };
         }
-        internal static Core.Models.MyMovieListItem Map(MyMovieListItem item){
-            return new(){
-                UserId = (Guid) item.UserId,
-                MovieId = (int) item.MovieId,
-                ListId = (int) item.ListId,
-                ListName = item.ListName
-            };
-        }
-        internal static Core.Models.CustomMovieList<Core.Models.MyMovieListItem> Map(CustomMovieList_myMovieListItem movieList){
-            if (movieList == null){
-                return new();
-            }
-            return new(){
-                Page = (int) movieList.Page,
-                List = movieList.List.Select(Map).ToArray(),
-                TotalPages = (int) movieList.TotalPages,
-                TotalResults = (int) movieList.TotalResults
-            };
-        }
     }
 }

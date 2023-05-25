@@ -32,13 +32,13 @@ namespace MovieFiles.Core.Interfaces
         /// <param name="userId">the user that we want to get list of</param>
         /// <param name="page"> page that we want to see</param>
         /// <returns>object containg page information and list of movies for the particular user</returns>
-        public Task<CustomMovieList<MyMovieListItem>> GetMyMovieList(Guid userId, MyMovieListItem.ListType movieType, int page);
+        public Task<Core.Models.MovieList> GetMyMovieList(Guid userId, MyMovieListItem.ListType movieType, int page);
 
         /// <summary>
         /// Method to convert list of custom movie list to a movie list - all movies are loaded simultanously
         /// </summary>
         /// <param name="externList">list to be converted</param>
         /// <returns>the converted list</returns>
-        public Task<Core.Models.MovieList> ConvertCustomMovieListToMovieList(CustomMovieList<Core.Models.MyMovieListItem> externList);
+        //public Task<Core.Models.MovieList> ConvertCustomMovieListToMovieList(CustomMovieList<Core.Models.MyMovieListItem> externList);
     }
 }

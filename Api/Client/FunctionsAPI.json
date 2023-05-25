@@ -161,7 +161,7 @@
         "tags": [
           "Movie lists"
         ],
-        "operationId": "AddMovieToWatchLater",
+        "operationId": "AddMovieToMovieList",
         "produces": [
           "text/plain"
         ],
@@ -181,6 +181,20 @@
             "required": true,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "movieListType",
+            "description": "Type of movie list. 0: watch later, 1: toplist, 2: already watched",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "enum": [
+              0,
+              1,
+              2
+            ]
           },
           {
             "in": "header",
@@ -209,7 +223,7 @@
         "tags": [
           "Movie lists"
         ],
-        "operationId": "GetMoviesToWatchLater",
+        "operationId": "GetMoviesFromMovieList",
         "produces": [
           "application/json",
           "text/plain"
@@ -222,6 +236,20 @@
             "required": true,
             "type": "string",
             "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "movieListType",
+            "description": "Type of movie list. 0: watch later, 1: toplist, 2: already watched",
+            "required": true,
+            "type": "integer",
+            "format": "int32", 
+            "default": 0,
+            "enum": [
+              0,
+              1,
+              2
+            ]
           },
           {
             "in": "query",
@@ -243,7 +271,7 @@
           "200": {
             "description": "The OK response",
             "schema": {
-              "$ref": "#/definitions/customMovieList_myMovieListItem"
+              "$ref": "#/definitions/movieList"
             }
           },
           "400": {
@@ -258,7 +286,7 @@
         "tags": [
           "Movie lists"
         ],
-        "operationId": "RemoveMovieToWatchLater",
+        "operationId": "RemoveMovieFromMovieList",
         "produces": [
           "text/plain"
         ],
@@ -278,6 +306,20 @@
             "required": true,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "movieListType",
+            "description": "Type of movie list. 0: watch later, 1: toplist, 2: already watched",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "enum": [
+              0,
+              1,
+              2
+            ]
           },
           {
             "in": "header",
@@ -1192,29 +1234,6 @@
         }
       }
     },
-    "customMovieList_myMovieListItem": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/myMovieListItem"
-          }
-        },
-        "totalResults": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "totalPages": {
-          "format": "int32",
-          "type": "integer"
-        }
-      }
-    },
     "genre": {
       "type": "object",
       "properties": {
@@ -1317,26 +1336,6 @@
         "totalPages": {
           "format": "int32",
           "type": "integer"
-        }
-      }
-    },
-    "myMovieListItem": {
-      "type": "object",
-      "properties": {
-        "userId": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "movieId": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "listId": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "listName": {
-          "type": "string"
         }
       }
     },

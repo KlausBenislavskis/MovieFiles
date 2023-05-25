@@ -26,32 +26,15 @@ namespace MovieFiles.Api.Client.Services
             throw new NotImplementedException();
         }
 
-        public async Task<CustomMovieList<Core.Models.MyMovieListItem>> GetMyMovieList(Guid userId, Core.Models.MyMovieListItem.ListType movieType, int page)
+        public async Task<Core.Models.MovieList> GetMyMovieList(Guid userId, Core.Models.MyMovieListItem.ListType movieType, int page)
         {
-            CustomMovieList_myMovieListItem response;
-            switch (movieType) {
-                case Core.Models.MyMovieListItem.ListType.WATCH_LATER:
-                    response = await RetryHelper.RetryOnExceptionAsync<CustomMovieList_myMovieListItem>(3, () => _client.GetMoviesToWatchLaterAsync(userId,page,_functionAppKey));
-                    break;
-                default:
-                    throw new ArgumentException("unknown type of list");
-            }
+            MovieList response = await RetryHelper.RetryOnExceptionAsync<MovieList>(3, () => 
+                _client.GetMoviesFromMovieListAsync(
+                    userId,
+                    UiToClient.Map2(movieType),
+                    page,
+                    _functionAppKey));
             return ClientToUi.Map(response);
-        }
-
-        public async Task<Core.Models.MovieList> ConvertCustomMovieListToMovieList(CustomMovieList<Core.Models.MyMovieListItem> externList){
-            Core.Models.MovieList myList = new(){
-                Page = externList.Page,
-                TotalResults = externList.TotalResults,
-                TotalPages = externList.TotalPages
-            };
-            var getMoviesTasks = externList.List.Select(getMovieFromListItem).ToArray();
-            myList.Results = await Task.WhenAll(getMoviesTasks);
-            return myList;
-        }
-
-        private async Task<Core.Models.Movie> getMovieFromListItem(Core.Models.MyMovieListItem item){
-            return await _movieDetailService.GetMovieDetailsAsync(item.MovieId);
         }
     }
 }
