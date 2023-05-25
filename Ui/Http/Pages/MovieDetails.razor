@@ -14,12 +14,12 @@ else if (Movie != null)
             <div class="fade-out-image">
                 <img src="https://image.tmdb.org/t/p/w400/@Movie.PosterPath" alt="Movie Poster" class="responsive-picture"/>
             </div>
-            <div>
-                @* <AuthorizeView> *@
-                @*     <Authorized> *@
-                @*         <RatingUser MovieId="@MovieId"></RatingUser> *@
-                @*     </Authorized> *@
-                @* </AuthorizeView> *@
+            <div class="picture">
+                <AuthorizeView>
+                    <Authorized>
+                        <RatingUser MovieId="@MovieId"></RatingUser>
+                    </Authorized>
+                </AuthorizeView>
             </div>
         </div>
         <div class="grid-item details">
@@ -31,6 +31,10 @@ else if (Movie != null)
                 <p> @ShowYearFromDate(@Movie.ReleaseDate)</p>
                 <hr class="vertical-separator">
                 <p> @ConvertMinutesToHours(@Movie.Runtime)</p>
+                <hr class="vertical-separator">
+                <button class="gray-button">
+                    Add to Favorites
+                </button>
             </div>
             <table class="block-items">
                 <tbody>
@@ -132,7 +136,7 @@ else if (Movie != null)
         IEnumerable<Crew> actingCrew = CreditList.Crew
             .Where(c => c.KnownForDepartment.Contains("Writing"))
             .OrderByDescending(c => c.Job == "Writer");
-        
+
         return actingCrew.ToArray();
     }
 

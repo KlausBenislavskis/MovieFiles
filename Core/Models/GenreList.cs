@@ -17,8 +17,8 @@ public class GenreList
         }
         Genres = emptyGenres.ToArray();
     }
-    public Genre[] Genres { get; set; }
-    public List<Genre> Genres {get;set;}
+     public Genre[] Genres { get; set; }
+    // public List<Genre> Genres {get;set;}
     public int TotalResults { get; set; }
 
 }
