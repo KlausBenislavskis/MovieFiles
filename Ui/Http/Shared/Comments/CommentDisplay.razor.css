@@ -1,0 +1,14 @@
+.custom-card-header {
+    background-color: #4a4a4a; 
+    color: #e8e8e8;
+}
+
+.custom-card-body {
+    background-color: #545454;
+    color:#e8e8e8
+}
+
+.custom-card {
+    border-color: #4a4a4a ;
+    
+}

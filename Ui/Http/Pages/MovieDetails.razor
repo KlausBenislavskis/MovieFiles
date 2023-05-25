@@ -3,90 +3,91 @@
 @using MovieFiles.Ui.Http.Shared.CreditList
 @inject IMovieDetailsService MovieDetailsService
 
-@if (MovieId == null)
-{
-    <h1>Could not find requested movie</h1>
-}
-else if (Movie != null)
-{
-    <div class="grid-container">
-        <div class="grid-item picture">
-            <div class="fade-out-image">
-                <img src="https://image.tmdb.org/t/p/w400/@Movie.PosterPath" alt="Movie Poster" class="responsive-picture"/>
-            </div>
-            <div class="horizontal-items-rating">
-                <AuthorizeView>
-                    <Authorized>
-                        <p class ="rating">RATE</p>
-                        <RatingUser MovieId="@MovieId"></RatingUser>
-                    </Authorized>
-                </AuthorizeView>
-            </div>
-            <div class="horizontal-items-buttons">
-                <button class="gray-button">
-                    Add to Favorites
-                </button>
-                <button class="gray-button">
-                    Add to Watched
-                </button>
-                <button class="gray-button">
-                    Going to watch
-                </button>
-            </div>
-        </div>
-        <div class="grid-item details">
-            <div class="title-rating-alignment">
-                <p class="movie-title" style="color: #e8e8e8"> @Movie.Title </p>
-                <RatingAverage StyleClass=@StyleClassObject MovieId="MovieId"></RatingAverage>
-            </div>
-            <div class="horizontal-items">
-                <p> @ShowYearFromDate(@Movie.ReleaseDate)</p>
-                <hr class="vertical-separator">
-                <p> @ConvertMinutesToHours(@Movie.Runtime)</p>
-            </div>
-            <table class="block-items">
-                <tbody>
-                <tr>
-                    <td class="line-break">Genres</td>
-                    <td class=" table-data">@string.Join(", ", Movie?.Genres?.Select(g => g.Name))</td>
-                </tr>
-                <tr>
-                    <td class="line-break">Budget</td>
-                    <td class="table-data">@FormatNumberToHundreds(@Movie.Budget)</td>
-                </tr>
-                <tr>
-                    <td class="line-break">Revenue</td>
-                    <td class=" table-data">@FormatNumberToHundreds(@Movie.Revenue)</td>
-                </tr>
-                <tr>
-                    <td class="line-break">Production</td>
-                    <td class=" table-data">@string.Join(", ", Movie.ProductionCompanies.Select(g => g.Name))</td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="section">
-                <div class="overview">
-                    <h2 class="section-title-active">OVERVIEW</h2>
-                    <p class="overview-text">@Movie.Overview</p>
+<div class="body">
+    @if (MovieId == null)
+    {
+        <h1>Could not find requested movie</h1>
+    }
+    else if (Movie != null)
+    {
+        <div class="grid-container">
+            <div class="grid-item picture">
+                <div class="fade-out-image">
+                    <img src="https://image.tmdb.org/t/p/w400/@Movie.PosterPath" alt="Movie Poster" class="responsive-picture"/>
+                </div>
+                <div class="horizontal-items-rating">
+                    <AuthorizeView>
+                        <Authorized>
+                            <p class="rating">RATE</p>
+                            <RatingUser MovieId="@MovieId"></RatingUser>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
+                <div class="horizontal-items-buttons">
+                    <button class="gray-button">
+                        Add to Favorites
+                    </button>
+                    <button class="gray-button">
+                        Add to Watched
+                    </button>
+                    <button class="gray-button">
+                        Going to watch
+                    </button>
                 </div>
             </div>
-            <table class="sub-menu">
-                <thead>
-                <tr>
-                    <th class="@(ActiveTab == "CAST" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("CAST")'>CAST</th>
-                    <th class="@(ActiveTab == "PRODUCER" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("PRODUCER")'>PRODUCERS</th>
-                    <th class="@(ActiveTab == "DIRECTOR" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("DIRECTOR")'>DIRECTORS</th>
-                    <th class="@(ActiveTab == "WRITER" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("WRITER")'>WRITERS</th>
-                </tr>
-                </thead>
-            </table>
-            <CreditListComponent ListToDisplay=@ListToShow></CreditListComponent>
+            <div class="grid-item details">
+                <div class="title-rating-alignment">
+                    <p class="movie-title" style="color: #e8e8e8"> @Movie.Title </p>
+                    <RatingAverage StyleClass=@StyleClassObject MovieId="MovieId"></RatingAverage>
+                </div>
+                <div class="horizontal-items">
+                    <p> @ShowYearFromDate(@Movie.ReleaseDate)</p>
+                    <hr class="vertical-separator">
+                    <p> @ConvertMinutesToHours(@Movie.Runtime)</p>
+                </div>
+                <table class="block-items">
+                    <tbody>
+                    <tr>
+                        <td class="line-break">Genres</td>
+                        <td class=" table-data">@string.Join(", ", Movie?.Genres?.Select(g => g.Name))</td>
+                    </tr>
+                    <tr>
+                        <td class="line-break">Budget</td>
+                        <td class="table-data">@FormatNumberToHundreds(@Movie.Budget)</td>
+                    </tr>
+                    <tr>
+                        <td class="line-break">Revenue</td>
+                        <td class=" table-data">@FormatNumberToHundreds(@Movie.Revenue)</td>
+                    </tr>
+                    <tr>
+                        <td class="line-break">Production</td>
+                        <td class=" table-data">@string.Join(", ", Movie.ProductionCompanies.Select(g => g.Name))</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="section">
+                    <div class="overview">
+                        <h2 class="section-title-active">OVERVIEW</h2>
+                        <p class="overview-text">@Movie.Overview</p>
+                    </div>
+                </div>
+                <table class="sub-menu">
+                    <thead>
+                    <tr>
+                        <th class="@(ActiveTab == "CAST" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("CAST")'>CAST</th>
+                        <th class="@(ActiveTab == "PRODUCER" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("PRODUCER")'>PRODUCERS</th>
+                        <th class="@(ActiveTab == "DIRECTOR" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("DIRECTOR")'>DIRECTORS</th>
+                        <th class="@(ActiveTab == "WRITER" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("WRITER")'>WRITERS</th>
+                    </tr>
+                    </thead>
+                </table>
+                <CreditListComponent ListToDisplay=@ListToShow></CreditListComponent>
 
+            </div>
         </div>
-    </div>
-    <CommentSection MovieId="MovieId"></CommentSection>
-}
-
+        <CommentSection MovieId="MovieId"></CommentSection>
+    }
+</div>
 @code {
 
     [Parameter]

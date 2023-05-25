@@ -1,0 +1,10 @@
+.gray-button.btn-primary {
+    background-color: rgba(84, 84, 84, 0.7);
+    color: #e8e8e8;
+    border: 1px solid #545454;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
