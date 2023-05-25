@@ -131,20 +131,7 @@ namespace MovieFiles.Api.Client.Mappers
                 Text = comment.Text
             };
         }
-    
-        internal static Core.Models.Genre Map(Genre genre)
-        {
-            if (genre == null)
-            {
-                return new();
-            }
-
-            return new()
-            {
-                Id = (int)genre.Id,
-                Name = genre.Name
-            };
-        }
+        
         internal static Core.Models.ProductionCompany Map(ProductionCompany productionCompany)
         {
             if (productionCompany == null)
@@ -170,7 +157,7 @@ namespace MovieFiles.Api.Client.Mappers
 
             return new()
             {
-                Genres = genreList.Genres.Select(Map).ToArray()
+                Genres = genreList.Genres.Select(Map).ToList()
             };
         }
         
@@ -198,14 +185,14 @@ namespace MovieFiles.Api.Client.Mappers
             };
         }
 
-        internal static Core.Models.GenreList Map(GenreList genreList){
-            if (genreList == null){
-                return null;
-            }
-            return new(){
-                Genres = genreList.Genres.Select(Map).ToList()
-            };
-        }
+        // internal static Core.Models.GenreList Map(GenreList genreList){
+        //     if (genreList == null){
+        //         return null;
+        //     }
+        //     return new(){
+        //         Genres = genreList.Genres.Select(Map).ToList()
+        //     };
+        // }
 
         internal static Core.Models.People.Person Map(Person person){
             return new(){
