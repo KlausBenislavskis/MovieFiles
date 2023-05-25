@@ -55,7 +55,7 @@
     </a>
     <div id="navBarSearch">
         <EditForm id="searchForm" class="searchComponent" Model="SearchString" OnSubmit="@SearchMovies">
-            <InputText id="searchBar" @bind-Value="SearchString"/>
+            <InputText id="searchBar" placeholder="Search movies" @bind-Value="SearchString"/>
             <button id="searchIcon" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>

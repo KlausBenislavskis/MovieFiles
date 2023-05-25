@@ -156,6 +156,153 @@
         }
       }
     },
+    "/my-movies/watch-later": {
+      "post": {
+        "tags": [
+          "Movie lists"
+        ],
+        "operationId": "AddMovieToWatchLater",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "description": "Id of user that is adding movie to his list",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "movieId",
+            "description": "Id of movie to add to the list",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Incorrect parameters were provided.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Movie lists"
+        ],
+        "operationId": "GetMoviesToWatchLater",
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "description": "Id of a user to get the list of.",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number to return.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/customMovieList_myMovieListItem"
+            }
+          },
+          "400": {
+            "description": "Incorrect parameters were provided.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Movie lists"
+        ],
+        "operationId": "RemoveMovieToWatchLater",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "description": "Id of user that is adding movie to his list",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "movieId",
+            "description": "Id of movie to add to the list",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Incorrect parameters were provided.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/movies/now-playing/{page}": {
       "get": {
         "tags": [
@@ -292,7 +439,7 @@
         }
       }
     },
-    "/movie/name": {
+    "/movies/name": {
       "get": {
         "tags": [
           "Movies"
@@ -314,6 +461,73 @@
             "name": "page",
             "description": "Page number that you want to see",
             "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/movieList"
+            }
+          }
+        }
+      }
+    },
+    "/movies/discover": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "operationId": "MovieDiscover",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "minPrimaryReleaseData",
+            "description": "Lowes year to find",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "maxPrimaryReleaseData",
+            "description": "Highest year of release to find",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "cast",
+            "description": "person that should be part of cast",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "crew",
+            "description": "person that should be part of crew",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "genres",
+            "description": "genre that movies should have",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number that you want to see",
             "type": "integer",
             "format": "int32"
           },
@@ -528,6 +742,77 @@
             "description": "Payload of Void",
             "schema": {
               "$ref": "#/definitions/void"
+            }
+          }
+        }
+      }
+    },
+    "/person/popular": {
+      "get": {
+        "tags": [
+          "people"
+        ],
+        "operationId": "PopularPeople",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number that you want to see",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/peopleList"
+            }
+          }
+        }
+      }
+    },
+    "/search/person": {
+      "get": {
+        "tags": [
+          "people"
+        ],
+        "operationId": "SearchPeople",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "description": "name to search for in people",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/peopleList"
             }
           }
         }
@@ -800,6 +1085,34 @@
           }
         }
       }
+    },
+    "/MovieGenre": {
+      "get": {
+        "tags": [
+          "Genre"
+        ],
+        "operationId": "GetAllGenre",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/genreList"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -879,6 +1192,29 @@
         }
       }
     },
+    "customMovieList_myMovieListItem": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/myMovieListItem"
+          }
+        },
+        "totalResults": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "totalPages": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
     "genre": {
       "type": "object",
       "properties": {
@@ -888,6 +1224,17 @@
         },
         "name": {
           "type": "string"
+        }
+      }
+    },
+    "genreList": {
+      "type": "object",
+      "properties": {
+        "genres": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/genre"
+          }
         }
       }
     },
@@ -970,6 +1317,61 @@
         "totalPages": {
           "format": "int32",
           "type": "integer"
+        }
+      }
+    },
+    "myMovieListItem": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "movieId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "listId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "listName": {
+          "type": "string"
+        }
+      }
+    },
+    "peopleList": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/person"
+          }
+        },
+        "totalPages": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "totalResults": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "person": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
         }
       }
     },

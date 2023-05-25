@@ -13,6 +13,8 @@ namespace MovieFiles.Api.Client
             services.AddScoped<IUserService>(provider => new UserService(apiUrl, appKey));
             services.AddScoped<IMoviesService>(provider => new MoviesService(apiUrl, appKey));
             services.AddScoped<IMovieDetailsService>(provider => new MovieDetailsService(apiUrl, appKey));
+            services.AddScoped<IMovieUtilService>(prodived => new MovieUtilService(apiUrl,appKey));
+            services.AddScoped<IPeopleService>(provider => new PeopleService(apiUrl,appKey));
             
             services.AddScoped((Func<IServiceProvider, Core.Interfaces.ICommentService>)(provider => new Services.CommentService(apiUrl, appKey)));
             services.AddScoped<IActivityService>(provider => new ActivityService(apiUrl, appKey));
