@@ -78,12 +78,7 @@
 @code {
     private bool showFilterBox = false;
     private Func<int, Task<MovieList>>? moviesToDisplay = null;
-    private GenreList genreList = new() { Genres = new() };
-    private int selectedGenreId { get; set; } = emptyGenre.Id;
-    private static readonly Genre emptyGenre = new() { Id = -1, Name = "---" };
-    private Person? filterCrew { get; set; }
 
-    private Person? filterCast { get; set; }
     private Tab ActiveTab { get; set; } = Tab.discover;
 
     private enum Tab
