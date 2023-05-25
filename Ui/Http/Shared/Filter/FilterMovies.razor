@@ -21,9 +21,9 @@
     <div id="topContainer">
         <div class="filter">
             <h5>Year:</h5>
-            <InputNumber class="input" @bind-Value="minYear" placeholder="Min" min="1800" max="2023"/>
+            <InputNumber class="input" @bind-Value="minYear" placeholder="Min" min="1800" max="@System.DateTime.Now.Year"/>
             <p> - </p>
-            <InputNumber class="input" @bind-Value="maxYear" placeholder="Max" min="1800" max="2023"/>
+            <InputNumber class="input" @bind-Value="maxYear" placeholder="Max" min="1800" max="@System.DateTime.Now.Year"/>
         </div>
         <div class="filter">
             <h5>Category: </h5>
@@ -72,14 +72,19 @@
         </div>
     </div>
     <div id="bottomContainer">
-        @* <button>Cancel</button> *@
-        <button>Apply</button>
+        <button onclick="@UnfilterMovies">Default</button>
+        <button onclick="@OnFilter">Apply</button>
     </div>
 </div>
 
 
 @code
 {
+    [Parameter]
+    public EventCallback<FilterParameters> Filter{get;set;}
+    [Parameter]
+    public EventCallback Unfilter{get;set;}
+
     private int? minYear { get; set; }
     private int? maxYear { get; set; }
 
@@ -102,5 +107,32 @@
     protected async Task<IEnumerable<Person>?> searchPeople(string query){
         PeopleList? list = await PeopleService.SearchPeople(query);
         return list?.Results;
+    }
+
+    private void OnFilter()
+    {
+        FilterParameters filterParameters = new FilterParameters()
+        {
+            selectedGenreId = selectedGenreId,
+            filterCrew = filterCrew,
+            filterCast = filterCast,
+            minYear = minYear ?? 1800,
+            maxYear = maxYear ?? System.DateTime.Now.Year
+        };
+        Filter.InvokeAsync(filterParameters);
+    }
+
+    private void UnfilterMovies()
+    {
+        Unfilter.InvokeAsync();
+    }
+    
+    public class FilterParameters
+    {
+        public int selectedGenreId { get; set; }
+        public Person filterCrew {get;set;}
+        public Person filterCast {get;set;}
+        public int minYear { get; set; }
+        public int maxYear { get; set; }
     }
 }

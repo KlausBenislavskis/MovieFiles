@@ -25,7 +25,7 @@
     </div>
 
     <div id="filter" >
-        <FilterMovies></FilterMovies>
+        <FilterMovies Filter="@filterMovies" Unfilter="@unfilterMovies"></FilterMovies>
     </div>
     @* <p>advanced filter: <InputCheckbox @bind-Value="showFilterBox"/></p> *@
     @* @if (showFilterBox){ *@
@@ -96,25 +96,13 @@
 </script>
 
 @code {
-    private int minYear { get; set; } = 1800;
-    private int maxYear { get; set; } = System.DateTime.Now.Year;
     private bool showFilterBox = false;
     private Func<int, Task<MovieList>>? moviesToDisplay = null;
-    private GenreList genreList = new() {Genres = new()};
-    private int selectedGenreId { get; set; } = emptyGenre.Id;
-    private static readonly Genre emptyGenre = new() {Id = -1, Name = "---"};
-
-    private Person? filterCrew { get; set; }
-
-    private Person? filterCast { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         moviesToDisplay = featuredMoviesGetter();
         GenreList list = await UtilService.GetGenresAsync();
-        list.Genres.Insert(0, emptyGenre);
-        genreList = list;
-        selectedGenreId = emptyGenre.Id;
     }
 
     protected Func<int, Task<MovieList>> featuredMoviesGetter()
@@ -123,27 +111,27 @@
         return myFunc;
     }
 
-    protected void filterMovies()
+    protected void filterMovies(FilterMovies.FilterParameters filter)
     {
         var genre = "";
-        if (selectedGenreId != -1)
+        if (filter.selectedGenreId != -1)
         {
-            genre = selectedGenreId.ToString();
+            genre = filter.selectedGenreId.ToString();
         }
         var crew = "";
-        if (filterCrew != null)
+        if (filter.filterCrew != null)
         {
-            crew = filterCrew.Id.ToString();
+            crew = filter.filterCrew.Id.ToString();
         }
 
         var cast = "";
-        if (filterCast != null)
+        if (filter.filterCast != null)
         {
-            cast = filterCast.Id.ToString();
+            cast = filter.filterCast.Id.ToString();
         }
     // adding these 2 variables as local ones as blazor would reload movies at any change of year or genre
-        var minimumYear = minYear;
-        var maximumYear = maxYear;
+        var minimumYear = filter.minYear;
+        var maximumYear = filter.maxYear;
         Console.WriteLine(crew);
         moviesToDisplay = page => MoviesService.FilterMovies(maximumYear, minimumYear, cast, crew, genre, page);
     }
@@ -151,16 +139,6 @@
     protected void unfilterMovies()
     {
         moviesToDisplay = featuredMoviesGetter();
-        minYear = 1800;
-        maxYear = System.DateTime.Now.Year;
-        selectedGenreId = emptyGenre.Id;
-        filterCrew = null;
     }
-
-    protected async Task<IEnumerable<Person>?> searchPeople(string query)
-    {
-        PeopleList? list = await PeopleService.SearchPeople(query);
-        return list?.Results;
-    }
-
+    
 }
