@@ -32,5 +32,7 @@ namespace MovieFiles.Core.Interfaces
         /// <param name="page"> page that we want to see</param>
         /// <returns>object containg page information and list of movies for the particular user</returns>
         public Task<CustomMovieList<MyMovieListItem>> GetMyMovieList(Guid userId, string listName, int page);
+        
+        public Task<IList<string>> GetMyMovieListTypes(Guid userId, int movieId);
     }
 }

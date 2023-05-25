@@ -140,6 +140,26 @@ namespace MovieFiles.Api.Functions
                 return new NotFoundObjectResult("Unable to find resource to delete");
             }
         }
+        
+        [FunctionName("GetMovieListTypes")]
+        [OpenApiOperation(operationId: "GetMovieListTypes", tags: new[] { "Movie lists" })]
+        [OpenApiParameter(name: "userId", In = ParameterLocation.Query, Required = true, Type = typeof(Guid), Description = "Id of user that owns movie list")]
+        [OpenApiParameter(name: "movieId", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "Id of movie to check list types")]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<string>), Description = "The OK response")]
+        public async Task<IActionResult> GetMovieListTypes(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "my-movies/list-types")] HttpRequest req)
+        {
+            if (!int.TryParse(req.Query["movieId"], out var movieId) && movieId <1){
+                return new BadRequestObjectResult("Invalid movie ID.");
+            }
+            if (!Guid.TryParse(req.Query["userId"], out var userId)){
+                return new BadRequestObjectResult("Invalid user ID.");
+            }
+
+            var list = await _movieListService.GetMyMovieListTypes(userId, movieId);
+            return new OkObjectResult(list);
+        }
 
         private async Task<Core.Models.MovieList> ConvertCustomMovieListToMovieList(CustomMovieList<Core.Models.MyMovieListItem> externList)
         {
