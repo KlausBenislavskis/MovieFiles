@@ -14,12 +14,24 @@ else if (Movie != null)
             <div class="fade-out-image">
                 <img src="https://image.tmdb.org/t/p/w400/@Movie.PosterPath" alt="Movie Poster" class="responsive-picture"/>
             </div>
-            <div class="picture">
+            <div class="horizontal-items-rating">
                 <AuthorizeView>
                     <Authorized>
+                        <p class ="rating">RATE</p>
                         <RatingUser MovieId="@MovieId"></RatingUser>
                     </Authorized>
                 </AuthorizeView>
+            </div>
+            <div class="horizontal-items-buttons">
+                <button class="gray-button">
+                    Add to Favorites
+                </button>
+                <button class="gray-button">
+                    Add to Watched
+                </button>
+                <button class="gray-button">
+                    Going to watch
+                </button>
             </div>
         </div>
         <div class="grid-item details">
@@ -31,10 +43,6 @@ else if (Movie != null)
                 <p> @ShowYearFromDate(@Movie.ReleaseDate)</p>
                 <hr class="vertical-separator">
                 <p> @ConvertMinutesToHours(@Movie.Runtime)</p>
-                <hr class="vertical-separator">
-                <button class="gray-button">
-                    Add to Favorites
-                </button>
             </div>
             <table class="block-items">
                 <tbody>
