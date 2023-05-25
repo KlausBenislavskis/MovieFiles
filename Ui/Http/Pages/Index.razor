@@ -1,44 +1,94 @@
 ﻿@page "/"
 @using MovieFiles.Ui.Http.Shared.Movies
+@using MovieFiles.Ui.Http.Shared.Filter
+@using Blazored.Typeahead
+@using MovieFiles.Core.Models.People;
 @inject IMoviesService MoviesService
+@inject IMovieUtilService UtilService
+@inject IPeopleService PeopleService
 
-<AuthorizeView>
-    <Authorized>
-        <div class="tabs">
-            @{
-                string discover = "discover";
-                string following = "following";
+<div class="body">
+
+    <AuthorizeView>
+        <Authorized>
+            <div class="tabs">
+                <button class="tab-button @(ActiveTab == Tab.discover ? "active" : "")"
+                @onclick="() => SwitchTab(Tab.discover)">Discover</button>
+                <button class="tab-button @(ActiveTab == Tab.following ? "active" : "")"
+                @onclick="() => SwitchTab(Tab.following)">Following</button>
+            </div>
+            @if (ActiveTab == Tab.following)
+            {
+                <div class="body">
+                    <MovieFiles.Ui.Http.Shared.Activities.ActivityList>
+                    </MovieFiles.Ui.Http.Shared.Activities.ActivityList>
+                </div>
             }
-            <button class="tab-button @(ActiveTab == discover ? "active" : "")" @onclick="() => SwitchTab(discover)">Discover</button>
-            <button class="tab-button @(ActiveTab == following ? "active" : "")" @onclick="() => SwitchTab(following)">Following</button>
+        </Authorized>
+    </AuthorizeView>
+
+    @if (ActiveTab == Tab.discover)
+    {
+        <div class="movieHead">
+            <h1>Popular movies</h1>
+            <button id="filterButton" onclick="toggleFilter()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-filled" width="100%"
+                    height="100%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                        d="M6 3a1 1 0 0 1 .993 .883l.007 .117v3.171a3.001 3.001 0 0 1 0 5.658v7.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-7.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-3.17a1 1 0 0 1 1 -1z"
+                        stroke-width="0" fill="currentColor" />
+                    <path
+                        d="M12 3a1 1 0 0 1 .993 .883l.007 .117v9.171a3.001 3.001 0 0 1 0 5.658v1.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-1.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-9.17a1 1 0 0 1 1 -1z"
+                        stroke-width="0" fill="currentColor" />
+                    <path
+                        d="M18 3a1 1 0 0 1 .993 .883l.007 .117v.171a3.001 3.001 0 0 1 0 5.658v10.171a1 1 0 0 1 -1.993 .117l-.007 -.117v-10.17a3.002 3.002 0 0 1 -1.995 -2.654l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-.17a1 1 0 0 1 1 -1z"
+                        stroke-width="0" fill="currentColor" />
+                </svg>
+                <p>Filter</p>
+            </button>
         </div>
 
-        @if (ActiveTab == discover)
-        {
-            <div class="body">
-                <FeaturedMovies MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
-            </div>
-        }
-        else if (ActiveTab == following)
-        {
-            <div class="body">
-                <MovieFiles.Ui.Http.Shared.Activities.ActivityList></MovieFiles.Ui.Http.Shared.Activities.ActivityList>
-            </div>
-        }
-    </Authorized>
+    <div id="filter" >
+        <FilterMovies Filter="@filterMovies" Unfilter="@unfilterMovies"></FilterMovies>
+    </div>
+   
 
-    <NotAuthorized>
-        <div class="body">
-            <FeaturedMovies MovieGetter=@featuredMoviesGetter()></FeaturedMovies>
-        </div>
-    </NotAuthorized>
-</AuthorizeView>
+    <FeaturedMovies MovieGetter="moviesToDisplay"></FeaturedMovies>
+    }
+
+</div>
+
+<script suppress-error="BL9992">
+    function toggleFilter() {
+        var filter = document.getElementById("filter");
+        if (filter.style.display === "block") {
+            filter.style.display = "none";
+        } else {
+            filter.style.display = "block";
+        }
+    }
+</script>
 
 @code {
+    private bool showFilterBox = false;
+    private Func<int, Task<MovieList>>? moviesToDisplay = null;
 
-    private string ActiveTab { get; set; } = "discover";
+    private Tab ActiveTab { get; set; } = Tab.discover;
 
-    private void SwitchTab(string tabName)
+    private enum Tab
+    {
+        discover,
+        following
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        moviesToDisplay = featuredMoviesGetter();
+        GenreList list = await UtilService.GetGenresAsync();
+    }
+    private void SwitchTab(Tab tabName)
     {
         ActiveTab = tabName;
     }
@@ -48,4 +98,35 @@
         Func<int, Task<MovieList>> myFunc = page => MoviesService.GetPopularMoviesAsync(page);
         return myFunc;
     }
+
+    protected void filterMovies(FilterMovies.FilterParameters filter)
+    {
+        var genre = "";
+        if (filter.selectedGenreId != -1)
+        {
+            genre = filter.selectedGenreId.ToString();
+        }
+        var crew = "";
+        if (filter.filterCrew != null)
+        {
+            crew = filter.filterCrew.Id.ToString();
+        }
+
+        var cast = "";
+        if (filter.filterCast != null)
+        {
+            cast = filter.filterCast.Id.ToString();
+        }
+    // adding these 2 variables as local ones as blazor would reload movies at any change of year or genre
+        var minimumYear = filter.minYear;
+        var maximumYear = filter.maxYear;
+        Console.WriteLine(crew);
+        moviesToDisplay = page => MoviesService.FilterMovies(maximumYear, minimumYear, cast, crew, genre, page);
+    }
+
+    protected void unfilterMovies()
+    {
+        moviesToDisplay = featuredMoviesGetter();
+    }
+    
 }

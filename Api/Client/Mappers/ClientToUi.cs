@@ -117,6 +117,41 @@
                 Username = user.Username
             };
         }
+
+        internal static Core.Models.Genre Map(Genre genre){
+            if (genre == null){
+                return null;
+            }
+            return new() {
+                Id = (int)genre.Id,
+                Name = genre.Name
+            };
+        }
+
+        internal static Core.Models.GenreList Map(GenreList genreList){
+            if (genreList == null){
+                return null;
+            }
+            return new(){
+                Genres = genreList.Genres.Select(Map).ToList()
+            };
+        }
+
+        internal static Core.Models.People.Person Map(Person person){
+            return new(){
+                Id = (int)person.Id,
+                Name = person.Name
+            };
+        }
+
+        internal static Core.Models.People.PeopleList Map(PeopleList list){
+            return new() {
+                Page = (int)list.Page,
+                Results = list.Results.Select(Map).ToList(),
+                TotalPages = (int)list.TotalPages,
+                TotalResults = (int)list.TotalResults
+            };
+        }
         internal static Core.Models.MyMovieListItem Map(MyMovieListItem item){
             return new(){
                 UserId = (Guid) item.UserId,
