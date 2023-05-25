@@ -33,3 +33,48 @@ CREATE TABLE follower (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (follows_user_id) REFERENCES users(user_id)
 );
+
+DROP VIEW IF EXISTS user_activities;
+DROP TABLE IF EXISTS activities;
+DROP TYPE IF EXISTS activity_type;
+
+DROP INDEX IF EXISTS idx_activities_user_id;
+DROP INDEX IF EXISTS idx_activities_followed_user_id;
+DROP INDEX IF EXISTS idx_activities_movie_id;
+DROP INDEX IF EXISTS idx_follower_user_id;
+
+CREATE TABLE activities (
+    activity_id SERIAL PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES users(user_id),
+    followed_user_id UUID REFERENCES users(user_id),
+    activity_type VARCHAR(255) NOT NULL,
+    movie_id INT,
+    rating_value INT,
+    comment_text TEXT,
+    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_activities_user_id ON activities(user_id);
+CREATE INDEX idx_activities_followed_user_id ON activities(followed_user_id);
+CREATE INDEX idx_activities_movie_id ON activities(movie_id);
+CREATE INDEX idx_follower_user_id ON follower(user_id);
+
+
+CREATE VIEW user_activities AS
+SELECT 
+    u.user_name, 
+    f.user_id, 
+    a.activity_type, 
+    a.movie_id, 
+    a.rating_value, 
+    a.comment_text,
+    a.timestamp
+FROM 
+    follower f
+JOIN 
+    activities a ON a.user_id = f.follows_user_id
+JOIN 
+    users u ON u.user_id = a.user_id
+ORDER BY 
+    a.timestamp DESC;
+

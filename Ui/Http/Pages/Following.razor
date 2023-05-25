@@ -1,0 +1,90 @@
+﻿@page "/follow"
+@using MovieFiles.Api.Client.Services
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IUserService UserService
+
+<div class="body">
+    <div class="">
+        <EditForm id="searchForm" class="searchComponent" Model="SearchString" OnSubmit="@SearchPerson">
+            <InputText id="searchBar" @bind-Value="SearchString" placeholder="Search for user"/>
+            <button id="searchIcon" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
+                    <path d="M21 21l-6 -6"/>
+                </svg>
+            </button>
+        </EditForm>
+    </div>
+    <div class="followList">
+        @if (SearchUsers.Count == 0)
+        {
+            foreach (var user in FollowedUsers)
+            {
+                <a class="user">
+                    <h5>@user.Username</h5>
+                    <button onclick="@(() => Unfollow(user.Id))">Remove</button>
+                </a>
+            }
+        }
+        else
+        {
+            foreach (var user in SearchUsers)
+            {
+                @if(FollowedUsers.Any(follower => follower.Id == user.Id))
+                {
+                    <a class="user">
+                        <h5>@user.Username</h5>
+                        <button onclick="@(() => Unfollow(user.Id))">Remove</button>
+                    </a>
+                }
+                else
+                {
+                    <a class="user">
+                        <h5>@user.Username</h5>
+                        <button onclick="@(() => Follow(user.Id))">Add</button>
+                    </a>
+                }
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private string SearchString = "";
+    private List<User> SearchUsers = new List<User>();
+    private List<User> FollowedUsers = new List<User>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        FollowedUsers = await UserService.GetFollowing(userId);
+    }
+
+    private async Task SearchPerson()
+    {
+        SearchUsers = await UserService.SearchUsersByName(SearchString);
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        SearchUsers = SearchUsers.Where(u => u.Id != userId).ToList();
+    }
+
+    private async Task Follow(Guid followId)
+    {
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        await UserService.Follow(userId, followId);
+        FollowedUsers = await UserService.GetFollowing(userId);
+        StateHasChanged();
+    }
+    private async Task Unfollow(Guid followId)
+    {
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userId = user.User.GetUserId();
+        await UserService.Unfollow(userId, followId);
+        FollowedUsers = await UserService.GetFollowing(userId);
+        StateHasChanged();
+    }
+
+}

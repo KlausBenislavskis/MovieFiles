@@ -5,7 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using MovieFiles.Core.Interfaces;
+using MovieFiles.Api.Client.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,12 +19,12 @@ namespace MovieFiles.Api.Functions
     public class Ratings
     {
         private readonly ILogger<Ratings> _logger;
-        private readonly IRatingRepository _ratingRepository;
+        private readonly IRatingService _ratingService;
 
-        public Ratings(ILogger<Ratings> log, IRatingRepository ratingRepository)
+        public Ratings(ILogger<Ratings> log, IRatingService ratingService)
         {
             _logger = log;
-            _ratingRepository = ratingRepository;
+            _ratingService = ratingService;
         }
 
         [FunctionName("GetRatingsByUser")]
@@ -45,7 +45,7 @@ namespace MovieFiles.Api.Functions
                 return new BadRequestObjectResult("Invalid user ID.");
             }
 
-            var ratings = await _ratingRepository.GetRatingsByUserAsync(userIdGuid);
+            var ratings = await _ratingService.GetRatingsByUserAsync(userIdGuid);
 
             if (ratings == null || !ratings.Any())
             {
@@ -73,7 +73,7 @@ namespace MovieFiles.Api.Functions
                 return new BadRequestObjectResult("Invalid movie ID.");
             }
 
-            var ratings = await _ratingRepository.GetRatingsForMovieAsync(movieIdGuid);
+            var ratings = await _ratingService.GetRatingsForMovieAsync(movieIdGuid);
 
             if (ratings == null || !ratings.Any())
             {
@@ -102,7 +102,7 @@ namespace MovieFiles.Api.Functions
                 return new BadRequestObjectResult("Invalid user ID or movie ID.");
             }
 
-            var rating = await _ratingRepository.GetRatingAsync(userIdGuid, movieIdGuid);
+            var rating = await _ratingService.GetRatingAsync(userIdGuid, movieIdGuid);
 
             if (rating == null)
             {
@@ -127,7 +127,7 @@ namespace MovieFiles.Api.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var rating = JsonConvert.DeserializeObject<Core.Models.Rating>(requestBody);
 
-            await _ratingRepository.SetRatingAsync(rating);
+            await _ratingService.SetRatingAsync(rating);
 
             return new CreatedResult($"ratings/{rating.UserId}/{rating.MovieId}", rating);
         }
@@ -150,7 +150,7 @@ namespace MovieFiles.Api.Functions
                 return new BadRequestObjectResult("Invalid movie ID.");
             }
 
-            var averageRating = await _ratingRepository.GetAverageRatingForMovieAsync(movieIdGuid);
+            var averageRating = await _ratingService.GetAverageRating(movieIdGuid);
 
             if (averageRating == null)
             {

@@ -1,0 +1,10 @@
+﻿.comment-container {
+    background-color: #6c757d; /* Dark gray */
+    border-radius: 5px;
+    padding: 1em;
+}
+
+.comment-text {
+    font-family: Arial, sans-serif;
+    color: #ffffff; /* White */
+}

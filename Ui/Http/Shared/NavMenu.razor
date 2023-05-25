@@ -21,9 +21,30 @@
     }
     #searchBar{
         width: 100%;
+        color: black;
     }
     .searchComponent{
-        width: 50%;
+        position: relative;
+        display: flex;
+        height: 30px;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    #searchIcon{
+        position:absolute;
+        right: 0;
+        height: 26px;
+        width: 26px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border: none;  
+    }
+    #navBarSearch{
+    width: 45%;
     }
 </style>
 
@@ -32,9 +53,18 @@
         <span>M</span>
         <span>ovieFiles</span>
     </a>
-    <EditForm class="searchComponent" Model="SearchString" OnSubmit="@SearchMovies">
-        <InputText id="searchBar" placeholder="Search movies" @bind-Value="SearchString"/>
-    </EditForm>
+    <div id="navBarSearch">
+        <EditForm id="searchForm" class="searchComponent" Model="SearchString" OnSubmit="@SearchMovies">
+            <InputText id="searchBar" placeholder="Search movies" @bind-Value="SearchString"/>
+            <button id="searchIcon" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
+                    <path d="M21 21l-6 -6"/>
+                </svg>
+            </button>
+        </EditForm>
+    </div>
 
     <AuthorizeView>
         <Authorized>
@@ -63,7 +93,9 @@
 @code {
     private string SearchString = "";
 
-    private void SearchMovies(){
+    private void SearchMovies()
+    {
         NavigationManager.NavigateTo($"find?q={SearchString}");
     }
+
 }
