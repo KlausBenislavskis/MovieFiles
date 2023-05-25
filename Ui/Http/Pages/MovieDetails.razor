@@ -1,0 +1,219 @@
+@page "/movie/{MovieId:int}"
+@using MovieFiles.Ui.Http.Shared.Ratings;
+@using MovieFiles.Ui.Http.Shared.CreditList
+@inject IMovieDetailsService MovieDetailsService
+
+<div class="body">
+    @if (MovieId == null)
+    {
+        <h1>Could not find requested movie</h1>
+    }
+    else if (Movie != null)
+    {
+        <div class="grid-container">
+            <div class="grid-item picture">
+                <div class="fade-out-image">
+                    <img src="https://image.tmdb.org/t/p/w400/@Movie.PosterPath" alt="Movie Poster" class="responsive-picture"/>
+                </div>
+                <div class="horizontal-items-rating">
+                    <AuthorizeView>
+                        <Authorized>
+                            <p class="rating">RATE</p>
+                            <RatingUser MovieId="@MovieId"></RatingUser>
+                        </Authorized>
+                    </AuthorizeView>
+                </div>
+                <div class="horizontal-items-buttons">
+                    <button class="gray-button">
+                        Add to Favorites
+                    </button>
+                    <button class="gray-button">
+                        Add to Watched
+                    </button>
+                    <button class="gray-button">
+                        Going to watch
+                    </button>
+                </div>
+            </div>
+            <div class="grid-item details">
+                <div class="title-rating-alignment">
+                    <p class="movie-title" style="color: #e8e8e8"> @Movie.Title </p>
+                    <RatingAverage StyleClass=@StyleClassObject MovieId="MovieId"></RatingAverage>
+                </div>
+                <div class="horizontal-items">
+                    <p> @ShowYearFromDate(@Movie.ReleaseDate)</p>
+                    <hr class="vertical-separator">
+                    <p> @ConvertMinutesToHours(@Movie.Runtime)</p>
+                </div>
+                <table class="block-items">
+                    <tbody>
+                    <tr>
+                        <td class="line-break">Genres</td>
+                        <td class=" table-data">@string.Join(", ", Movie?.Genres?.Select(g => g.Name))</td>
+                    </tr>
+                    <tr>
+                        <td class="line-break">Budget</td>
+                        <td class="table-data">@FormatNumberToHundreds(@Movie.Budget)</td>
+                    </tr>
+                    <tr>
+                        <td class="line-break">Revenue</td>
+                        <td class=" table-data">@FormatNumberToHundreds(@Movie.Revenue)</td>
+                    </tr>
+                    <tr>
+                        <td class="line-break">Production</td>
+                        <td class=" table-data">@string.Join(", ", Movie.ProductionCompanies.Select(g => g.Name))</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="section">
+                    <div class="overview">
+                        <h2 class="section-title-active">OVERVIEW</h2>
+                        <p class="overview-text">@Movie.Overview</p>
+                    </div>
+                </div>
+                <table class="sub-menu">
+                    <thead>
+                    <tr>
+                        <th class="@(ActiveTab == "CAST" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("CAST")'>CAST</th>
+                        <th class="@(ActiveTab == "PRODUCER" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("PRODUCER")'>PRODUCERS</th>
+                        <th class="@(ActiveTab == "DIRECTOR" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("DIRECTOR")'>DIRECTORS</th>
+                        <th class="@(ActiveTab == "WRITER" ? "section-title-active" : "section-title")" @onclick='() => SelectTab("WRITER")'>WRITERS</th>
+                    </tr>
+                    </thead>
+                </table>
+                <CreditListComponent ListToDisplay=@ListToShow></CreditListComponent>
+
+            </div>
+        </div>
+        <CommentSection MovieId="MovieId"></CommentSection>
+    }
+</div>
+@code {
+
+    [Parameter]
+    public int MovieId { get; set; }
+
+    private Core.Models.Movie Movie { get; set; }
+    private CreditList CreditList { get; set; }
+    private StyleClass StyleClassObject { get; set; } = new StyleClass();
+
+    private string ActiveTab { get; set; } = "CAST";
+
+    private List<object> ListToShow { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        StyleClassObject.StarItem = "movie_details_star";
+        StyleClassObject.RatingItem = "movie_details_item";
+        StyleClassObject.Rating = "movie_details_rating";
+        CreditList = await GetCreditListAsync(MovieId);
+        ListToShow = new List<object>();
+        ListToShow.AddRange(GetCastList());
+        Movie = await GetMovieDetailsAsync(MovieId);
+    }
+
+    public async Task<Movie> GetMovieDetailsAsync(int movieId)
+    {
+        Core.Models.Movie movie = await MovieDetailsService.GetMovieDetailsAsync(movieId);
+        return movie ?? new Movie();
+    }
+
+    public IList<Cast> GetCastList()
+    {
+        IEnumerable<Cast> actingCast = CreditList.Cast.Where(c => c.KnownForDepartment == "Acting");
+        return actingCast.ToArray();
+    }
+
+    public IList<Crew> GetDirectors()
+    {
+        IEnumerable<Crew> actingCrew = CreditList.Crew
+            .Where(c => c.KnownForDepartment.Contains("Directing"))
+            .OrderByDescending(c => c.Job == "Director");
+        return actingCrew.ToArray();
+    }
+
+    public IList<Crew> GetProducers()
+    {
+        IEnumerable<Crew> actingCrew = CreditList.Crew
+            .Where(c => c.KnownForDepartment.Contains("Production"))
+            .OrderByDescending(c => c.Job == "Producer");
+        return actingCrew.ToArray();
+    }
+
+    public IList<Crew> GetWriters()
+    {
+        IEnumerable<Crew> actingCrew = CreditList.Crew
+            .Where(c => c.KnownForDepartment.Contains("Writing"))
+            .OrderByDescending(c => c.Job == "Writer");
+
+        return actingCrew.ToArray();
+    }
+
+    private async Task<CreditList> GetCreditListAsync(int movieId)
+    {
+        Core.Models.CreditList? creditList = await MovieDetailsService.GetMovieCreditsAsync(movieId);
+        return creditList ?? new CreditList();
+    }
+
+
+    public string ConvertMinutesToHours(int minutes)
+    {
+        int hours = minutes / 60;
+        int remainingMinutes = minutes % 60;
+
+        string result = $"{hours}h {remainingMinutes}min";
+        return result;
+    }
+
+    public int ShowYearFromDate(string date)
+    {
+        if (DateTime.TryParse(date, out DateTime parsedDate))
+        {
+            int year = parsedDate.Year;
+            return year;
+        }
+        return 0;
+    }
+
+    public string FormatNumberToHundreds(double number)
+    {
+        int integerPart = (int)number;
+        return integerPart.ToString("N0");
+    }
+
+    private void SelectTab(string tabPressed)
+    {
+        ActiveTab = tabPressed;
+        switch (tabPressed)
+        {
+            case "CAST":
+                ListToShow.Clear();
+                ListToShow.AddRange(GetCastList());
+                break;
+            case "PRODUCER":
+                ListToShow.Clear();
+                ListToShow.AddRange(GetProducers());
+                break;
+            case "DIRECTOR":
+                ListToShow.Clear();
+                ListToShow.AddRange(GetDirectors());
+                break;
+            case "WRITER":
+                ListToShow.Clear();
+                ListToShow.AddRange(GetWriters());
+                break;
+            default:
+                ListToShow.Clear();
+                ListToShow.AddRange(GetCastList());
+                break;
+        }
+    }
+
+    public class StyleClass
+    {
+        public string Rating { get; set; }
+        public string RatingItem { get; set; }
+        public string StarItem { get; set; }
+    }
+
+}

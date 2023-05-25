@@ -99,6 +99,7 @@
     protected override async Task OnInitializedAsync()
     {
         GenreList list = await UtilService.GetGenresAsync();
+        
         list.Genres.Insert(0, emptyGenre);
         genreList = list;
         selectedGenreId = emptyGenre.Id;

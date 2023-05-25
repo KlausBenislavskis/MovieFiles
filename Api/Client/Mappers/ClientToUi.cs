@@ -1,4 +1,6 @@
-﻿namespace MovieFiles.Api.Client.Mappers
+﻿using MovieFiles.Core.Models;
+
+namespace MovieFiles.Api.Client.Mappers
 {
     internal class ClientToUi
     {
@@ -21,7 +23,7 @@
         {
             if (movie == null)
             {
-                return null;
+                return new ();
             }
 
             return new()
@@ -36,6 +38,8 @@
                 Budget = (double)movie.Budget,
                 Overview = movie.Overview,
                 Runtime = (int)movie.Runtime,
+                Genres = movie.Genres?.Select(x => Map(x))?.ToList(),
+                ProductionCompanies = movie.ProductionCompanies?.Select(x => Map(x))?.ToList()
             };
         }
 
@@ -54,40 +58,63 @@
             };
         }
 
-        internal static Core.Models.Credit Map(Credit credit)
+        internal static Core.Models.Crew Map(Crew crew)
         {
-            if (credit == null)
+            if (crew == null)
             {
                 return null;
             }
-
+        
             return new()
             {
-                Adult = (bool)credit.Adult,
-                Gender = (int)credit.Gender,
-                Id = (int)credit.Id,
-                KnownForDepartment = credit.KnownForDepartment,
-                Name = credit.Name,
-                OriginalName = credit.OriginalName,
-                Popularity = (double)credit.Popularity,
-                ProfilePath = credit.ProfilePath,
-                CastId = (int)credit.CastId,
-                Character = credit.Character,
-                CreditId = credit.CreditId,
-                Order = (int)credit.Order
+                Adult = (bool)crew.Adult,
+                Gender = (int)crew.Gender,
+                Id = (int)crew.Id,
+                KnownForDepartment = crew.KnownForDepartment,
+                Name = crew.Name,
+                OriginalName = crew.OriginalName,
+                Popularity = (double)crew.Popularity,
+                ProfilePath = crew.ProfilePath,
+                CreditId = crew.CreditId,
+                Department = crew.Department,
+                Job = crew.Job
             };
         }
-
+        
+        internal static Core.Models.Cast Map(Cast cast)
+        {
+            if (cast == null)
+            {
+                return null;
+            }
+        
+            return new()
+            {
+                Adult = (bool)cast.Adult,
+                Gender = (int)cast.Gender,
+                Id = (int)cast.Id,
+                KnownForDepartment = cast.KnownForDepartment,
+                Name = cast.Name,
+                OriginalName = cast.OriginalName,
+                Popularity = (double)cast.Popularity,
+                ProfilePath = cast.ProfilePath,
+                CastId = (int)cast.CastId,
+                Character = cast.Character,
+                CreditId = cast.CreditId,
+                Order = (int)cast.Order
+            };
+        }
         internal static Core.Models.CreditList Map(CreditList creditList)
         {
             if (creditList == null)
             {
                 return null;
             }
-
+        
             return new()
             {
-                Cast = creditList.Cast.Select(Map).ToArray()
+                 Cast = creditList.Cast.Select(Map).ToArray(),
+                 Crew = creditList.Crew.Select(Map).ToArray()
             };
         }
 
@@ -104,6 +131,36 @@
                 Text = comment.Text
             };
         }
+        
+        internal static Core.Models.ProductionCompany Map(ProductionCompany productionCompany)
+        {
+            if (productionCompany == null)
+            {
+                return new();
+            }
+
+            return new()
+            {
+                Id = (int)productionCompany.Id,
+                Name = productionCompany.Name,
+                LogoPath = productionCompany.LogoPath,
+                OriginCountry = productionCompany.OriginCountry
+            };
+        }
+                
+        internal static Core.Models.GenreList Map(GenreList genreList)
+        {
+            if (genreList == null)
+            {
+                return new();
+            }
+
+            return new()
+            {
+                Genres = genreList.Genres.Select(Map).ToList()
+            };
+        }
+        
         internal static Core.Models.User Map(User user)
         {
             if (user == null)
@@ -128,14 +185,14 @@
             };
         }
 
-        internal static Core.Models.GenreList Map(GenreList genreList){
-            if (genreList == null){
-                return null;
-            }
-            return new(){
-                Genres = genreList.Genres.Select(Map).ToList()
-            };
-        }
+        // internal static Core.Models.GenreList Map(GenreList genreList){
+        //     if (genreList == null){
+        //         return null;
+        //     }
+        //     return new(){
+        //         Genres = genreList.Genres.Select(Map).ToList()
+        //     };
+        // }
 
         internal static Core.Models.People.Person Map(Person person){
             return new(){

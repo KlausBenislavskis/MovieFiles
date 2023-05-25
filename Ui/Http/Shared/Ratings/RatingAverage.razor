@@ -1,4 +1,6 @@
 ﻿@using MovieFiles.Api.Client.Services;
+@using System.Globalization
+@using MovieFiles.Ui.Http.Pages
 @using System.Globalization;
 @inject IRatingService RatingService
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -8,10 +10,10 @@
 }
 else if (AverageRating.HasValue)
 {
-        <div class="rating">
-            <img class="star" src="svgs/star.svg">
-        <h4 class="item">@AverageRating.Value.ToString("0.0", CultureInfo.InvariantCulture)</h4>
-        </div>
+    <div class="@StyleClass.Rating">
+        <h4 class="@StyleClass.RatingItem">@AverageRating.Value.ToString("0.0", CultureInfo.InvariantCulture)</h4>
+        <img class="@StyleClass.StarItem" src="svgs/star.svg">
+    </div>
 }
 else
 {
@@ -25,8 +27,13 @@ else
     public int MovieId { get; set; }
     public double? AverageRating { get; set; }
     public bool IsLoading { get; set; } = true;
-
-    protected override async Task OnParametersSetAsync()
+    [Parameter]
+    public bool reRender { get; set; } = false;
+    
+    [Parameter]
+    public MovieDetails.StyleClass StyleClass { get; set; }
+    
+     protected override async Task OnParametersSetAsync()
     {
         AverageRating = null;
         AverageRating = await RatingService.GetAverageRating(MovieId);

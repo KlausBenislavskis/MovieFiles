@@ -1,11 +1,15 @@
-﻿<AuthorizeView>
+﻿@using MovieFiles.Ui.Http.Pages
+<AuthorizeView>
     <Authorized>
         <RatingUser MovieId="@MovieId"></RatingUser>
     </Authorized>
 </AuthorizeView>
-<RatingAverage MovieId="@MovieId"></RatingAverage>
+<RatingAverage  StyleClass = "@StyleClass" MovieId="@MovieId"></RatingAverage>
 
 @code{   
     [Parameter]
     public int MovieId { get; set; }
+    
+    [Parameter]
+    public MovieDetails.StyleClass StyleClass { get; set; }
 }
