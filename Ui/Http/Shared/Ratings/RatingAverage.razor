@@ -39,4 +39,14 @@ else
         AverageRating = await RatingService.GetAverageRating(MovieId);
         IsLoading = false;
     }
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            AverageRating = null;
+            AverageRating = await RatingService.GetAverageRating(MovieId);
+            IsLoading = false;
+        }
+    }
+
 }

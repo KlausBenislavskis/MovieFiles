@@ -50,23 +50,27 @@
     public static readonly int TotalPages = 500;
     public static readonly int PageRange = 3;
 
-    protected override async Task OnInitializedAsync()
-    {
-        this.Page = Math.Max(1, this.Page);
-        if (MovieGetter != null)
-        {
-            MovieList = await MovieGetter(Page);
-        }
-    }
 
-    protected override async Task OnParametersSetAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        this.Page = Math.Max(1, this.Page);
-        if (MovieGetter != null)
+        if (firstRender)
         {
-            MovieList = await MovieGetter(Page);
+            this.Page = Math.Max(1, this.Page);
+            if (MovieGetter != null)
+            {
+                MovieList = await MovieGetter(Page);
+            }
+            StateHasChanged();
         }
     }
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    this.Page = Math.Max(1, this.Page);
+    //    if (MovieGetter != null)
+    //    {
+    //        MovieList = await MovieGetter(Page);
+    //    }
+    //}
 
     async Task UpdatePage(int newPage)
     {

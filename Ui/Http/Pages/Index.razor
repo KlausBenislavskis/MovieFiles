@@ -82,12 +82,16 @@
         discover,
         following
     }
-
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        moviesToDisplay = featuredMoviesGetter();
-        GenreList list = await UtilService.GetGenresAsync();
+        if (firstRender)
+        {
+            moviesToDisplay = featuredMoviesGetter();
+            GenreList list = await UtilService.GetGenresAsync();
+            StateHasChanged();
+        }
     }
+
     private void SwitchTab(Tab tabName)
     {
         ActiveTab = tabName;
