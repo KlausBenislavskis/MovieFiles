@@ -1,0 +1,29 @@
+@using MovieFiles.Ui.Http.Helpers
+@using MovieFiles.Ui.Http.Shared.Movies
+@using System.Diagnostics;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IMoiveListService MovieListService
+
+<FeaturedMovies MovieGetter=@movieGetter></FeaturedMovies>
+
+
+@code {
+    private Func<int, Task<MovieList>> movieGetter;
+    [Parameter]
+    public string userId {get;set;}
+    [Parameter]
+    public MyMovieListItem.ListType listType {get;set;}
+
+    protected override void OnInitialized(){
+        movieGetter = getMoviesToWatchLater;
+    }
+
+    protected async Task<MovieList> getMoviesToWatchLater(int page){
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        if (!Guid.TryParse(this.userId, out var userGuid)){
+            return new();
+        }
+        var list = await MovieListService.GetMyMovieList(userGuid,this.listType,page);
+        return list;
+    }
+}

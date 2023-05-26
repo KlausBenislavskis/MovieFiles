@@ -2,6 +2,7 @@
 @using MovieFiles.Ui.Http.Helpers;
 @using MovieFiles.Ui.Http.Data;
 @inject IUserResolver UserResolver
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <style>
             :root{
@@ -99,6 +100,9 @@
                 <p>Hello, @context.User.Identity?.Name</p>
                 @* <a href="MicrosoftIdentity/Account/SignOut">Add to follow</a> *@
                 <a href="follow">Following</a>
+                <a href="@toplistHref">My toplist</a>
+                <a href="@alreadyWatchedMoviesHref">My already watched movies</a>
+                <a href="@watchLaterListHref">Watch later list</a>
                 <a href="MicrosoftIdentity/Account/SignOut">Log out</a>
             </div>
 
@@ -111,9 +115,20 @@
 
 @code {
     bool showDropdown = false;
+    private string watchLaterListHref {get;set;}="";
+    private string toplistHref {get;set;}="";
+    private string alreadyWatchedMoviesHref {get;set;}="";
 
     protected override async Task OnInitializedAsync()
     {
+        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        if (user != null){
+            var userId = user.User.GetUserId();
+            this.watchLaterListHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.WATCH_LATER)}";
+            this.toplistHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.TOPLIST)}";
+            this.alreadyWatchedMoviesHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.ALREADY_WATCHED)}";
+        }
+        
         await UserResolver.ResolveUser();
     }
 
