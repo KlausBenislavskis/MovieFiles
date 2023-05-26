@@ -92,17 +92,20 @@
             moviesToDisplay = featuredMoviesGetter();
             GenreList list = await UtilService.GetGenresAsync();
             StateHasChanged();
-            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
-            if (authState?.User?.Identity?.IsAuthenticated ?? false)
-            {
-                
-                var userId =  authState.User.GetUserId();
-                _activities = await ActivityService.GetActivities(userId);
-                StateHasChanged();
-
-            }
+            await PreloadActivities();
 
         }
+    }
+    private async Task PreloadActivities()
+    {
+        var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        if (authState?.User?.Identity?.IsAuthenticated ?? false)
+        {
+
+            var userId = authState.User.GetUserId();
+            _activities = await ActivityService.GetActivities(userId);
+        }
+        
     }
 
     private void SwitchTab(Tab tabName)
