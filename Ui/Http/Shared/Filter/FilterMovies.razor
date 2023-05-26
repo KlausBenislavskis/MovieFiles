@@ -28,7 +28,7 @@
         <div class="filter">
             <h5>Category: </h5>
             <InputSelect class="input" @bind-Value="selectedGenreId">
-                @foreach (var category in genreList.Genres)
+                @foreach (var category in genreList?.Genres)
                 {
                     <option value="@category.Id">@category.Name</option>
                 }

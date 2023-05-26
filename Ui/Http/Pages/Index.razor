@@ -33,7 +33,8 @@
     {
         <div class="movieHead">
             <h1>Popular movies</h1>
-            <button id="filterButton" onclick="toggleFilter()">
+            <button id="filterButton" @onclick="ToggleFilterVisibility">
+
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-filled" width="100%"
                     height="100%" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round"
                     stroke-linejoin="round">
@@ -51,27 +52,17 @@
                 <p>Filter</p>
             </button>
         </div>
-
-    <div id="filter" >
-        <FilterMovies Filter="@filterMovies" Unfilter="@unfilterMovies"></FilterMovies>
-    </div>
-   
-
+    @if(IsFilterVisible)
+    {
+        <div id="filter" >
+            <FilterMovies Filter="@filterMovies" Unfilter="@unfilterMovies"></FilterMovies>
+        </div>
+    }
     <FeaturedMovies MovieGetter="moviesToDisplay"></FeaturedMovies>
     }
 
 </div>
 
-<script suppress-error="BL9992">
-    function toggleFilter() {
-        var filter = document.getElementById("filter");
-        if (filter.style.display === "block") {
-            filter.style.display = "none";
-        } else {
-            filter.style.display = "block";
-        }
-    }
-</script>
 
 @code {
     private bool showFilterBox = false;
@@ -80,16 +71,21 @@
     private Tab ActiveTab { get; set; } = Tab.discover;
     private Guid _userId;
     private List<BaseActivity> _activities;
+    private bool IsFilterVisible = false;
     private enum Tab
     {
         discover,
         following
     }
+    protected override void OnInitialized()
+    {
+        moviesToDisplay = featuredMoviesGetter();
+
+    }
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            moviesToDisplay = featuredMoviesGetter();
             GenreList list = await UtilService.GetGenresAsync();
             StateHasChanged();
             await PreloadActivities();
@@ -104,14 +100,18 @@
 
             var userId = authState.User.GetUserId();
             _activities = await ActivityService.GetActivities(userId);
+
         }
-        
+
     }
 
-    private void SwitchTab(Tab tabName)
+    private async void SwitchTab(Tab tabName)
     {
+        if (tabName == Tab.following && !(_activities?.Any() ?? false))
+        {
+            await PreloadActivities();   
+        }
         ActiveTab = tabName;
-        StateHasChanged();
 
     }
 
@@ -150,5 +150,8 @@
     {
         moviesToDisplay = featuredMoviesGetter();
     }
-    
+    private void ToggleFilterVisibility()
+    {
+        IsFilterVisible = !IsFilterVisible;
+    }
 }
