@@ -6,6 +6,8 @@
 @inject IMoviesService MoviesService
 @inject IMovieUtilService UtilService
 @inject IPeopleService PeopleService
+@inject IActivityService ActivityService
+@inject AuthenticationStateProvider _authenticationStateProvider;
 
 <div class="body">
 
@@ -20,7 +22,7 @@
             @if (ActiveTab == Tab.following)
             {
                 <div class="body">
-                    <MovieFiles.Ui.Http.Shared.Activities.ActivityList>
+                    <MovieFiles.Ui.Http.Shared.Activities.ActivityList Activities="@_activities">
                     </MovieFiles.Ui.Http.Shared.Activities.ActivityList>
                 </div>
             }
@@ -76,7 +78,8 @@
     private Func<int, Task<MovieList>>? moviesToDisplay = null;
 
     private Tab ActiveTab { get; set; } = Tab.discover;
-
+    private Guid _userId;
+    private List<BaseActivity> _activities;
     private enum Tab
     {
         discover,
@@ -89,6 +92,16 @@
             moviesToDisplay = featuredMoviesGetter();
             GenreList list = await UtilService.GetGenresAsync();
             StateHasChanged();
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            if (authState?.User?.Identity?.IsAuthenticated ?? false)
+            {
+                
+                var userId =  authState.User.GetUserId();
+                _activities = await ActivityService.GetActivities(userId);
+                StateHasChanged();
+
+            }
+
         }
     }
 
@@ -124,7 +137,7 @@
         // adding these 2 variables as local ones as blazor would reload movies at any change of year or genre
         var minimumYear = filter.minYear;
         var maximumYear = filter.maxYear;
-        Console.WriteLine(crew);
+
         moviesToDisplay = page => MoviesService.FilterMovies(maximumYear, minimumYear, cast, crew, genre, page);
     }
 

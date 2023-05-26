@@ -1,17 +1,17 @@
 ﻿@using MovieFiles.Core.Models.Activity;
-@inject IActivityService ActivityService
-@inject AuthenticationStateProvider _authenticationStateProvider;
+
 
 
     @foreach (var activity in Activities)
-    {
-            <Activity BaseAct="activity" />
-    }
+{
+    <Activity BaseAct="activity" />
+}
 @code {
-    private List<BaseActivity> Activities = new List<BaseActivity>();
-    protected override async Task OnInitializedAsync()
-    {
-       var userId = await _authenticationStateProvider.GetUserId();
-       Activities = await ActivityService.GetActivities(userId);
-    }
+    [Parameter]
+    public List<BaseActivity> Activities { get; set; }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //   var userId = await _authenticationStateProvider.GetUserId();
+    //   Activities = await ActivityService.GetActivities(userId);
+    //}
 }

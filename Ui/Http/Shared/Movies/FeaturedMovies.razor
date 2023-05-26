@@ -58,6 +58,7 @@
             this.Page = Math.Max(1, this.Page);
             if (MovieGetter != null)
             {
+                //Making loading effect
                 MovieList = await MovieGetter(Page);
                 IsFirstRender = false;
             }
@@ -73,6 +74,10 @@
         this.Page = Math.Max(1, this.Page);
         if (MovieGetter != null)
         {
+            //Making loading effect
+
+            MovieList = new MovieList(25);
+
             MovieList = await MovieGetter(Page);
         }
     }
