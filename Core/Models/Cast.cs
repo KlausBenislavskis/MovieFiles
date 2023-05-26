@@ -1,6 +1,6 @@
 namespace MovieFiles.Core.Models;
 
-public class Credit
+public class Cast
 {
     public bool Adult { get; set; }
     public int Gender { get; set; }

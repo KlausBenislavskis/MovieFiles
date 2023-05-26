@@ -3,14 +3,18 @@
 
 <AuthorizeView>
     <Authorized>
-        <CommentForm OnCommentSubmitted="AddComment" />
+        <CommentForm OnCommentSubmitted="AddComment"/>
     </Authorized>
 </AuthorizeView>
-@foreach (var comment in Comments)
-{
-    <CommentDisplay Comment="@comment" />
-}
+<div class="mx-5">
+    @foreach (var comment in Comments)
+    {
+        <CommentDisplay Comment="@comment"/>
+    }
+</div>
+
 @code {
+
     [Parameter]
     public int MovieId { get; set; }
 
@@ -18,7 +22,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Comments = await CommentService.GetComments(MovieId,1); 
+        Comments = await CommentService.GetComments(MovieId, 1);
     }
 
     private async Task AddComment(Comment comment)
@@ -29,11 +33,11 @@
         if (username == null)
         {
             username = user?.User?.FindFirst(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname")?.Value;
-
         }
         comment.Author = username;
 
         await CommentService.Comment(comment, MovieId, userId);
         Comments.Add(comment);
     }
+
 }

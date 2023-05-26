@@ -1,12 +1,21 @@
 ﻿<EditForm Model="@NewComment" OnValidSubmit="HandleValidSubmit">
-    <div class="form-group">
-        <label for="text">Comment:</label>
-        <InputTextArea id="text" class="form-control" @bind-Value="NewComment.Text" />
+    <div class="form-group mx-5 my-4">
+        <label for="text" style="color: #e8e8e8; font-size: 1.2rem" >Comment:</label>
+        <div class="row">
+            <div class="col">
+                <InputTextArea id="text" class="form-control mb-2" style="background-color: #545454; color: #e8e8e8;border-color: gray;" @bind-Value="NewComment.Text"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
+                <button type="submit" class="btn btn-primary gray-button">Submit</button>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
 @code {
+
     [Parameter]
     public EventCallback<Comment> OnCommentSubmitted { get; set; }
 
@@ -17,4 +26,5 @@
         await OnCommentSubmitted.InvokeAsync(NewComment);
         NewComment = new Comment(); // reset the form
     }
+
 }

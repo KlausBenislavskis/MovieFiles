@@ -324,6 +324,53 @@
         }
       }
     },
+    "/my-movies/list-types": {
+      "get": {
+        "tags": [
+          "Movie lists"
+        ],
+        "operationId": "GetMovieListTypes",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "description": "Id of user that owns movie list",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "movieId",
+            "description": "Id of movie to check list types",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
     "/movies/now-playing/{page}": {
       "get": {
         "tags": [
@@ -1134,21 +1181,38 @@
           }
         }
       }
+    },
+    "/genre/movie/list": {
+      "get": {
+        "tags": [
+          "MovieUtil"
+        ],
+        "operationId": "GetGenres",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/genreList"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "comment": {
-      "type": "object",
-      "properties": {
-        "text": {
-          "type": "string"
-        },
-        "author": {
-          "type": "string"
-        }
-      }
-    },
-    "credit": {
+    "cast": {
       "type": "object",
       "properties": {
         "adult": {
@@ -1194,6 +1258,17 @@
         }
       }
     },
+    "comment": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        }
+      }
+    },
     "creditList": {
       "type": "object",
       "properties": {
@@ -1204,12 +1279,59 @@
         "cast": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/credit"
+            "$ref": "#/definitions/cast"
+          }
+        },
+        "crew": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/crew"
           }
         },
         "totalResults": {
           "format": "int32",
           "type": "integer"
+        }
+      }
+    },
+    "crew": {
+      "type": "object",
+      "properties": {
+        "adult": {
+          "type": "boolean"
+        },
+        "gender": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "id": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "knownForDepartment": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "originalName": {
+          "type": "string"
+        },
+        "popularity": {
+          "format": "double",
+          "type": "number"
+        },
+        "profilePath": {
+          "type": "string"
+        },
+        "creditId": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        },
+        "job": {
+          "type": "string"
         }
       }
     },

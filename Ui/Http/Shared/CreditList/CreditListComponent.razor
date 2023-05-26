@@ -1,0 +1,47 @@
+
+<div>
+    <ScrollContainer>
+        <ScrollContent>
+            <div class="scrollable-list">
+                @if (typeof(List<Cast>).GetGenericArguments()[0].IsAssignableFrom(ListToDisplay[0].GetType()))
+                {
+                    @foreach (Cast item in @ListToDisplay)
+                    {
+                        <div class="scrollable-list-item">
+                            <img src="https://image.tmdb.org/t/p/w400/@item.ProfilePath" alt="" class="fit-parent  @GetProfileImageClass(item.ProfilePath)"/>
+                            <p class="text" style="color: #e8e8e8;">@item.OriginalName</p>
+                            <p class="text" style="color: #585858;">@item.Character</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    @foreach (Crew item in @ListToDisplay)
+                    {
+                        <div class="scrollable-list-item">
+                            <img src="https://image.tmdb.org/t/p/w400/@item.ProfilePath" alt="" class="fit-parent @GetProfileImageClass("")"/>
+                            <p class="text" style="color: #e8e8e8;">@item.OriginalName</p>
+                            <p class="text" style="color: #585858;">@item.Job</p>
+                        </div>
+                    }
+                }
+            </div>
+        </ScrollContent>
+    </ScrollContainer>
+</div>
+
+@code {
+
+    [Parameter]
+    public List<Object> ListToDisplay { get; set; }
+
+    private string GetProfileImageClass(string profilePath)
+    {
+        if (string.IsNullOrEmpty(profilePath))
+        {
+            return "gray-picture";
+        }
+    
+        return string.Empty;
+    }
+}
