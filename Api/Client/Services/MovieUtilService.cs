@@ -17,12 +17,12 @@ namespace MovieFiles.Api.Client.Services
         {
             if (CachedGenres != null)
             {
-                return CachedGenres;
+                return CachedGenres.Copy();
             }
 
             var response = await _client.GetAllGenreAsync(_functionAppKey);
             CachedGenres = ClientToUi.Map(response);
-            return CachedGenres;
+            return CachedGenres.Copy();
         }
 
         private static Core.Models.GenreList? CachedGenres { get; set; } = null;
