@@ -1,13 +1,4 @@
 
-.body {
-    min-height:calc(100vh - 64px) ;
-    color: white;
-    padding-inline: 20%;
-    padding-top: 30px;
-    padding-bottom: 15px;
-    /*overflow: hidden;*/
-}
-
 .tabs {
     display: flex;
     justify-content: center;

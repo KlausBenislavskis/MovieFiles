@@ -1,10 +1,9 @@
-@page "/user/{userId}/WATCH_LATER"
+@page "/user/{userId}/TOPLIST"
 @using MovieFiles.Ui.Http.Helpers
 @using MovieFiles.Ui.Http.Shared.Movies
 @using System.Diagnostics;
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IMoiveListService MovieListService
-
 <style>
     .body {
     min-height:calc(100vh - 64px) ;
@@ -15,10 +14,9 @@
     /*overflow: hidden;*/
 }
 </style>
-
 <div class="body">
-    <h1>Watch later movie list.</h1>
-    <MovieListPage userId="@this.userId" listType="MyMovieListItem.ListType.WATCH_LATER"/>
+    <h1>List of user's top movies</h1>
+    <MovieListPage userId="@this.userId" listType="MyMovieListItem.ListType.TOPLIST"/>
 </div>
 
 @code {

@@ -1,4 +1,4 @@
-@page "/user/{userId}/WATCH_LATER"
+@page "/user/{userId}/ALREADY_WATCHED"
 @using MovieFiles.Ui.Http.Helpers
 @using MovieFiles.Ui.Http.Shared.Movies
 @using System.Diagnostics;
@@ -15,10 +15,9 @@
     /*overflow: hidden;*/
 }
 </style>
-
 <div class="body">
-    <h1>Watch later movie list.</h1>
-    <MovieListPage userId="@this.userId" listType="MyMovieListItem.ListType.WATCH_LATER"/>
+    <h1>List of all already watched movies</h1>
+    <MovieListPage userId="@this.userId" listType="MyMovieListItem.ListType.ALREADY_WATCHED"/>
 </div>
 
 @code {
