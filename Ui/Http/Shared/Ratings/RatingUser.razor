@@ -24,11 +24,15 @@
 
     private bool IsLoading { get; set; } = true;
 
-    protected override async Task OnParametersSetAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        var rating = await RatingService.GetRatingAsync(await AuthenticationStateProvider.GetUserId(), MovieId);
-        Rating = rating?.RatingValue ?? 0;
-        IsLoading = false;
+        if (firstRender)
+        {
+            var rating = await RatingService.GetRatingAsync(await AuthenticationStateProvider.GetUserId(), MovieId);
+            Rating = rating?.RatingValue ?? 0;
+            IsLoading = false;
+            StateHasChanged();
+        }
     }
 
     private async Task SetRating(int rating)

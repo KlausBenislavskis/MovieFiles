@@ -111,6 +111,8 @@
     private void SwitchTab(Tab tabName)
     {
         ActiveTab = tabName;
+        StateHasChanged();
+
     }
 
     protected Func<int, Task<MovieList>> featuredMoviesGetter()
