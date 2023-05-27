@@ -27,16 +27,8 @@ namespace MovieFiles.Ui.Http.Data
 
             if (user?.Identity?.IsAuthenticated ?? false)
             {
-                string username;
-                if (user?.Identity?.Name != null)
-                {
-                    username = user.Identity.Name;
-                }
-                else
-                {
-                    username = user.FindFirst(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname")?.Value;
-                }
-                await _userService.ResolveUser(user.GetUserId(), username);
+
+                await _userService.ResolveUser(user.GetUserId(), authState.GetUserName());
 
             }
         }

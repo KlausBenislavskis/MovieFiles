@@ -97,7 +97,7 @@
             </a>
 
             <div class="drop-down-menu">
-                <p>Hello, @context.User.Identity?.Name</p>
+                <p>Hello, @context.GetUserName()</p>
                 @* <a href="MicrosoftIdentity/Account/SignOut">Add to follow</a> *@
                 <a href="follow">Following</a>
                 <a href="@toplistHref">My toplist</a>
