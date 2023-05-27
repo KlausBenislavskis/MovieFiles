@@ -36,7 +36,7 @@
         </div>
         <div class="filter">
             <h5>Crew: </h5>
-            <BlazoredTypeahead class="input" SearchMethod="searchPeople" @bind-Value="filterCrew">
+            <BlazoredTypeahead class="input" SearchMethod="searchPeople" @bind-Value="filterCrew" Debounce=800>
                 <SelectedTemplate>
                     @context.Name
                 </SelectedTemplate>
@@ -54,7 +54,7 @@
         </div>
         <div class="filter">
             <h5>Cast: </h5>
-            <BlazoredTypeahead SearchMethod="searchPeople" @bind-Value="filterCast">
+            <BlazoredTypeahead SearchMethod="searchPeople" @bind-Value="filterCast" Debounce=800>
                 <SelectedTemplate>
                     @context.Name
                 </SelectedTemplate>
