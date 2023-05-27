@@ -19,7 +19,7 @@
     </li>
     @for (int i = @Page - @PageRange; i <= @Page + @PageRange; i++)
     {
-        if (i >= 1 && i <= @TotalPages)
+        if (i >= 1 && i <= @_totalPagesWithResults)
         {
             var pageI = i;
             if (i == @Page)
@@ -36,7 +36,7 @@
             }
         }
     }
-    <li @onclick="() => UpdatePage(TotalPages)">
+    <li @onclick="() => UpdatePage(_totalPagesWithResults)">
         »
     </li>
 </ul>
@@ -49,6 +49,7 @@
     public Func<int, Task<MovieList>>? MovieGetter { get; set; }
     public  readonly int TotalPages = 500;
     public  readonly int PageRange = 3;
+    private int _totalPagesWithResults;
     public bool IsFirstRender = true;
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
@@ -60,6 +61,7 @@
             {
                 //Making loading effect
                 MovieList = await MovieGetter(Page);
+                _totalPagesWithResults = getLastPageNumber();
                 IsFirstRender = false;
             }
             StateHasChanged();
@@ -79,17 +81,23 @@
             MovieList = new MovieList(25);
 
             MovieList = await MovieGetter(Page);
+            _totalPagesWithResults = getLastPageNumber();
         }
     }
 
     async Task UpdatePage(int newPage)
     {
-        if (Page != newPage)
+        if (Page != newPage && MovieGetter != null)
         {
             Page = newPage;
             MovieList = new MovieList(25);
             MovieList = await MovieGetter(Page);
+            _totalPagesWithResults = getLastPageNumber();
             await JSRuntime.InvokeVoidAsync("window.scrollTo", 0, 0);
         }
+    }
+
+    private int getLastPageNumber(){
+        return Math.Min(TotalPages,MovieList.TotalPages);
     }
 }
