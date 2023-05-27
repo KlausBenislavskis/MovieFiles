@@ -66,17 +66,6 @@
     color: white;
 }
 
-
-/*.filter-hidden{*/
-/*    display: none;*/
-/*}*/
-/*.filter-visible{*/
-/*    display: block;*/
-/*}*/
-#filter{
-    display: none;
-}
-
 .tab-button {
     font-size: 20px;
     color: #fff;

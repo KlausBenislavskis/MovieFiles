@@ -125,14 +125,15 @@
         {
 
         var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        if (user != null){
-            var userId = user.User.GetUserId();
-            this.watchLaterListHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.WATCH_LATER)}";
-            this.toplistHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.TOPLIST)}";
-            this.alreadyWatchedMoviesHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.ALREADY_WATCHED)}";
-        }
+            if (user.User?.Identity?.IsAuthenticated ?? false)
+            {
+                var userId = user.User.GetUserId();
+                this.watchLaterListHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.WATCH_LATER)}";
+                this.toplistHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.TOPLIST)}";
+                this.alreadyWatchedMoviesHref = $"/user/{userId}/{MyMovieListItem.GetListTypeName(MyMovieListItem.ListType.ALREADY_WATCHED)}";
+                await UserResolver.ResolveUser();
+            }
         
-        await UserResolver.ResolveUser();
        }
     }
     private void ToggleHeight()
