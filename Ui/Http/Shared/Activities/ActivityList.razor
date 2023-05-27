@@ -2,13 +2,15 @@
 
 
 
+@if(Activities?.Any() ?? false){
     @foreach (var activity in Activities)
-{
-    <Activity BaseAct="activity" />
+    {
+        <Activity BaseAct="activity" />
+    }
 }
 @code {
     [Parameter]
-    public List<BaseActivity> Activities { get; set; }
+    public List<BaseActivity> Activities { get; set; } = new List<BaseActivity>();
     //protected override async Task OnInitializedAsync()
     //{
     //   var userId = await _authenticationStateProvider.GetUserId();
