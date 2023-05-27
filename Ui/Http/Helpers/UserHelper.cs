@@ -16,5 +16,18 @@ namespace MovieFiles.Ui.Http.Helpers
             var userId = user.FindFirst(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value;
             return Guid.Parse(userId);
         }
+        public static string GetUserName(this AuthenticationState state)
+        {
+            string username = "Unknown";
+            if (state?.User?.Identity?.Name != null && state?.User?.Identity?.Name != "unknown")
+            {
+                username = state?.User?.Identity?.Name;
+            }
+            else
+            {
+                username = state?.User?.FindFirst(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname")?.Value;
+            }
+            return username;
+        }
     }
 }
