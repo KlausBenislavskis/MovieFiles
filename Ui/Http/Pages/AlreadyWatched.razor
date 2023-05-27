@@ -1,0 +1,26 @@
+@page "/user/{userId}/ALREADY_WATCHED"
+@using MovieFiles.Ui.Http.Helpers
+@using MovieFiles.Ui.Http.Shared.Movies
+@using System.Diagnostics;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IMoiveListService MovieListService
+
+<style>
+    .body {
+    min-height:calc(100vh - 64px) ;
+    color: white;
+    padding-inline: 20%;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    /*overflow: hidden;*/
+}
+</style>
+<div class="body">
+    <h1>List of all already watched movies</h1>
+    <MovieListPage userId="@this.userId" listType="MyMovieListItem.ListType.ALREADY_WATCHED"/>
+</div>
+
+@code {
+    [Parameter]
+    public string userId {get;set;}
+}

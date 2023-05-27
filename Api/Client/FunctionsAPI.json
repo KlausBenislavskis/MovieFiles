@@ -161,7 +161,7 @@
         "tags": [
           "Movie lists"
         ],
-        "operationId": "AddMovieToWatchLater",
+        "operationId": "AddMovieToMovieList",
         "produces": [
           "text/plain"
         ],
@@ -181,6 +181,13 @@
             "required": true,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "movieListName",
+            "description": "Name of the movie list",
+            "required": true,
+            "type": "string"
           },
           {
             "in": "header",
@@ -209,7 +216,7 @@
         "tags": [
           "Movie lists"
         ],
-        "operationId": "GetMoviesToWatchLater",
+        "operationId": "GetMoviesFromMovieList",
         "produces": [
           "application/json",
           "text/plain"
@@ -222,6 +229,13 @@
             "required": true,
             "type": "string",
             "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "movieListName",
+            "description": "Name of the movie list",
+            "required": true,
+            "type": "string"
           },
           {
             "in": "query",
@@ -243,7 +257,7 @@
           "200": {
             "description": "The OK response",
             "schema": {
-              "$ref": "#/definitions/customMovieList_myMovieListItem"
+              "$ref": "#/definitions/movieList"
             }
           },
           "400": {
@@ -258,7 +272,7 @@
         "tags": [
           "Movie lists"
         ],
-        "operationId": "RemoveMovieToWatchLater",
+        "operationId": "RemoveMovieFromMovieList",
         "produces": [
           "text/plain"
         ],
@@ -280,6 +294,13 @@
             "format": "int32"
           },
           {
+            "in": "query",
+            "name": "movieListName",
+            "description": "Name of the movie list",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "header",
             "name": "x-functions-key",
             "description": "The function key",
@@ -298,6 +319,53 @@
             "description": "Incorrect parameters were provided.",
             "schema": {
               "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/my-movies/list-types": {
+      "get": {
+        "tags": [
+          "Movie lists"
+        ],
+        "operationId": "GetMovieListTypes",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "description": "Id of user that owns movie list",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "query",
+            "name": "movieId",
+            "description": "Id of movie to check list types",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         }
@@ -1267,29 +1335,6 @@
         }
       }
     },
-    "customMovieList_myMovieListItem": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/myMovieListItem"
-          }
-        },
-        "totalResults": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "totalPages": {
-          "format": "int32",
-          "type": "integer"
-        }
-      }
-    },
     "genre": {
       "type": "object",
       "properties": {
@@ -1310,10 +1355,6 @@
           "items": {
             "$ref": "#/definitions/genre"
           }
-        },
-        "totalResults": {
-          "format": "int32",
-          "type": "integer"
         }
       }
     },
@@ -1396,26 +1437,6 @@
         "totalPages": {
           "format": "int32",
           "type": "integer"
-        }
-      }
-    },
-    "myMovieListItem": {
-      "type": "object",
-      "properties": {
-        "userId": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "movieId": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "listId": {
-          "format": "int32",
-          "type": "integer"
-        },
-        "listName": {
-          "type": "string"
         }
       }
     },

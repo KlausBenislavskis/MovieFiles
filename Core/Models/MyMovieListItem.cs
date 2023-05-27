@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace MovieFiles.Core.Models
 {
     public class MyMovieListItem
     {
         public enum ListType{
-            WATCH_LATER
+            WATCH_LATER,
+            TOPLIST,
+            ALREADY_WATCHED
         }
         
         public Guid UserId {get;set;}
@@ -19,6 +22,8 @@ namespace MovieFiles.Core.Models
         public static string GetListTypeName(ListType type){
             switch (type){
                 case MyMovieListItem.ListType.WATCH_LATER: return "WATCH_LATER";
+                case MyMovieListItem.ListType.ALREADY_WATCHED: return "ALREADY_WATCHED";
+                case MyMovieListItem.ListType.TOPLIST: return "TOPLIST";
                 default: throw new ArgumentOutOfRangeException("Undefined list type");
             }
         }
