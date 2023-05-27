@@ -106,11 +106,24 @@
         StyleClassObject.StarItem = "movie_details_star";
         StyleClassObject.RatingItem = "movie_details_item";
         StyleClassObject.Rating = "movie_details_rating";
-        CreditList = await GetCreditListAsync(MovieId);
+        CreditList = new CreditList(3);
         ListToShow = new List<object>();
-        ListToShow.AddRange(GetCastList());
-        Movie = await GetMovieDetailsAsync(MovieId);
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Movie = await GetMovieDetailsAsync(MovieId);
+            StateHasChanged();
+
+            CreditList = await GetCreditListAsync(MovieId);
+            ListToShow = new List<object>();
+            ListToShow.AddRange(GetCastList());
+            StateHasChanged();
+
+        }
+    }
+
 
     public async Task<Movie> GetMovieDetailsAsync(int movieId)
     {

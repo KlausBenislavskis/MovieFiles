@@ -47,23 +47,37 @@
     public int Page { get; set; } = 1;
     [Parameter]
     public Func<int, Task<MovieList>>? MovieGetter { get; set; }
-    public static readonly int TotalPages = 500;
-    public static readonly int PageRange = 3;
+    public  readonly int TotalPages = 500;
+    public  readonly int PageRange = 3;
+    public bool IsFirstRender = true;
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        this.Page = Math.Max(1, this.Page);
-        if (MovieGetter != null)
+        if (firstRender)
         {
-            MovieList = await MovieGetter(Page);
+            this.Page = Math.Max(1, this.Page);
+            if (MovieGetter != null)
+            {
+                //Making loading effect
+                MovieList = await MovieGetter(Page);
+                IsFirstRender = false;
+            }
+            StateHasChanged();
         }
     }
-
     protected override async Task OnParametersSetAsync()
     {
+        if (IsFirstRender)
+        {
+            return;
+        }
         this.Page = Math.Max(1, this.Page);
         if (MovieGetter != null)
         {
+            //Making loading effect
+
+            MovieList = new MovieList(25);
+
             MovieList = await MovieGetter(Page);
         }
     }
@@ -73,6 +87,7 @@
         if (Page != newPage)
         {
             Page = newPage;
+            MovieList = new MovieList(25);
             MovieList = await MovieGetter(Page);
             await JSRuntime.InvokeVoidAsync("window.scrollTo", 0, 0);
         }

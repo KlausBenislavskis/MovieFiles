@@ -20,9 +20,14 @@
 
     private List<Comment> Comments { get; set; } = new List<Comment>();
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        Comments = await CommentService.GetComments(MovieId, 1);
+        if (firstRender)
+        {
+            Comments = await CommentService.GetComments(MovieId, 1);
+
+            StateHasChanged();
+        }
     }
 
     private async Task AddComment(Comment comment)

@@ -3,6 +3,7 @@
     <ScrollContainer>
         <ScrollContent>
             <div class="scrollable-list">
+                @if (ListToDisplay?.Any() ?? false){
                 @if (typeof(List<Cast>).GetGenericArguments()[0].IsAssignableFrom(ListToDisplay[0].GetType()))
                 {
                     @foreach (Cast item in @ListToDisplay)
@@ -24,7 +25,8 @@
                             <p class="text" style="color: #585858;">@item.Job</p>
                         </div>
                     }
-                }
+                    }
+            }
             </div>
         </ScrollContent>
     </ScrollContainer>
