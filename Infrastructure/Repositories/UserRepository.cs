@@ -39,6 +39,14 @@ namespace MovieFiles.Infrastructure.Repositories
             return users.Select(DbToDom.Map).ToList();
         }
 
+        public async Task<IList<Core.Models.User>> GetFollowers(Guid userId)
+        {
+            var db = GetQuantityDbUserConnection();
+            var followers = await db.Followers.Where(user => user.FollowsUserId == userId).ToListAsync();
+            var users = await db.Users.Where(user => followers.Select(follow => follow.UserId).Contains(user.UserId)).ToListAsync();
+            return users.Select(DbToDom.Map).ToList();
+        }
+
         public async Task Follow(Guid userId, Guid followingUserId)
         {
             var db = GetQuantityDbUserConnection();

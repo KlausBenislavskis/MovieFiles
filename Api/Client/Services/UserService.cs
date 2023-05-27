@@ -49,6 +49,20 @@ namespace MovieFiles.Api.Client.Services
             }
         }
 
+        public async Task<List<Core.Models.User>> GetFollowers(Guid userId)
+        {
+            try
+            {
+                return (await _client.GetFollowersAsync(userId, _functionAppKey)).Select(ClientToUi.Map)
+                    .ToList();
+            }
+            catch (ApiException ex)
+            {
+                // No comments found for a movie
+                return new List<Core.Models.User>();
+            }
+        }
+
         public Task Follow(Guid userId, Guid followingUserId)
         {
             try

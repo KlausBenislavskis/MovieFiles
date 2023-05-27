@@ -4,6 +4,16 @@
 @inject IUserService UserService
 
 <div class="body">
+    <div class="followers-info">
+      <div class="followers">
+        <span class="count">@FollowedUsers.Count</span>
+        <span class="label">Following</span>
+      </div>
+      <div class="followers">
+        <span class="count">@Followers.Count</span>
+        <span class="label">Followers</span>
+      </div>
+    </div>
     <div class="">
         <EditForm id="searchForm" class="searchComponent" Model="SearchString" OnSubmit="@SearchPerson">
             <InputText id="searchBar" @bind-Value="SearchString" placeholder="Search for user"/>
@@ -31,7 +41,7 @@
         {
             foreach (var user in SearchUsers)
             {
-                @if(FollowedUsers.Any(follower => follower.Id == user.Id))
+                @if (FollowedUsers.Any(follower => follower.Id == user.Id))
                 {
                     <a class="user">
                         <h5>@user.Username</h5>
@@ -54,12 +64,14 @@
     private string SearchString = "";
     private List<User> SearchUsers = new List<User>();
     private List<User> FollowedUsers = new List<User>();
+    private List<User> Followers = new List<User>();
 
     protected override async Task OnInitializedAsync()
     {
         var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var userId = user.User.GetUserId();
         FollowedUsers = await UserService.GetFollowing(userId);
+        Followers = await UserService.GetFollowers(userId);
     }
 
     private async Task SearchPerson()
@@ -78,6 +90,7 @@
         FollowedUsers = await UserService.GetFollowing(userId);
         StateHasChanged();
     }
+
     private async Task Unfollow(Guid followId)
     {
         var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
