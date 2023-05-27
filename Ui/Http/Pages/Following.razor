@@ -65,13 +65,17 @@
     private List<User> SearchUsers = new List<User>();
     private List<User> FollowedUsers = new List<User>();
     private List<User> Followers = new List<User>();
-
-    protected override async Task OnInitializedAsync()
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var userId = user.User.GetUserId();
-        FollowedUsers = await UserService.GetFollowing(userId);
-        Followers = await UserService.GetFollowers(userId);
+        if (firstRender)
+        {
+            var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var userId = user.User.GetUserId();
+            FollowedUsers = await UserService.GetFollowing(userId);
+            Followers = await UserService.GetFollowers(userId);
+            StateHasChanged();
+        }
     }
 
     private async Task SearchPerson()
