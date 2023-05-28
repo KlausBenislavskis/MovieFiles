@@ -1,7 +1,9 @@
 @page "/movie/{MovieId:int}"
 @using MovieFiles.Ui.Http.Shared.Ratings;
 @using MovieFiles.Ui.Http.Shared.CreditList
+@using MovieFiles.Core.Interfaces.Statistics
 @inject IMovieDetailsService MovieDetailsService
+@inject IMovieStatisticsService MovieStatisticsService
 
 <div class="body">
     @if (MovieId == null)
@@ -23,17 +25,37 @@
                         </Authorized>
                     </AuthorizeView>
                 </div>
-                <div class="horizontal-items-buttons">
-                    <button class="gray-button">
-                        Add to Favorites
-                    </button>
-                    <button class="gray-button">
-                        Add to Watched
-                    </button>
-                    <button class="gray-button">
-                        Going to watch
-                    </button>
-                </div>
+                <table class="block-items">
+                    <thead>
+                    <tr>
+                        <th class="table-data-stats" colspan="3"><h2 class="section-title-active stats">STATS</h2></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="table-data-stats">@_movieStatistics.FavoriteCount</td>
+                        <td class="table-data-stats">@_movieStatistics.AlreadyWatchedCount</td>
+                        <td class="table-data-stats">@_movieStatistics.WatchLaterCount</td>
+                    </tr>
+                    <tr>
+                        <td class="table-data-stats">
+                            <button class="gray-button">
+                                Favorites
+                            </button>
+                        </td>
+                        <td class="table-data-stats">
+                            <button class="gray-button">
+                                Watched
+                            </button>
+                        </td>
+                        <td class="table-data-stats">
+                            <button class="gray-button">
+                                Watch Later
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="grid-item details">
                 <div class="title-rating-alignment">
@@ -88,6 +110,7 @@
         <CommentSection MovieId="MovieId"></CommentSection>
     }
 </div>
+
 @code {
 
     [Parameter]
@@ -100,6 +123,7 @@
     private string ActiveTab { get; set; } = "CAST";
 
     private List<object> ListToShow { get; set; }
+    private MovieStatistics _movieStatistics { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -108,7 +132,9 @@
         StyleClassObject.Rating = "movie_details_rating";
         CreditList = new CreditList(3);
         ListToShow = new List<object>();
+        _movieStatistics = new MovieStatistics();
     }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -119,8 +145,8 @@
             CreditList = await GetCreditListAsync(MovieId);
             ListToShow = new List<object>();
             ListToShow.AddRange(GetCastList());
+            _movieStatistics = await GetMovieStatistics(MovieId);
             StateHasChanged();
-
         }
     }
 
@@ -188,6 +214,12 @@
         return 0;
     }
 
+    private async Task<MovieStatistics> GetMovieStatistics(int movieId)
+    {
+        var result = await MovieStatisticsService.GetAllStatisticsMovieListAsync(movieId);
+        return result;
+    }
+
     public string FormatNumberToHundreds(double number)
     {
         int integerPart = (int)number;
@@ -228,4 +260,5 @@
         public string RatingItem { get; set; }
         public string StarItem { get; set; }
     }
+
 }

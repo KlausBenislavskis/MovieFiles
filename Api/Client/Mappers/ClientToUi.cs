@@ -209,5 +209,14 @@ namespace MovieFiles.Api.Client.Mappers
                 TotalResults = (int)list.TotalResults
             };
         }
+        internal static Core.Models.MovieStatistics Map(MovieStatistics movieStatistics)
+        {
+            return new ()
+            {
+                WatchLaterCount = movieStatistics.WatchLaterCount,
+                AlreadyWatchedCount = movieStatistics.AlreadyWatchedCount,
+                FavoriteCount = movieStatistics.FavoriteCount
+            };
+        }
     }
 }
