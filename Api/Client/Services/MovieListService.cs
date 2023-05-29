@@ -58,5 +58,10 @@ namespace MovieFiles.Api.Client.Services
                     _functionAppKey));
             return ClientToUi.Map(response);
         }
+
+        public async Task<List<string>> GetMovieLists(Guid userId, int movieId){
+            var response = await RetryHelper.RetryOnExceptionAsync(3, () => _client.GetMovieListTypesAsync(userId,movieId,_functionAppKey));
+            return ClientToUi.Map(response);
+        }
     }
 }

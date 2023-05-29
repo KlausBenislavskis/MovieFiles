@@ -8,7 +8,6 @@ namespace MovieFiles.Core.Interfaces
         Task<Movie?> GetMovieDetailsAsync(int movieId);
 
         Task<CreditList?> GetMovieCreditsAsync(int movieId); 
-        Task<List<string>> GetMovieLists(Guid userId, int movieId);
     }
 
 }

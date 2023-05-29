@@ -1,3 +1,7 @@
+@inject IMovieDetailsService MovieDetailsService
+@inject IMoiveListService MovieListservice
+@inject AuthenticationStateProvider _authenticationStateProvider;
+
 <AuthorizeView>
     <Authorized>
         <div class="horizontal-items-buttons">
@@ -14,8 +18,19 @@
 @code {
     [Parameter]
     public int MovieId {get;set;}
-    [Parameter]
-    public Guid UserId{get;set;}
-    [Parameter]
+    public Guid UserId {get;set;}
     public List<string> MovieTypesList {get;set;}
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender){
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            if (authState?.User?.Identity?.IsAuthenticated ?? false)
+            {
+                UserId = authState.User.GetUserId();
+                MovieTypesList = await MovieListservice.GetMovieLists(UserId,MovieId);
+            }
+            StateHasChanged();
+        }
+    }
 }

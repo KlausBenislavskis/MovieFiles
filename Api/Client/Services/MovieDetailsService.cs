@@ -21,10 +21,5 @@ namespace MovieFiles.Api.Client.Services
             var response = await RetryHelper.RetryOnExceptionAsync<CreditList>(3, () => _client.GetMovieCreditsAsync(movieId, _functionAppKey));
             return ClientToUi.Map(response);
         }
-
-        public async Task<List<string>> GetMovieLists(Guid userId, int movieId){
-            var response = await RetryHelper.RetryOnExceptionAsync(3, () => _client.GetMovieListTypesAsync(userId,movieId,_functionAppKey));
-            return ClientToUi.Map(response);
-        }
     }
 }

@@ -27,8 +27,6 @@
                 </div>
                 <MovieFiles.Ui.Http.Shared.Movies.MovieListsHandler
                     MovieId=@MovieId
-                    UserId=@userId
-                    MovieTypesList=@movieTypesList
                 />
                 
                 
@@ -120,13 +118,6 @@
             CreditList = await GetCreditListAsync(MovieId);
             ListToShow = new List<object>();
             ListToShow.AddRange(GetCastList());
-
-            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
-            if (authState?.User?.Identity?.IsAuthenticated ?? false)
-            {
-                userId = authState.User.GetUserId();
-                movieTypesList = await MovieDetailsService.GetMovieLists(userId,MovieId);
-            }
 
             StateHasChanged();
 
