@@ -28,7 +28,7 @@ namespace MovieFiles.Infrastructure.Repositories
         {
             var db = GetQuantityDbUserConnection();
             var users = await db.Users.Where(user => user.UserName.Contains(username)).ToListAsync();
-            return users.Select(DbToDom.Map).ToList();
+            return users != null ? users.Select(DbToDom.Map).ToList() : null;
         }
 
         public async Task<IList<Core.Models.User>> GetFollowing(Guid userId)
@@ -36,7 +36,7 @@ namespace MovieFiles.Infrastructure.Repositories
             var db = GetQuantityDbUserConnection();
             var following = await db.Followers.Where(user => user.UserId == userId).ToListAsync();
             var users = await db.Users.Where(user => following.Select(follow => follow.FollowsUserId).Contains(user.UserId)).ToListAsync();
-            return users.Select(DbToDom.Map).ToList();
+            return users != null ? users.Select(DbToDom.Map).ToList() : null;
         }
 
         public async Task<IList<Core.Models.User>> GetFollowers(Guid userId)
@@ -44,7 +44,7 @@ namespace MovieFiles.Infrastructure.Repositories
             var db = GetQuantityDbUserConnection();
             var followers = await db.Followers.Where(user => user.FollowsUserId == userId).ToListAsync();
             var users = await db.Users.Where(user => followers.Select(follow => follow.UserId).Contains(user.UserId)).ToListAsync();
-            return users.Select(DbToDom.Map).ToList();
+            return users != null ? users.Select(DbToDom.Map).ToList() : null;
         }
 
         public async Task Follow(Guid userId, Guid followingUserId)
