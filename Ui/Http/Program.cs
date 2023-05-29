@@ -33,23 +33,12 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddAuthorization();
 
-//For b2c tenant
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("MyPolicy",
-        builder =>
-        {
-            builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
-});
+
 
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<IUserResolver, UserResolver>();
 
 builder.Services.AddMovieFilesClient(builder.Configuration["MovieFilesAPI"], Environment.GetEnvironmentVariable("MOVIE_FUNCTION_KEY"));
