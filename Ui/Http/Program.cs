@@ -33,6 +33,17 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddAuthorization();
 
+//For b2c tenant
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyPolicy",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 
 builder.Services.AddRazorPages();
