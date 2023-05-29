@@ -1,6 +1,7 @@
 ﻿.box {
     background: #101215;
     transition: transform 0.5s;
+    max-width: 13rem;
 }
 .box:hover {
     transform: scale(1.05);
@@ -8,7 +9,8 @@
 }
 .box .box-img {
     width: 100%;
-    height: 270px;
+    height: auto;
+    object-fit: fill;
 }
 .box .box-img img{
     width: 100%;
