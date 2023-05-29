@@ -4,57 +4,59 @@
 @inject AuthenticationStateProvider _authenticationStateProvider;
 @inject IMovieStatisticsService MovieStatisticsService
 
-<table class="block-items">
-    <thead>
-    <tr>
-        <th class="table-data-stats" colspan="3">
-            <h2 class="stats">OTHERS PEOPLE</h2>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td class="table-data-stats">
-            FAVORITES
-        </td>
-        <td class="table-data-stats">
-            WATCHED
-        </td>
-        <td class="table-data-stats">
-            WATCH LATER
-        </td>
-    </tr>
-    <tr>
-        <td class="table-data-stats">
-            <span> @_movieStatistics.FavoriteCount </span>
-        </td>
-        <td class="table-data-stats">
-            <span> @_movieStatistics.AlreadyWatchedCount </span>
-        </td>
-        <td class="table-data-stats">
-            <span>@_movieStatistics.WatchLaterCount </span>
-        </td>
-    </tr>
-    <AuthorizeView>
-        <Authorized>
-            <tr>
-                <td class="table-data-stats">
-                    <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Favorites" movieId=@MovieId userId=@UserId
-                                                                      movieType=@Core.Models.MyMovieListItem.ListType.TOPLIST ListOfMovieListNames=@MovieTypesList />
-                </td>
-                <td class="table-data-stats">
-                    <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Watched" movieId=@MovieId userId=@UserId
-                                                                      movieType=@Core.Models.MyMovieListItem.ListType.ALREADY_WATCHED ListOfMovieListNames=@MovieTypesList />
-                </td>
-                <td class="table-data-stats">
-                    <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Watch Later" movieId=@MovieId userId=@UserId
-                                                                      movieType=@Core.Models.MyMovieListItem.ListType.WATCH_LATER ListOfMovieListNames=@MovieTypesList />
-                </td>
-            </tr>
-        </Authorized>
-    </AuthorizeView>
-    </tbody>
-</table>
+<div class="table-container">
+    <table class="block-items">
+        <thead>
+        <tr>
+            <th class="table-data-stats" colspan="3">
+                <h2 class="stats">OTHERS PEOPLE</h2>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="table-data-stats">
+                FAVORITES
+            </td>
+            <td class="table-data-stats">
+                WATCHED
+            </td>
+            <td class="table-data-stats">
+                WATCH LATER
+            </td>
+        </tr>
+        <tr>
+            <td class="table-data-stats">
+                <span> @_movieStatistics.FavoriteCount </span>
+            </td>
+            <td class="table-data-stats">
+                <span> @_movieStatistics.AlreadyWatchedCount </span>
+            </td>
+            <td class="table-data-stats">
+                <span>@_movieStatistics.WatchLaterCount </span>
+            </td>
+        </tr>
+        <AuthorizeView>
+            <Authorized>
+                <tr>
+                    <td class="table-data-stats">
+                        <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Favorites" movieId=@MovieId userId=@UserId
+                                                                          movieType=@Core.Models.MyMovieListItem.ListType.TOPLIST ListOfMovieListNames=@MovieTypesList />
+                    </td>
+                    <td class="table-data-stats">
+                        <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Watched" movieId=@MovieId userId=@UserId
+                                                                          movieType=@Core.Models.MyMovieListItem.ListType.ALREADY_WATCHED ListOfMovieListNames=@MovieTypesList />
+                    </td>
+                    <td class="table-data-stats">
+                        <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Watch Later" movieId=@MovieId userId=@UserId
+                                                                          movieType=@Core.Models.MyMovieListItem.ListType.WATCH_LATER ListOfMovieListNames=@MovieTypesList />
+                    </td>
+                </tr>
+            </Authorized>
+        </AuthorizeView>
+        </tbody>
+    </table>
+</div>
 
 @code {
 
