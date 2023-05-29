@@ -1,7 +1,7 @@
 @inject IMovieDetailsService MovieDetailsService
 @inject IMoiveListService MovieListservice
 
-<button class="gray-button" @onclick=handleClick>
+<button class="gray-button" @onclick=handleClick disabled=@(isLoading)>
     @verbPrefix @Name
 </button>
 
@@ -20,6 +20,7 @@
     public int movieId {get;set;}
     [Parameter]
     public Guid userId {get;set;}
+    protected bool isLoading {get;set;} = false;
 
     protected override void OnParametersSet(){
         if (ListOfMovieListNames != null){
@@ -43,14 +44,20 @@
 
     private async Task handleClickAsync(){
         if (!AlreadyExists){
-            if (await MovieListservice.AddMovieToMovieList(userId,movieId,movieType)){
             AlreadyExists = true;
+            isLoading = true;
             setVerbPrefix();
-        }
+            if (await MovieListservice.AddMovieToMovieList(userId,movieId,movieType)){
+                isLoading = false;
+                StateHasChanged();
+            }
         } else {
+            AlreadyExists = false;
+            isLoading = true;
+            setVerbPrefix();
             if (await MovieListservice.RemoveMovieFromMovieList(userId,movieId,movieType)){
-                AlreadyExists = false;
-                setVerbPrefix();
+                isLoading = false;
+                StateHasChanged();
             }
         }
         
