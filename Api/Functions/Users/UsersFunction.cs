@@ -89,6 +89,24 @@ namespace MovieFiles.Api.Functions
             
             return new OkObjectResult(users);
         }
+        [FunctionName("GetFollowers")]
+        [OpenApiOperation(operationId: "GetFollowers", tags: new[] { "Users" })]
+        [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid))]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(IList<Core.Models.User>))]
+        [OpenApiParameter(name: "x-functions-key", In = ParameterLocation.Header, Required = true, Type = typeof(string), Description = "The function key")]
+        public async Task<IActionResult> GetFollowers(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "users/followers/{userId}")] HttpRequest req,
+            string userId)
+        {
+            if (!Guid.TryParse(userId, out var userIdGuid))
+            {
+                return new BadRequestObjectResult("Invalid user ID.");
+            }
+            
+            var users = await _userRepository.GetFollowers(userIdGuid);
+            
+            return new ObjectResult(users);
+        }
         
         [FunctionName("FollowUser")]
         [OpenApiOperation(operationId: "FollowUser", tags: new[] { "Users" })]
