@@ -2,10 +2,13 @@
 .stats {
     font-size: 1.3rem;
 }
+.table-container {
+    overflow-x: auto;
+}
 
 .block-items {
     width: 100%;
-    overflow-x: auto;
+    border-collapse: collapse;
 }
 
 .block-items td {
