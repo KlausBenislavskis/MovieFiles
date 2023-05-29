@@ -128,18 +128,6 @@
     font-size: 1.2rem;
 }
 
-.block-items .table-data-stats {
-    white-space: nowrap;
-    color: #e8e8e8;
-    font-size: 1.2rem;
-    text-align: center;
-    justify-content: center;
-}
-
-.block-items .table-data-buttons {
-    justify-content: center;
-    align-items: center;
-}
 
 .block-items .line-break.horizontal-items {
     display: flex;
@@ -190,10 +178,6 @@
     letter-spacing: 0.15rem;
 }
 
-.stats{
-    font-size: 1.6rem;
-}
-
 .section-title-active::after {
     content: "";
     position: absolute;
@@ -213,10 +197,6 @@
 
 .section-title-active:hover::after {
     bottom: -6px;
-}
-
-.stats:hover{
-    font-size: 1.63rem;
 }
 
 .section-title {

@@ -27,37 +27,7 @@
                         </Authorized>
                     </AuthorizeView>
                 </div>
-                <table class="block-items">
-                    <thead>
-                    <tr>
-                        <th class="table-data-stats" colspan="3"><h2 class="section-title-active stats">STATS</h2></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="table-data-stats">@_movieStatistics.FavoriteCount</td>
-                        <td class="table-data-stats">@_movieStatistics.AlreadyWatchedCount</td>
-                        <td class="table-data-stats">@_movieStatistics.WatchLaterCount</td>
-                    </tr>
-                    <tr>
-                        <td class="table-data-stats">
-                            <button class="gray-button">
-                                Favorites
-                            </button>
-                        </td>
-                        <td class="table-data-stats">
-                            <button class="gray-button">
-                                Watched
-                            </button>
-                        </td>
-                        <td class="table-data-stats">
-                            <button class="gray-button">
-                                Watch Later
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                
                 
                 <MovieFiles.Ui.Http.Shared.Movies.MovieListsHandler
                     MovieId=@MovieId

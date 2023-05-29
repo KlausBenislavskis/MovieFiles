@@ -3,12 +3,11 @@
     color: #e8e8e8;
     border: 1px solid #545454;
     border-radius: 5px;
-    padding: 5px 15px;
+    padding: 5px 10px;
     cursor: pointer;
-    font-size: 0.9rem;
-    white-space: nowrap;
+    width: 9rem; /* Adjust the width as per your preference */
+    white-space: normal;
 }
-
 
 .gray-button:hover {
     background-color: rgba(120, 120, 120, 0.7);
