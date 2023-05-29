@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using MovieFiles.Infrastructure.Repositories;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
@@ -32,7 +33,6 @@ namespace MovieFiles.Api.Functions
             builder.Services.AddScoped<IPeopleService>(provider => new PeopleServices(movieDbApiToken));
             builder.Services.AddScoped<IRatingService>(provider => new RatingService(provider.GetService<IRatingRepository>(), provider.GetService<IActivityRepository>()));
             builder.Services.AddScoped<ICommentService>(provider => new CommentService(provider.GetService<ICommentRepository>(), provider.GetService<IActivityRepository>()));
-
         }
     }
 }

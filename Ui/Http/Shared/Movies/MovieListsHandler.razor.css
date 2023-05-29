@@ -1,0 +1,26 @@
+
+.stats {
+    font-size: 1.3rem;
+}
+
+.block-items {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.block-items td {
+    padding: 5px 5px 5px 5px;
+}
+
+.block-items .table-data-stats {
+    white-space: nowrap;
+    color: #585858;
+    font-size: 1rem;
+    text-align: center;
+    justify-content: center;
+    letter-spacing: 0.15rem;
+}
+
+.block-items .table-data-stats >span {
+    font-size: 1.3rem;
+}
