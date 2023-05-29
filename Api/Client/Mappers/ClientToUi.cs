@@ -209,5 +209,9 @@ namespace MovieFiles.Api.Client.Mappers
                 TotalResults = (int)list.TotalResults
             };
         }
+
+        internal static List<string> Map(ICollection<string> listNames){
+            return new(listNames);
+        }
     }
 }

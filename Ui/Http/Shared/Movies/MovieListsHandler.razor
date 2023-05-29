@@ -1,0 +1,36 @@
+@inject IMovieDetailsService MovieDetailsService
+@inject IMoiveListService MovieListservice
+@inject AuthenticationStateProvider _authenticationStateProvider;
+
+<AuthorizeView>
+    <Authorized>
+        <div class="horizontal-items-buttons">
+            <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Favorites" movieId=@MovieId userId=@UserId
+                movieType=@Core.Models.MyMovieListItem.ListType.TOPLIST ListOfMovieListNames=@MovieTypesList />
+            <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Watched" movieId=@MovieId userId=@UserId
+                movieType=@Core.Models.MyMovieListItem.ListType.ALREADY_WATCHED ListOfMovieListNames=@MovieTypesList />
+            <MovieFiles.Ui.Http.Shared.Movies.MovieListButton Name="Going to watch" movieId=@MovieId userId=@UserId
+                movieType=@Core.Models.MyMovieListItem.ListType.WATCH_LATER ListOfMovieListNames=@MovieTypesList />
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int MovieId {get;set;}
+    public Guid UserId {get;set;}
+    public List<string> MovieTypesList {get;set;}
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender){
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            if (authState?.User?.Identity?.IsAuthenticated ?? false)
+            {
+                UserId = authState.User.GetUserId();
+                MovieTypesList = await MovieListservice.GetMovieLists(UserId,MovieId);
+            }
+            StateHasChanged();
+        }
+    }
+}
