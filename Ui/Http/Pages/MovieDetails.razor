@@ -28,12 +28,10 @@
                 <MovieFiles.Ui.Http.Shared.Movies.MovieListsHandler
                     MovieId=@MovieId
                 />
-                
-                
             </div>
             <div class="grid-item details">
                 <div class="title-rating-alignment">
-                    <p class="movie-title" style="color: #e8e8e8"> @Movie.Title </p>
+                    <p class="movie-title"> @Movie.Title </p>
                     <RatingAverage StyleClass=@StyleClassObject MovieId="MovieId"></RatingAverage>
                 </div>
                 <div class="horizontal-items">
@@ -84,6 +82,7 @@
         <CommentSection MovieId="MovieId"></CommentSection>
     }
 </div>
+
 @code {
 
     [Parameter]
@@ -108,6 +107,7 @@
         CreditList = new CreditList(3);
         ListToShow = new List<object>();
     }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -118,9 +118,7 @@
             CreditList = await GetCreditListAsync(MovieId);
             ListToShow = new List<object>();
             ListToShow.AddRange(GetCastList());
-
             StateHasChanged();
-
         }
     }
 
@@ -190,8 +188,7 @@
 
     public string FormatNumberToHundreds(double number)
     {
-        int integerPart = (int)number;
-        return integerPart.ToString("N0");
+        return number.ToString("N0");
     }
 
     private void SelectTab(string tabPressed)
@@ -228,4 +225,5 @@
         public string RatingItem { get; set; }
         public string StarItem { get; set; }
     }
+
 }

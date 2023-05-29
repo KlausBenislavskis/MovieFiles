@@ -1,18 +1,4 @@
-﻿/*.star {*/
-/*    font-size: 2em;*/
-/*    color: #ccc;*/
-/*    cursor: pointer;*/
-/*}*/
-/*.star.selected {*/
-/*    color: gold;*/
-/*}*/
-/*.starAverage {*/
-/*    font-size: 4em;*/
-/*    color: gold;*/
-/*}*/
-
-
-.rating{
+﻿.rating{
     display: flex;
     gap: 0.7rem;
     align-items: center;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MovieFiles.Core.Interfaces;
+using MovieFiles.Core.Interfaces.Statistics;
 using MovieFiles.Infrastructure.Repositories;
 
 namespace MovieFiles.Infrastructure
@@ -15,7 +16,8 @@ namespace MovieFiles.Infrastructure
             
             services.AddScoped<ICommentRepository>(provider => new CommentRepository(serverName, databaseName, userName, password));
             services.AddScoped<IActivityRepository>(provider => new ActivityRepository(serverName, databaseName, userName, password));
-
+            
+            services.AddScoped<IMovieStatisticsRepository>(provider => new StatisticsRepository(serverName, databaseName, userName, password));
             return services;
         }
 

@@ -86,5 +86,20 @@ namespace MovieFiles.Infrastructure.Mappers
                 ListName = dbMovie.ListName
             };
         }
+        internal static MovieStatistics Map(Dictionary<MyMovieListItem.ListType, int?> counts)
+        {
+            return new MovieStatistics
+            {
+                WatchLaterCount = counts.TryGetValue(MyMovieListItem.ListType.WATCH_LATER, out var watchLaterCount)
+                    ? watchLaterCount
+                    : null,
+                AlreadyWatchedCount = counts.TryGetValue(MyMovieListItem.ListType.ALREADY_WATCHED, out var alreadyWatchedCount)
+                    ? alreadyWatchedCount
+                    : null,
+                FavoriteCount = counts.TryGetValue(MyMovieListItem.ListType.TOPLIST, out var favoriteCount)
+                    ? favoriteCount
+                    : null
+            };
+        }
     }
 }
