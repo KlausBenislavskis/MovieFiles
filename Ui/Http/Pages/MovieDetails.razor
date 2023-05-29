@@ -1,9 +1,7 @@
 @page "/movie/{MovieId:int}"
 @using MovieFiles.Ui.Http.Shared.Ratings;
 @using MovieFiles.Ui.Http.Shared.CreditList
-@using MovieFiles.Core.Interfaces.Statistics
 @inject IMovieDetailsService MovieDetailsService
-@inject IMovieStatisticsService MovieStatisticsService
 @inject IMoiveListService MovieListservice
 @inject AuthenticationStateProvider _authenticationStateProvider;
 
@@ -27,17 +25,13 @@
                         </Authorized>
                     </AuthorizeView>
                 </div>
-                
-                
                 <MovieFiles.Ui.Http.Shared.Movies.MovieListsHandler
                     MovieId=@MovieId
                 />
-                
-                
             </div>
             <div class="grid-item details">
                 <div class="title-rating-alignment">
-                    <p class="movie-title" style="color: #e8e8e8"> @Movie.Title </p>
+                    <p class="movie-title"> @Movie.Title </p>
                     <RatingAverage StyleClass=@StyleClassObject MovieId="MovieId"></RatingAverage>
                 </div>
                 <div class="horizontal-items">
@@ -101,7 +95,6 @@
     private string ActiveTab { get; set; } = "CAST";
 
     private List<object> ListToShow { get; set; }
-    private MovieStatistics _movieStatistics { get; set; }
 
     private Guid userId {get;set;}
     private List<string> movieTypesList {get;set;}
@@ -113,7 +106,6 @@
         StyleClassObject.Rating = "movie_details_rating";
         CreditList = new CreditList(3);
         ListToShow = new List<object>();
-        _movieStatistics = new MovieStatistics();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -126,8 +118,6 @@
             CreditList = await GetCreditListAsync(MovieId);
             ListToShow = new List<object>();
             ListToShow.AddRange(GetCastList());
-            _movieStatistics = await GetMovieStatistics(MovieId);
-
             StateHasChanged();
         }
     }
@@ -194,12 +184,6 @@
             return year;
         }
         return 0;
-    }
-
-    private async Task<MovieStatistics> GetMovieStatistics(int movieId)
-    {
-        var result = await MovieStatisticsService.GetAllStatisticsMovieListAsync(movieId);
-        return result;
     }
 
     public string FormatNumberToHundreds(double number)

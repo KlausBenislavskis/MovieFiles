@@ -136,7 +136,8 @@
 
 .movie-title {
     font-size: 3rem;
-    white-space: nowrap;
+    white-space: normal;
+    color: #e8e8e8
 }
 
 @media screen and (max-width: 1300px) {
