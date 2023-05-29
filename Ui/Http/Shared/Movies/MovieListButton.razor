@@ -1,0 +1,58 @@
+@inject IMovieDetailsService MovieDetailsService
+@inject IMoiveListService MovieListservice
+
+<button class="gray-button" @onclick=handleClick>
+    @verbPrefix @Name
+</button>
+
+@code {
+    [Parameter]
+    public bool AlreadyExists {get;set;} = false;
+    [Parameter]
+    public Core.Models.MyMovieListItem.ListType movieType {get;set;}
+    // list of movielist names that this user have this movie in
+    [Parameter]
+    public List<string> ListOfMovieListNames {get;set;}
+    [Parameter]
+    public string Name {get;set;} = "";
+    private string verbPrefix {get;set;} = "";
+    [Parameter]
+    public int movieId {get;set;}
+    [Parameter]
+    public Guid userId {get;set;}
+
+    protected override void OnParametersSet(){
+        if (ListOfMovieListNames != null){
+            AlreadyExists = ListOfMovieListNames.Contains(Core.Models.MyMovieListItem.GetListTypeName(movieType));
+            setVerbPrefix();
+        }
+    }
+
+    private void setVerbPrefix(){
+        if (AlreadyExists){
+            verbPrefix = "Remove from";
+        } else {
+            verbPrefix = "Add to";
+        }
+        StateHasChanged();
+    }
+    
+    private void handleClick(){
+        handleClickAsync();
+    }
+
+    private async Task handleClickAsync(){
+        if (!AlreadyExists){
+            if (await MovieListservice.AddMovieToMovieList(userId,movieId,movieType)){
+            AlreadyExists = true;
+            setVerbPrefix();
+        }
+        } else {
+            if (await MovieListservice.RemoveMovieFromMovieList(userId,movieId,movieType)){
+                AlreadyExists = false;
+                setVerbPrefix();
+            }
+        }
+        
+    }
+}
