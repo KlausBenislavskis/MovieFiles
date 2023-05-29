@@ -204,8 +204,7 @@
 
     public string FormatNumberToHundreds(double number)
     {
-        int integerPart = (int)number;
-        return integerPart.ToString("N0");
+        return number.ToString("N0");
     }
 
     private void SelectTab(string tabPressed)
