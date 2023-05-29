@@ -217,6 +217,9 @@ namespace MovieFiles.Api.Client.Mappers
                 AlreadyWatchedCount = movieStatistics.AlreadyWatchedCount,
                 FavoriteCount = movieStatistics.FavoriteCount
             };
+
+        internal static List<string> Map(ICollection<string> listNames){
+            return new(listNames);
         }
     }
 }

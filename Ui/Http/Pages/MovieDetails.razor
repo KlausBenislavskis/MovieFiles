@@ -4,6 +4,8 @@
 @using MovieFiles.Core.Interfaces.Statistics
 @inject IMovieDetailsService MovieDetailsService
 @inject IMovieStatisticsService MovieStatisticsService
+@inject IMoiveListService MovieListservice
+@inject AuthenticationStateProvider _authenticationStateProvider;
 
 <div class="body">
     @if (MovieId == null)
@@ -56,6 +58,12 @@
                     </tr>
                     </tbody>
                 </table>
+                
+                <MovieFiles.Ui.Http.Shared.Movies.MovieListsHandler
+                    MovieId=@MovieId
+                />
+                
+                
             </div>
             <div class="grid-item details">
                 <div class="title-rating-alignment">
@@ -125,6 +133,9 @@
     private List<object> ListToShow { get; set; }
     private MovieStatistics _movieStatistics { get; set; }
 
+    private Guid userId {get;set;}
+    private List<string> movieTypesList {get;set;}
+
     protected override async Task OnInitializedAsync()
     {
         StyleClassObject.StarItem = "movie_details_star";
@@ -146,6 +157,7 @@
             ListToShow = new List<object>();
             ListToShow.AddRange(GetCastList());
             _movieStatistics = await GetMovieStatistics(MovieId);
+
             StateHasChanged();
         }
     }

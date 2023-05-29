@@ -41,7 +41,7 @@ namespace MovieFiles.Api.Client.Services
 
         public async Task<Core.Models.MovieList> FilterMovies(int? highYear, int? lowYear, string cast, string crew, string genres, int page)
         {
-            var response = await _client.MovieDiscoverAsync(lowYear,highYear,cast,crew,genres,page,_functionAppKey);
+            var response = await RetryHelper.RetryOnExceptionAsync<MovieList>(3, () => _client.MovieDiscoverAsync(lowYear,highYear,cast,crew,genres,page,_functionAppKey));
             return ClientToUi.Map(response);
         }
     }

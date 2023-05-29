@@ -16,14 +16,36 @@ namespace MovieFiles.Api.Client.Services
             _movieDetailService = movieDetailService;
         }
 
-        public Task<bool> AddMovieToMovieList(Guid userId, int movieId, Core.Models.MyMovieListItem.ListType movieType)
+        public async Task<bool> AddMovieToMovieList(Guid userId, int movieId, Core.Models.MyMovieListItem.ListType movieType)
         {
-            throw new NotImplementedException();
+            try {
+                string response = await RetryHelper.RetryOnExceptionAsync(3,() => 
+                _client.AddMovieToMovieListAsync(userId,movieId,MyMovieListItem.GetListTypeName(movieType),_functionAppKey));
+                // for some reson the framework has a problem to read text/plain response
+                // and it allways throw exception, so I check the correctness by the status code
+                return true;
+            } catch (ApiException e){
+                if (e.StatusCode == 200){
+                    return true;
+                }
+                return false;
+            }
         }
 
-        public Task<bool> RemoveMovieFromMovieList(Guid userId, int movieId, Core.Models.MyMovieListItem.ListType movieType)
+        public async Task<bool> RemoveMovieFromMovieList(Guid userId, int movieId, Core.Models.MyMovieListItem.ListType movieType)
         {
-            throw new NotImplementedException();
+            try {
+                string response = await RetryHelper.RetryOnExceptionAsync(3, ()=>
+                _client.RemoveMovieFromMovieListAsync(userId,movieId,MyMovieListItem.GetListTypeName(movieType),_functionAppKey));
+                // for some reson the framework has a problem to read text/plain response
+                // and it allways throw exception, so I check the correctness by the status code
+                return true;
+            } catch (ApiException e){
+                if (e.StatusCode == 200){
+                    return true;
+                }
+                return false;
+            }
         }
 
         public async Task<Core.Models.MovieList> GetMyMovieList(Guid userId, Core.Models.MyMovieListItem.ListType listType, int page)
@@ -34,6 +56,11 @@ namespace MovieFiles.Api.Client.Services
                     MyMovieListItem.GetListTypeName(listType),
                     page,
                     _functionAppKey));
+            return ClientToUi.Map(response);
+        }
+
+        public async Task<List<string>> GetMovieLists(Guid userId, int movieId){
+            var response = await RetryHelper.RetryOnExceptionAsync(3, () => _client.GetMovieListTypesAsync(userId,movieId,_functionAppKey));
             return ClientToUi.Map(response);
         }
     }

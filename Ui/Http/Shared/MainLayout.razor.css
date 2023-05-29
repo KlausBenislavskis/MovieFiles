@@ -2,7 +2,14 @@
     padding: 0px;
     margin: 0px;
     background: black;
+    min-height: 93%
 }
 .body-blurry{
     opacity: 0.5;
 }
+
+.content{
+    height: 100%;
+    padding: 0;
+}
+

@@ -7,6 +7,26 @@
     /*overflow: hidden;*/
 }
 
+.followers-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.followers {
+    text-align: center;
+}
+
+.count {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.label {
+    font-size: 24px;
+    color: gray;
+}
 
 .user{
     background: #15181c;

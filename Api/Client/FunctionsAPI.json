@@ -1145,6 +1145,44 @@
         }
       }
     },
+    "/users/followers/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "GetFollowers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "header",
+            "name": "x-functions-key",
+            "description": "The function key",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payload of Array of User",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/user"
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/follow/{userId}/{followUserId}": {
       "post": {
         "tags": [
