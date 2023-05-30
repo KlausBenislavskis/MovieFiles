@@ -20,7 +20,15 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Build and publish Azure Functions app
+    - name: Build solution
+      run: |
+        cd Api/Functions
+        dotnet build --configuration Release
+
+    - name: Run tests
+      run: dotnet test --verbosity normal  # Will automatically find test projects
+
+    - name: Publish Azure Functions app
       run: |
         cd Api/Functions
         dotnet publish --configuration Release --output ./publish
