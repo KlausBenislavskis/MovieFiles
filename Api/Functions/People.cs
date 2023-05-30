@@ -1,17 +1,14 @@
-using System.IO;
-using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using MovieFiles.Core.Interfaces;
 using MovieFiles.Core.Models.People;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace MovieFiles.Api.Functions
 {
@@ -36,7 +33,8 @@ namespace MovieFiles.Api.Functions
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            if(!int.TryParse(req.Query["page"],out var page)){
+            if (!int.TryParse(req.Query["page"], out var page))
+            {
                 return new BadRequestObjectResult("invalid page number entered");
             }
 
